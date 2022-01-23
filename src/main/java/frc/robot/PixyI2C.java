@@ -1,7 +1,6 @@
-package frc.robot.subsystems;
+package frc.robot;
 
 import edu.wpi.first.wpilibj.I2C;
-import frc.robot.Robot;
 
 public class PixyI2C {
 	String name;

@@ -4,25 +4,18 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj.I2C.Port;
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+//import edu.wpi.first.wpilibj.Timer;
+//import edu.wpi.first.wpilibj.DigitalInput;
+//import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
-import com.revrobotics.ColorSensorV3;
+//import com.revrobotics.ColorSensorV3;
 
 import com.ctre.phoenix.motorcontrol.can.*;
-import frc.robot.commands.*;
 import frc.robot.subsystems.*;
-import frc.robot.RobotMap;
-import frc.robot.Controllers;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to

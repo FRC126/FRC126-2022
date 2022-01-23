@@ -2,7 +2,6 @@ package frc.robot.subsystems;
 
 import frc.robot.Robot;
 import frc.robot.commands.*;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;

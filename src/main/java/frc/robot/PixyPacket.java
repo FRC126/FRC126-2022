@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot;
 
 public class PixyPacket {
 	public int Signature;

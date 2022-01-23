@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot;
 
 public class PixyException extends Exception{
 	private static final long serialVersionUID = 1L;

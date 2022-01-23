@@ -5,8 +5,10 @@ import frc.robot.Robot;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.PixyPacket;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.PixyException;
+import frc.robot.PixyI2C;
+import frc.robot.PixyPacket;
 
 public class PixyVision extends SubsystemBase {
   public PixyI2C Pixy;
@@ -169,12 +171,12 @@ public class PixyVision extends SubsystemBase {
 			return 0;
 		}
 		
-		int y = Robot.pixyVision.packetData[objectID].Y;
+		//int y = Robot.pixyVision.packetData[objectID].Y;
 		int x = Robot.pixyVision.packetData[objectID].X;
 		int h = Robot.pixyVision.packetData[objectID].Height;
 		int w = Robot.pixyVision.packetData[objectID].Width;
 		int sx = Robot.pixyVision.getServoX();
-		int sy = Robot.pixyVision.getServoY();
+		//int sy = Robot.pixyVision.getServoY();
 
 		servoRatio += (h * w) / 4000.0;
 
@@ -218,12 +220,12 @@ public class PixyVision extends SubsystemBase {
 
 		if ( targetPosition < -200) {
 			System.out.println("Move Left");
-			//Robot.robotTurn= turnFactor * -1;
+			Robot.robotTurn= turnFactor * -1;
 			centeredCount=0;
 			grabNow=false;
 		} else if ( targetPosition > 200) {
 			System.out.println("Move Right");
-			//Robot.robotTurn=turnFactor;  
+			Robot.robotTurn=turnFactor;  
 			centeredCount=0;
 			grabNow=false;
 		} else {		 
