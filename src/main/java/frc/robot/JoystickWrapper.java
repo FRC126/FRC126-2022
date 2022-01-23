@@ -12,9 +12,7 @@
 
 ***********************************/
 
-package frc.robot.commands;
-
-import frc.robot.RobotMap;
+package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 

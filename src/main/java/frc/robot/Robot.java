@@ -50,6 +50,7 @@ public class Robot extends TimedRobot {
   public static ThrowerControl throwerControl;
   public static WestCoastDrive driveBase;
   public static PixyVision pixyVision;
+  public static LimeLight limeLight;
   
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -58,7 +59,9 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() {
     
-    RobotMap.setRobot(0);
+    // TODO Read from SmartDashboard to switch between platforms
+    RobotID=0;
+    RobotMap.setRobot(RobotID);
 
     oi = new Controllers();
     log = new Log();
@@ -73,6 +76,9 @@ public class Robot extends TimedRobot {
 
     pixyVision = new PixyVision();
     CommandScheduler.getInstance().registerSubsystem(pixyVision);
+
+    limeLight = new LimeLight();
+    CommandScheduler.getInstance().registerSubsystem(limeLight);
 
     internalData.initGyro();
     internalData.resetGyro();

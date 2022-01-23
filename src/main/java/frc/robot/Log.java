@@ -1,8 +1,6 @@
-package frc.robot.subsystems;
+package frc.robot;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-public class Log extends SubsystemBase {
+public class Log {
 	static String[] mutedSystems = new String[]{}; // MUTED SYSTEMS
 	public void initDefaultCommand() {
 	}
