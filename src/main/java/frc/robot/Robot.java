@@ -33,11 +33,14 @@ import frc.robot.Controllers;
 public class Robot extends TimedRobot {
   public static CANSparkMax sparkMax1 = new CANSparkMax(RobotMap.SparkMax1, CANSparkMaxLowLevel.MotorType.kBrushless);
   public static CANSparkMax sparkMax2 = new CANSparkMax(RobotMap.SparkMax2, CANSparkMaxLowLevel.MotorType.kBrushless);
-  public static CANSparkMax sparkMax3 = new CANSparkMax(RobotMap.SparkMax3, CANSparkMaxLowLevel.MotorType.kBrushless);
+  //public static CANSparkMax sparkMax3 = new CANSparkMax(RobotMap.SparkMax3, CANSparkMaxLowLevel.MotorType.kBrushless);
   public static CANSparkMax sparkMax4 = new CANSparkMax(RobotMap.SparkMax4, CANSparkMaxLowLevel.MotorType.kBrushless);
   public static TalonFX throw1 = new TalonFX(9);
   public static TalonFX throw2 = new TalonFX(10);
   public int RobotID;
+
+  public static double speed = 0;
+  public static int delay = 0;
 
   public static Controllers oi;
   public static Log log;

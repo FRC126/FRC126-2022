@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.util.Color;
 
 public class OperatorControl extends CommandBase {
     static int count;
-	static int speed;
 
     public OperatorControl() {
     }
@@ -46,35 +45,44 @@ public class OperatorControl extends CommandBase {
 		if (driveJoystick.isYButton()) {
 			Robot.throw1.set(ControlMode.PercentOutput,0);
 			Robot.throw2.set(ControlMode.PercentOutput,0);
-			speed=0;
+			Robot.speed=0;
         }
 
+		Robot.delay--;	
+
         if (driveJoystick.isAButton()) {
-			Robot.throw1.set(ControlMode.PercentOutput,0.60);
-			Robot.throw2.set(ControlMode.PercentOutput,-0.60);
-			//speed += 0.05;
-			//if (speed > 1.0) {
-			//	speed = 1;
-			//}
-			//Robot.throw1.set(ControlMode.PercentOutput,speed);
-			//Robot.throw2.set(ControlMode.PercentOutput,speed * -1);
+			if ( Robot.delay <= 0 ) {
+				Robot.speed += 0.05;
+				if (Robot.speed > 1.0) {
+					Robot.speed = 1;
+				}
+				Robot.delay=15;
+				Robot.throw1.set(ControlMode.PercentOutput,Robot.speed);
+				Robot.throw2.set(ControlMode.PercentOutput,Robot.speed * -1);
+			} 
         } 
 		
 		if (driveJoystick.isBButton()) {
-			Robot.throw1.set(ControlMode.PercentOutput,0.65);
-			Robot.throw2.set(ControlMode.PercentOutput,-0.65);
-//			speed -= 0.05;
-//			if (speed < 0) {
-//				speed = 0;
-//			}
-//			Robot.throw1.set(ControlMode.PercentOutput,speed);
-//			Robot.throw2.set(ControlMode.PercentOutput,speed * -1);
+			if ( Robot.delay <= 0 ) {
+				Robot.speed -= 0.05;
+				if (Robot.speed < 0) {
+					Robot.speed = 0;
+				}
+				Robot.delay=15;
+				Robot.throw1.set(ControlMode.PercentOutput,Robot.speed);
+				Robot.throw2.set(ControlMode.PercentOutput,Robot.speed * -1);
+			}
 		}
 
 		if (driveJoystick.isLShoulderButton() ) {
 		}
-		Log.print(0, "Robot", "Speed " + speed);
+		//Log.print(0, "Robot", "Speed " + Robot.speed);
+		SmartDashboard.putNumber("Motor Percentage",Robot.speed*100);
 
+		double rpm1 = Math.abs(Robot.throw1.getSelectedSensorVelocity());
+		int rpm = (int)rpm1;
+		SmartDashboard.putNumber("Motor RPM",rpm/100);
+		SmartDashboard.putNumber("Motor RPM 2",rpm);
 
         if (driveJoystick.isRShoulderButton() ) {
 		}
