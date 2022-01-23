@@ -53,6 +53,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    
     RobotMap.setRobot(0);
 
     oi = new Controllers();
