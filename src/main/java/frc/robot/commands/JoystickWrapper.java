@@ -14,29 +14,27 @@
 
 package frc.robot.commands;
 
-import frc.robot.RobotMap;
-
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 
 public class JoystickWrapper {
-    final Joystick joystick;
+    final XboxController joystick;
     final double driftOffset;
-    public JoystickWrapper(Joystick joystick, double driftOffset) {
+    public JoystickWrapper(XboxController joystick, double driftOffset) {
         this.joystick = joystick;
         this.driftOffset = driftOffset;
     }
 
     public double getLeftStickY() {
-        return getRawAxis(RobotMap.lStickY) * -1;
+        return joystick.getLeftY();
     }
     public double getLeftStickX() {
-        return getRawAxis(RobotMap.lStickX);
+        return joystick.getLeftX();
     }
     public double getLeftTrigger() {
-        return getRawAxis(RobotMap.Ltrigger);
+        return joystick.getLeftTriggerAxis();
     }
     public double getRightTrigger() {
-        return getRawAxis(RobotMap.Rtrigger);
+        return joystick.getRightTriggerAxis();
     }
 
     public double getTriggers() {
@@ -51,47 +49,35 @@ public class JoystickWrapper {
         return trigs;
     }
     public double getRightStickY() {
-        return getRawAxis(RobotMap.rStickY) * -1;
+        return joystick.getRightY() * -1;
     }
     public double getRightStickX() {
-        return getRawAxis(RobotMap.rStickX);
-    }
-
-    private double getRawAxis(int axis) {
-        double value = joystick.getRawAxis(axis);
-        if(Math.abs(value) < driftOffset) { // Prevent control drifting (driver controller)
-		    value = 0;
-        }
-        return value;
+        return joystick.getRightX();
     }
 
     public boolean isAButton() {
-        return getRawButton(RobotMap.xboxA);
+        return joystick.getAButtonPressed();
     }
     public boolean isBButton() {
-        return getRawButton(RobotMap.xboxB);
+        return joystick.getBButtonPressed();
     }
     public boolean isXButton() {
-        return getRawButton(RobotMap.xboxX);
+        return joystick.getXButtonPressed();
     }
     public boolean isYButton() {
-        return getRawButton(RobotMap.xboxY);
+        return joystick.getYButtonPressed();
     }
     public boolean isLShoulderButton() {
-        return getRawButton(RobotMap.xboxLTrig);
+        return joystick.getLeftBumperPressed();
     }
     public boolean isRShoulderButton() {
-        return getRawButton(RobotMap.xboxRTrig);
+        return joystick.getRightBumperPressed();
     }
     public boolean isLStickPressButton() {
-        return getRawButton(RobotMap.xboxLStick);
+        return joystick.getLeftStickButtonPressed();
     }
     public boolean isRStickPressButton() {
-        return getRawButton(RobotMap.xboxRStick);
-    }
-
-    private boolean getRawButton(int button) {
-        return joystick.getRawButton(button);
+        return joystick.getRightStickButtonPressed();
     }
 
     public int getPOV() {
