@@ -35,17 +35,28 @@ public class Robot extends TimedRobot {
   public static CANSparkMax sparkMax2 = new CANSparkMax(RobotMap.SparkMax2, CANSparkMaxLowLevel.MotorType.kBrushless);
   //public static CANSparkMax sparkMax3 = new CANSparkMax(RobotMap.SparkMax3, CANSparkMaxLowLevel.MotorType.kBrushless);
   public static CANSparkMax sparkMax4 = new CANSparkMax(RobotMap.SparkMax4, CANSparkMaxLowLevel.MotorType.kBrushless);
-  public static TalonFX throw1 = new TalonFX(9);
-  public static TalonFX throw2 = new TalonFX(10);
-  public int RobotID;
 
-  public static double speed = 0;
-  public static int delay = 0;
+  public static TalonFX throw1 = new TalonFX(RobotMap.ThrowerMotorCanID1);
+  public static TalonFX throw2 = new TalonFX(RobotMap.ThrowerMotorCanID2);
+
+  public static TalonFX leftDriveMotor1 = new TalonFX(RobotMap.LeftDriveMotorCanID1);
+  public static TalonFX leftDriveMotor2 = new TalonFX(RobotMap.LeftDriveMotorCanID2);
+  public static TalonFX rightDriveMotor1 = new TalonFX(RobotMap.RightDriveMotorCanID1);
+  public static TalonFX rightDriveMotor2 = new TalonFX(RobotMap.RightDriveMotorCanID2);
+  
+  public int RobotID;
+  public static int objectId=1;
+
+	public static double voltageThreshold = 10.0;
+	public static double robotTurn = 0;
+	public static double robotDrive = 0;
 
   public static Controllers oi;
   public static Log log;
   public static InternalData internalData;
-  public static MotorControl motorControl;
+  public static ThrowerControl throwerControl;
+  public static WestCoastDrive driveBase;
+  public static PixyVision pixyVision;
   
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -59,7 +70,16 @@ public class Robot extends TimedRobot {
     oi = new Controllers();
     log = new Log();
     internalData = new InternalData();
-    motorControl = new MotorControl();
+
+    // Create and register the motorController Subsystem
+    throwerControl = new ThrowerControl();
+    CommandScheduler.getInstance().registerSubsystem(throwerControl);
+
+    driveBase = new WestCoastDrive();
+    CommandScheduler.getInstance().registerSubsystem(driveBase);
+
+    pixyVision = new PixyVision();
+    CommandScheduler.getInstance().registerSubsystem(pixyVision);
 
     internalData.initGyro();
     internalData.resetGyro();
@@ -71,7 +91,6 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     Log.print(0, "Robot", "Robot Autonomous Init");
-    
   }
 
   /** This function is called periodically during autonomous. */
@@ -93,8 +112,8 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     // Log.print(0, "Robot", "Robot Teleop Run");
 
-    OperatorControl foo = new OperatorControl();
-    foo.execute();
+    //OperatorControl foo = new OperatorControl();
+    //foo.execute();
 
     CommandScheduler.getInstance().run();
   }
