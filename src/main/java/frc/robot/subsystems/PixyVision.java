@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.PixyException;
 import frc.robot.PixyI2C;
 import frc.robot.PixyPacket;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class PixyVision extends SubsystemBase {
   public PixyI2C Pixy;
@@ -34,6 +35,8 @@ public class PixyVision extends SubsystemBase {
 		}
 		centerServo();
 		setServo();
+		CommandScheduler.getInstance().registerSubsystem(this);
+		setDefaultCommand(new PixyCameraData(this));
   }
 
 	/************************************************************************
@@ -90,13 +93,6 @@ public class PixyVision extends SubsystemBase {
 	public void centerServo() {
 		setServoX(250);
 		setServoY(425);
-	}
-
-	/************************************************************************
-	 ************************************************************************/
-
-	 public void initDefaultCommand() {
-		setDefaultCommand(new PixyCameraData(this));
 	}
 
 	/************************************************************************

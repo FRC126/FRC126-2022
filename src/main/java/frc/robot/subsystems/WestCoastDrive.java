@@ -4,6 +4,7 @@ import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
@@ -13,11 +14,17 @@ public class WestCoastDrive extends SubsystemBase {
 
 	double leftMultiplier, rightMultiplier, leftSpeed, rightSpeed, fbSlowDown, rotSlowDown, limiter, left1RPM, left2RPM, right1RPM, right2RPM;
 	double previousLimiter = 1;
-	public void initDefaultCommand() {
+
+	public WestCoastDrive() {
+		CommandScheduler.getInstance().registerSubsystem(this);
 		setDefaultCommand(new DriverControl(this));
 		leftSpeed = 0;
 		rightSpeed = 0;
 	}
+
+	public void periodic() {
+    }
+
 	public double getMeanRPM() {
 		left1RPM = Math.abs(Robot.leftDriveMotor1.getSelectedSensorVelocity() / 3.41);
 		left2RPM = Math.abs(Robot.leftDriveMotor2.getSelectedSensorVelocity() / 3.41);

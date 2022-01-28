@@ -67,18 +67,13 @@ public class Robot extends TimedRobot {
     log = new Log();
     internalData = new InternalData();
 
+    CommandScheduler.getInstance().enable();
+
     // Create and register the motorController Subsystem
     throwerControl = new ThrowerControl();
-    CommandScheduler.getInstance().registerSubsystem(throwerControl);
-
     driveBase = new WestCoastDrive();
-    CommandScheduler.getInstance().registerSubsystem(driveBase);
-
     pixyVision = new PixyVision();
-    CommandScheduler.getInstance().registerSubsystem(pixyVision);
-
     limeLight = new LimeLight();
-    CommandScheduler.getInstance().registerSubsystem(limeLight);
 
     internalData.initGyro();
     internalData.resetGyro();
@@ -95,8 +90,6 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    Log.print(0, "Robot", "Robot Autonomous Run");
-
     CommandScheduler.getInstance().run();
   }
 
@@ -109,11 +102,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during teleoperated mode. */
   @Override
   public void teleopPeriodic() {
-    // Log.print(0, "Robot", "Robot Teleop Run");
-
-    //OperatorControl foo = new OperatorControl();
-    //foo.execute();
-
+    Log.print(0, "Robot", "Robot Teleop periodic");
     CommandScheduler.getInstance().run();
   }
 
@@ -123,5 +112,7 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+    CommandScheduler.getInstance().run();
+  }
 }

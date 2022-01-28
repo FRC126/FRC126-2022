@@ -5,6 +5,7 @@ import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.*;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class LimeLight extends SubsystemBase {
 
@@ -23,14 +24,14 @@ public class LimeLight extends SubsystemBase {
         llTargetX = 0.0;
         llTargetY = 0.0;
         turretTarget = 0;
-    }
+        CommandScheduler.getInstance().registerSubsystem(this);
+            setDefaultCommand(new LimeLightWork(this));
+        }
 
 	/************************************************************************
 	 ************************************************************************/
 
-    public void initDefaultCommand() {
-		setDefaultCommand(new LimeLightWork(this));
-	}
+    public void periodic() {}
 
 	/************************************************************************
 	 ************************************************************************/

@@ -33,6 +33,8 @@ public class OperatorControl extends CommandBase {
 		JoystickWrapper driveJoystick = new JoystickWrapper(Robot.oi.driveController, 0.05);
 		//JoystickWrapper operatorJoystick = new JoystickWrapper(Robot.oi.operatorController, 0.05);
 
+		Log.print(0, "Robot", "operator control");
+
 		count++;
 
 		if(driveJoystick.isXButton()) {
