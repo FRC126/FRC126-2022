@@ -1,3 +1,17 @@
+/**********************************
+	   _      ___      ____
+	 /' \   /'___`\   /'___\
+	/\_, \ /\_\ /\ \ /\ \__/
+	\/_/\ \\/_/// /__\ \  _``\
+	   \ \ \  // /_\ \\ \ \L\ \
+	    \ \_\/\______/ \ \____/
+		 \/_/\/_____/   \/___/
+
+    Team 126 2022 Code       
+	Go get em gaels!
+
+***********************************/
+
 package frc.robot.commands;
 
 import frc.robot.JoystickWrapper;
@@ -11,12 +25,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.util.Color;
 
-public class OperatorControl extends CommandBase {
+public class ThrowerControl extends CommandBase {
     static int count;
 	static double speed;
 	static int delay=0;
 
-    public OperatorControl(ThrowerControl subsystem) {
+    public ThrowerControl(BallThrower subsystem) {
 		addRequirements(subsystem);
     }
 
@@ -37,13 +51,16 @@ public class OperatorControl extends CommandBase {
 
 		count++;
 
+		//////////////////////////////////////////////////////////////
+		// Thrower Controls
+
 		if(driveJoystick.isXButton()) {
-			Robot.throwerControl.ThrowerSpeed(0.90);
+			Robot.ballThrower.ThrowerSpeed(0.90);
         }    
 					
 		if (driveJoystick.isYButton()) {
 			speed=0;
-			Robot.throwerControl.ThrowerSpeed(speed);
+			Robot.ballThrower.ThrowerSpeed(speed);
         }
 
         if (driveJoystick.isAButton()) {
@@ -51,7 +68,7 @@ public class OperatorControl extends CommandBase {
 				speed += 0.05;
 				if (speed > 1.0) { speed = 1; }
 				delay=15;
-				Robot.throwerControl.ThrowerSpeed(speed);
+				Robot.ballThrower.ThrowerSpeed(speed);
 			} 
         } 
 		
@@ -60,17 +77,20 @@ public class OperatorControl extends CommandBase {
 				speed -= 0.05;
 				if (speed < 0) { speed = 0; }
 				delay=15;
-				Robot.throwerControl.ThrowerSpeed(speed);
+				Robot.ballThrower.ThrowerSpeed(speed);
 			}
 		}
 
 		if (driveJoystick.isLShoulderButton() ) {
+			Robot.targetType = Robot.targetTypes.TargetSeek;
+		} else {
+			Robot.targetType = Robot.targetTypes.NoTarget;
 		}
 
         if (driveJoystick.isRShoulderButton() ) {
 		}
-
-        // Turn on the NEO based on the position of the joystick
+ 
+			// Turn on the NEO based on the position of the joystick
         //Robot.sparkMax1.set(Y);
 
 		// Log the thrower motor percentage to the Smart Dashboard 

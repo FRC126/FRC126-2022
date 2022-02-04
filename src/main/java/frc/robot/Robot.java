@@ -2,6 +2,21 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+/**********************************
+	   _      ___      ____
+	 /' \   /'___`\   /'___\
+	/\_, \ /\_\ /\ \ /\ \__/
+	\/_/\ \\/_/// /__\ \  _``\
+	   \ \ \  // /_\ \\ \ \L\ \
+	    \ \_\/\______/ \ \____/
+		 \/_/\/_____/   \/___/
+
+    Team 126 2022 Code       
+	Go get em gaels!
+
+***********************************/
+
+
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -24,7 +39,7 @@ import frc.robot.subsystems.*;
  * directory.
  */
 public class Robot extends TimedRobot {
-  public static CANSparkMax sparkMax1 = new CANSparkMax(RobotMap.SparkMax1, CANSparkMaxLowLevel.MotorType.kBrushless);
+  public static CANSparkMax sparkMax1 = new CANSparkMax(7, CANSparkMaxLowLevel.MotorType.kBrushless);
   public static CANSparkMax sparkMax2 = new CANSparkMax(RobotMap.SparkMax2, CANSparkMaxLowLevel.MotorType.kBrushless);
   //public static CANSparkMax sparkMax3 = new CANSparkMax(RobotMap.SparkMax3, CANSparkMaxLowLevel.MotorType.kBrushless);
   public static CANSparkMax sparkMax4 = new CANSparkMax(RobotMap.SparkMax4, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -41,16 +56,28 @@ public class Robot extends TimedRobot {
   public static int objectId=1;
 
 	public static double voltageThreshold = 10.0;
-	public static double robotTurn = 0;
+
+
+  // Automation Variables
+  public static double robotTurn = 0;
 	public static double robotDrive = 0;
+  public static boolean shootNow = false;
+  public static boolean pickupNow = false;
 
   public static Controllers oi;
   public static Log log;
   public static InternalData internalData;
-  public static ThrowerControl throwerControl;
+  public static BallThrower ballThrower;
+  public static BallIntake ballIntake;
   public static WestCoastDrive driveBase;
   public static PixyVision pixyVision;
   public static LimeLight limeLight;
+
+  public static enum targetHeights{LowTarget,HighTarget};
+  public static enum targetTypes{NoTarget,BallSeek,TargetSeek};
+  public static enum allianceColor{Red,Blue};
+  public static targetTypes targetType = Robot.targetTypes.NoTarget;
+
   
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -70,7 +97,8 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().enable();
 
     // Create and register the motorController Subsystem
-    throwerControl = new ThrowerControl();
+    ballThrower = new BallThrower();
+    ballIntake = new BallIntake();
     driveBase = new WestCoastDrive();
     pixyVision = new PixyVision();
     limeLight = new LimeLight();

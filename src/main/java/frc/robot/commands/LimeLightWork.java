@@ -1,3 +1,17 @@
+/**********************************
+	   _      ___      ____
+	 /' \   /'___`\   /'___\
+	/\_, \ /\_\ /\ \ /\ \__/
+	\/_/\ \\/_/// /__\ \  _``\
+	   \ \ \  // /_\ \\ \ \L\ \
+	    \ \_\/\______/ \ \____/
+		 \/_/\/_____/   \/___/
+
+    Team 126 2022 Code       
+	Go get em gaels!
+
+***********************************/
+
 package frc.robot.commands;
 
 import frc.robot.Robot;
@@ -8,7 +22,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class LimeLightWork extends CommandBase {
     public static int iter=0;
     int centeredCount=0;
-    boolean shootNow=false;
 
 	/************************************************************************
 	 ************************************************************************/
@@ -29,15 +42,14 @@ public class LimeLightWork extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     public void execute() {
-        SmartDashboard.putBoolean("shootnow:", shootNow);
+        SmartDashboard.putBoolean("shootnow:", Robot.shootNow);
 
-        //if (Robot.trackTarget != Robot.targetTypes.throwingTarget &&
-        //    Robot.trackTarget != Robot.targetTypes.turretOnly &&
-        //    Robot.trackTarget != Robot.targetTypes.ballLLTarget ) {
-        //    // We are not tracking the ball, just return
-        //    shootNow=false;
-		//	return;
-        //}
+        if (Robot.targetType != Robot.targetTypes.TargetSeek) {
+            Robot.shootNow=false;
+            Robot.robotTurn=0;
+            Robot.robotDrive=0;
+		 	return;
+        }
         
         Robot.limeLight.getCameraData();
 
@@ -73,7 +85,7 @@ public class LimeLightWork extends CommandBase {
                     Robot.robotTurn=-.3;
                 }
                 centeredCount=0;
-                shootNow=false;
+                Robot.shootNow=false;
             } else if ( Robot.limeLight.getllTargetX() > threshold ) {
                 // Target is to the left of the Robot, need to move right
                 Robot.robotTurn=.25;
@@ -81,14 +93,14 @@ public class LimeLightWork extends CommandBase {
                     Robot.robotTurn=.3;
                 }
                 centeredCount=0;
-                shootNow=false;
+                Robot.shootNow=false;
             } else {
                 centeredCount++;
                 //if (Robot.trackTarget != Robot.targetTypes.ballLLTarget) {
                     if (centeredCount > 20) {
-                        shootNow=true;
+                        Robot.shootNow=true;
                     } else {
-                        shootNow=false;
+                        Robot.shootNow=false;
                     }
                 //}    
                 Robot.robotTurn=0;
@@ -114,7 +126,7 @@ public class LimeLightWork extends CommandBase {
         } else {
             iter++;
             centeredCount=0;
-            shootNow=false;
+            Robot.shootNow=false;
 
             if (iter > 10 && iter < 350) {
                 // Try turning until we pick up a target

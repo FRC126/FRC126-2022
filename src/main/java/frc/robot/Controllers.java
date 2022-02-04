@@ -1,8 +1,22 @@
+/**********************************
+	   _      ___      ____
+	 /' \   /'___`\   /'___\
+	/\_, \ /\_\ /\ \ /\ \__/
+	\/_/\ \\/_/// /__\ \  _``\
+	   \ \ \  // /_\ \\ \ \L\ \
+	    \ \_\/\______/ \ \____/
+		 \/_/\/_____/   \/___/
+
+    Team 126 2022 Code       
+	Go get em gaels!
+
+***********************************/
+
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 
 public class Controllers {
-    public static Joystick driveController = new Joystick(0);
-	public static Joystick operatorController = new Joystick(1);
+    public Joystick driveController = new Joystick(0);
+	public Joystick operatorController = new Joystick(1);
 }

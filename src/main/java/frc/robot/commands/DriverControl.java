@@ -1,7 +1,21 @@
+/**********************************
+	   _      ___      ____
+	 /' \   /'___`\   /'___\
+	/\_, \ /\_\ /\ \ /\ \__/
+	\/_/\ \\/_/// /__\ \  _``\
+	   \ \ \  // /_\ \\ \ \L\ \
+	    \ \_\/\______/ \ \____/
+		 \/_/\/_____/   \/___/
+
+    Team 126 2022 Code       
+	Go get em gaels!
+
+***********************************/
+
 package frc.robot.commands;
 
 import frc.robot.JoystickWrapper;
-import frc.robot.Log;
+//import frc.robot.Log;
 import frc.robot.Robot;
 import frc.robot.subsystems.*;	
 
@@ -22,7 +36,6 @@ public class DriverControl extends CommandBase {
 
 	@Override
 	public void initialize() {
-		Log.print(0, "OI", "Operator control initialized.");
 	}    
 
 	// Called every tick (20ms)
@@ -47,9 +60,18 @@ public class DriverControl extends CommandBase {
 
         Robot.driveBase.Drive(X,Y);
 
+		if(Robot.robotDrive > 0) {
+			Robot.sparkMax1.set(.1);
+		} else {
+			Robot.sparkMax1.set(0);
+		}
+
   		// Log the Joystick X,Y Axis to the SmartDashboard.
 		SmartDashboard.putNumber("JoyStick Y Axis",Y);
 		SmartDashboard.putNumber("JoyStick X Axis",X);
+
+		SmartDashboard.putNumber("robotTurn",Robot.robotTurn);
+		SmartDashboard.putNumber("robotDrive",Robot.robotDrive);
 	}
 
 	// Returns true if command finished

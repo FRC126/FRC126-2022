@@ -1,3 +1,17 @@
+/**********************************
+	   _      ___      ____
+	 /' \   /'___`\   /'___\
+	/\_, \ /\_\ /\ \ /\ \__/
+	\/_/\ \\/_/// /__\ \  _``\
+	   \ \ \  // /_\ \\ \ \L\ \
+	    \ \_\/\______/ \ \____/
+		 \/_/\/_____/   \/___/
+
+    Team 126 2022 Code       
+	Go get em gaels!
+
+***********************************/
+
 package frc.robot.commands;
 
 import frc.robot.Robot;
@@ -56,11 +70,12 @@ public class PixyCameraData extends CommandBase {
 		//SmartDashboard.putNumber("Servo X: ", Robot.vision.getServoX());
 		//SmartDashboard.putNumber("Servo Y: ", Robot.vision.getServoY());
 
-        //if (Robot.trackTarget == Robot.targetTypes.ballTarget) {
+        if (Robot.targetType == Robot.targetTypes.BallSeek) {
 		    Robot.pixyVision.setLamp(true,false);
-		//} else {
-		//	Robot.pixyVision.setLamp(false,false);
-		//}
+		} else {
+			Robot.pixyVision.setLamp(false,false);
+			return;
+		}
 		
 	    if (Robot.pixyVision.packetData[objectId].isValid) {
 			// If the object is valid then turn on the LED and use the servos

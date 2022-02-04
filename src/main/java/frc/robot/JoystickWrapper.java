@@ -24,19 +24,46 @@ public class JoystickWrapper {
         this.driftOffset = driftOffset;
     }
 
+    ////////////////////////////////////////////////////
+    // JoyStick Interfaces
+    ////////////////////////////////////////////////////
+
     public double getLeftStickY() {
         return getRawAxis(RobotMap.lStickY) * -1;
     }
     public double getLeftStickX() {
         return getRawAxis(RobotMap.lStickX);
     }
+    public double getRightStickY() {
+        return getRawAxis(RobotMap.rStickY) * -1;
+    }
+    public double getRightStickX() {
+        return getRawAxis(RobotMap.rStickX);
+    }
+    public boolean isLStickPressButton() {
+        return getRawButton(RobotMap.xboxLStick);
+    }
+    public boolean isRStickPressButton() {
+        return getRawButton(RobotMap.xboxRStick);
+    }
+    private double getRawAxis(int axis) {
+        double value = joystick.getRawAxis(axis);
+        if(Math.abs(value) < driftOffset) { // Prevent control drifting (driver controller)
+		    value = 0;
+        }
+        return value;
+    }
+
+    ////////////////////////////////////////////////////
+    // Trigger Interfaces
+    ////////////////////////////////////////////////////
+
     public double getLeftTrigger() {
         return getRawAxis(RobotMap.Ltrigger);
     }
     public double getRightTrigger() {
         return getRawAxis(RobotMap.Rtrigger);
     }
-
     public double getTriggers() {
         double tr = getRightTrigger();
         double tl = getLeftTrigger();
@@ -48,20 +75,10 @@ public class JoystickWrapper {
         }
         return trigs;
     }
-    public double getRightStickY() {
-        return getRawAxis(RobotMap.rStickY) * -1;
-    }
-    public double getRightStickX() {
-        return getRawAxis(RobotMap.rStickX);
-    }
-
-    private double getRawAxis(int axis) {
-        double value = joystick.getRawAxis(axis);
-        if(Math.abs(value) < driftOffset) { // Prevent control drifting (driver controller)
-		    value = 0;
-        }
-        return value;
-    }
+    
+    ////////////////////////////////////////////////////
+    // Button Interfaces
+    ////////////////////////////////////////////////////
 
     public boolean isAButton() {
         return getRawButton(RobotMap.xboxA);
@@ -75,24 +92,56 @@ public class JoystickWrapper {
     public boolean isYButton() {
         return getRawButton(RobotMap.xboxY);
     }
+    public boolean isBackButton() {
+        return getRawButton(RobotMap.xboxBack);
+    }
+    public boolean isStartButton() {
+        return getRawButton(RobotMap.xboxStart);
+    }
     public boolean isLShoulderButton() {
         return getRawButton(RobotMap.xboxLTrig);
     }
     public boolean isRShoulderButton() {
         return getRawButton(RobotMap.xboxRTrig);
     }
-    public boolean isLStickPressButton() {
-        return getRawButton(RobotMap.xboxLStick);
-    }
-    public boolean isRStickPressButton() {
-        return getRawButton(RobotMap.xboxRStick);
-    }
 
     private boolean getRawButton(int button) {
         return joystick.getRawButton(button);
     }
 
-    public int getPOV() {
+    ////////////////////////////////////////////////////
+    // POV Interfaces
+    ////////////////////////////////////////////////////
+
+    public int getPov() {
         return joystick.getPOV();
+    }   
+    public boolean getPovUp() {
+        int tmp=joystick.getPOV();
+        if (tmp == 0) {
+            return true;
+        }
+        return false;
+    }   
+    public boolean getPovDown() {
+        int tmp=joystick.getPOV();
+        if (tmp == 180) {
+            return true;
+        }
+        return false;
+    }   
+    public boolean getPovRight() {
+        int tmp=joystick.getPOV();
+        if (tmp == 90) {
+            return true;
+        }
+        return false;
+    }   
+    public boolean getPovLeft() {
+        int tmp=joystick.getPOV();
+        if (tmp == 270) {
+            return true;
+        }
+        return false;
     }   
 }

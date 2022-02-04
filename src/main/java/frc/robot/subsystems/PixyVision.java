@@ -1,3 +1,17 @@
+/**********************************
+	   _      ___      ____
+	 /' \   /'___`\   /'___\
+	/\_, \ /\_\ /\ \ /\ \__/
+	\/_/\ \\/_/// /__\ \  _``\
+	   \ \ \  // /_\ \\ \ \L\ \
+	    \ \_\/\______/ \ \____/
+		 \/_/\/_____/   \/___/
+
+    Team 126 2022 Code       
+	Go get em gaels!
+
+***********************************/
+
 package frc.robot.subsystems;
 
 import frc.robot.commands.*;
@@ -12,7 +26,7 @@ import frc.robot.PixyPacket;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class PixyVision extends SubsystemBase {
-  public PixyI2C Pixy;
+    public PixyI2C Pixy;
 	public PixyPacket[] packetData;
 	String print;
 
@@ -20,7 +34,6 @@ public class PixyVision extends SubsystemBase {
 	boolean lowerLightOn = false;
 
 	int centeredCount=0;
-	boolean grabNow=false;
 
 	int servoX, servoY;
 
@@ -28,6 +41,10 @@ public class PixyVision extends SubsystemBase {
 	 ************************************************************************/
 
 	public PixyVision() {
+		// Register this subsystem with command scheduler and set the default command
+		CommandScheduler.getInstance().registerSubsystem(this);
+		setDefaultCommand(new PixyCameraData(this));
+
 		Pixy = new PixyI2C("pixy", new I2C(Port.kOnboard, 0x54));
 		packetData = new PixyPacket[24];
 		for (int x=0; x<24; x++) {	
@@ -35,9 +52,12 @@ public class PixyVision extends SubsystemBase {
 		}
 		centerServo();
 		setServo();
-		CommandScheduler.getInstance().registerSubsystem(this);
-		setDefaultCommand(new PixyCameraData(this));
-  }
+    }
+
+	/************************************************************************
+	 ************************************************************************/
+
+	 public void periodic() {}
 
 	/************************************************************************
 	 ************************************************************************/
@@ -150,20 +170,20 @@ public class PixyVision extends SubsystemBase {
 		double targetPosition=0;
 		double servoRatio = 1.7;
 
-		SmartDashboard.putBoolean("grabNow:", grabNow);
+		SmartDashboard.putBoolean("Robot.pickupNow:", Robot.pickupNow);
 		
-		//if (Robot.trackTarget != Robot.targetTypes.ballTarget) {
-		//	// We are not tracking the ball, just return
-		//	centeredCount=0;
-		//	grabNow=false;
-		//	return 0;
-		//}
+		if (Robot.targetType != Robot.targetTypes.BallSeek) {
+			// We are not tracking the ball, just return
+			centeredCount=0;
+			Robot.pickupNow=false;
+			return 0;
+		}
 		
 		if ( !Robot.pixyVision.packetData[objectID].isValid ) {
 			centeredCount = 0;
 			//Robot.robotTurn = 0;
 			//Robot.robotDrive = 0;
-			grabNow=false;
+			Robot.pickupNow=false;
 			return 0;
 		}
 		
@@ -218,12 +238,12 @@ public class PixyVision extends SubsystemBase {
 			System.out.println("Move Left");
 			Robot.robotTurn= turnFactor * -1;
 			centeredCount=0;
-			grabNow=false;
+			Robot.pickupNow=false;
 		} else if ( targetPosition > 200) {
 			System.out.println("Move Right");
 			Robot.robotTurn=turnFactor;  
 			centeredCount=0;
-			grabNow=false;
+			Robot.pickupNow=false;
 		} else {		 
 			 if (Robot.robotDrive == 0) {
 				 centeredCount++;
@@ -232,7 +252,7 @@ public class PixyVision extends SubsystemBase {
 			 }		 
 			 if (centeredCount > 10) {
 				System.out.println("Grab Ball!");
-				grabNow=true;
+				Robot.pickupNow=true;
 			 } else {
 				System.out.println("Move Center");
 			 }

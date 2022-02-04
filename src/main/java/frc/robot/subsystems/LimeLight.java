@@ -1,3 +1,17 @@
+/**********************************
+	   _      ___      ____
+	 /' \   /'___`\   /'___\
+	/\_, \ /\_\ /\ \ /\ \__/
+	\/_/\ \\/_/// /__\ \  _``\
+	   \ \ \  // /_\ \\ \ \L\ \
+	    \ \_\/\______/ \ \____/
+		 \/_/\/_____/   \/___/
+
+    Team 126 2022 Code       
+	Go get em gaels!
+
+***********************************/
+
 package frc.robot.subsystems;
 
 //import frc.robot.Robot;
@@ -19,14 +33,16 @@ public class LimeLight extends SubsystemBase {
 	 ************************************************************************/
 
     public LimeLight() {
+        // Register this subsystem with command scheduler and set the default command
+        CommandScheduler.getInstance().registerSubsystem(this);
+        setDefaultCommand(new LimeLightWork(this));
+
         llTargetValid=false;
         llTargetArea = 0.0;
         llTargetX = 0.0;
         llTargetY = 0.0;
         turretTarget = 0;
-        CommandScheduler.getInstance().registerSubsystem(this);
-            setDefaultCommand(new LimeLightWork(this));
-        }
+    }
 
 	/************************************************************************
 	 ************************************************************************/
