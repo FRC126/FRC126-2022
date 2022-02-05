@@ -46,8 +46,6 @@ public class LimeLightWork extends CommandBase {
 
         if (Robot.targetType != Robot.targetTypes.TargetSeek) {
             Robot.shootNow=false;
-            Robot.robotTurn=0;
-            Robot.robotDrive=0;
 		 	return;
         }
         

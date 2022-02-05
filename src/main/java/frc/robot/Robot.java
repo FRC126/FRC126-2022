@@ -39,7 +39,7 @@ import frc.robot.subsystems.*;
  * directory.
  */
 public class Robot extends TimedRobot {
-  public static CANSparkMax sparkMax1 = new CANSparkMax(7, CANSparkMaxLowLevel.MotorType.kBrushless);
+  public static CANSparkMax sparkMax1 = new CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushless);
   public static CANSparkMax sparkMax2 = new CANSparkMax(RobotMap.SparkMax2, CANSparkMaxLowLevel.MotorType.kBrushless);
   //public static CANSparkMax sparkMax3 = new CANSparkMax(RobotMap.SparkMax3, CANSparkMaxLowLevel.MotorType.kBrushless);
   public static CANSparkMax sparkMax4 = new CANSparkMax(RobotMap.SparkMax4, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -74,7 +74,7 @@ public class Robot extends TimedRobot {
   public static LimeLight limeLight;
 
   public static enum targetHeights{LowTarget,HighTarget};
-  public static enum targetTypes{NoTarget,BallSeek,TargetSeek};
+  public static enum targetTypes{NoTarget,BallSeek,TargetSeek, PixyTargetSeek};
   public static enum allianceColor{Red,Blue};
   public static targetTypes targetType = Robot.targetTypes.NoTarget;
 
@@ -130,7 +130,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during teleoperated mode. */
   @Override
   public void teleopPeriodic() {
-    Log.print(0, "Robot", "Robot Teleop periodic");
+    //Log.print(0, "Robot", "Robot Teleop periodic");
     CommandScheduler.getInstance().run();
   }
 

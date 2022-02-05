@@ -47,7 +47,7 @@ public class ThrowerControl extends CommandBase {
 		JoystickWrapper driveJoystick = new JoystickWrapper(Robot.oi.driveController, 0.05);
 		//JoystickWrapper operatorJoystick = new JoystickWrapper(Robot.oi.operatorController, 0.05);
 
-		Log.print(0, "Robot", "operator control");
+		//Log.print(0, "Robot", "operator control");
 
 		count++;
 
@@ -81,16 +81,10 @@ public class ThrowerControl extends CommandBase {
 			}
 		}
 
-		if (driveJoystick.isLShoulderButton() ) {
-			Robot.targetType = Robot.targetTypes.TargetSeek;
-		} else {
-			Robot.targetType = Robot.targetTypes.NoTarget;
-		}
-
         if (driveJoystick.isRShoulderButton() ) {
 		}
  
-			// Turn on the NEO based on the position of the joystick
+		// Turn on the NEO based on the position of the joystick
         //Robot.sparkMax1.set(Y);
 
 		// Log the thrower motor percentage to the Smart Dashboard 

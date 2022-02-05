@@ -172,7 +172,8 @@ public class PixyVision extends SubsystemBase {
 
 		SmartDashboard.putBoolean("Robot.pickupNow:", Robot.pickupNow);
 		
-		if (Robot.targetType != Robot.targetTypes.BallSeek) {
+		if (Robot.targetType != Robot.targetTypes.BallSeek &&
+		       Robot.targetType != Robot.targetTypes.PixyTargetSeek) {
 			// We are not tracking the ball, just return
 			centeredCount=0;
 			Robot.pickupNow=false;
@@ -219,7 +220,9 @@ public class PixyVision extends SubsystemBase {
 		}
 
 		double area = h * w;
-		if ( area < 2500 ) {
+
+		SmartDashboard.putNumber("target area:", area);
+		if ( area < 9000 ) {
 			Robot.robotDrive=.25;
 		} else {
 			Robot.robotDrive=0;

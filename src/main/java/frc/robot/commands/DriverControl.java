@@ -62,6 +62,10 @@ public class DriverControl extends CommandBase {
 
 		if(Robot.robotDrive > 0) {
 			Robot.sparkMax1.set(.1);
+			double turns = Robot.sparkMax1.getEncoder().getPosition();
+			double rpms = Robot.sparkMax1.getEncoder().getVelocity();
+			SmartDashboard.putNumber("Turns",turns);
+			SmartDashboard.putNumber("RPMS",rpms);
 		} else {
 			Robot.sparkMax1.set(0);
 		}
