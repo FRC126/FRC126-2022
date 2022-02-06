@@ -37,14 +37,14 @@ public class OperatorControl extends CommandBase {
 
 		//Log.print(0, "Robot", "Motor Control");
 		
-		if(driveJoystick.isXButton()) {
-			Robot.throw1.set(ControlMode.PercentOutput,0.90);
-			Robot.throw2.set(ControlMode.PercentOutput,-0.90);
-        }    
-					
+		// if(driveJoystick.isXButton()) {
+		// 	Robot.throw1.set(ControlMode.PercentOutput,0.90);
+		// 	Robot.throw2.set(ControlMode.PercentOutput,-0.90);
+        // }    
+			
 		if (driveJoystick.isYButton()) {
-			Robot.throw1.set(ControlMode.PercentOutput,0);
-			Robot.throw2.set(ControlMode.PercentOutput,0);
+		// 	Robot.throw1.set(ControlMode.PercentOutput,0);
+		// 	Robot.throw2.set(ControlMode.PercentOutput,0);
 			Robot.speed=0;
         }
 
@@ -57,8 +57,8 @@ public class OperatorControl extends CommandBase {
 					Robot.speed = 1;
 				}
 				Robot.delay=15;
-				Robot.throw1.set(ControlMode.PercentOutput,Robot.speed);
-				Robot.throw2.set(ControlMode.PercentOutput,Robot.speed * -1);
+				// Robot.throw1.set(ControlMode.PercentOutput,Robot.speed);
+				// Robot.throw2.set(ControlMode.PercentOutput,Robot.speed * -1);
 			} 
         } 
 		
@@ -69,8 +69,8 @@ public class OperatorControl extends CommandBase {
 					Robot.speed = 0;
 				}
 				Robot.delay=15;
-				Robot.throw1.set(ControlMode.PercentOutput,Robot.speed);
-				Robot.throw2.set(ControlMode.PercentOutput,Robot.speed * -1);
+				// Robot.throw1.set(ControlMode.PercentOutput,Robot.speed);
+				// Robot.throw2.set(ControlMode.PercentOutput,Robot.speed * -1);
 			}
 		}
 
@@ -79,10 +79,10 @@ public class OperatorControl extends CommandBase {
 		//Log.print(0, "Robot", "Speed " + Robot.speed);
 		SmartDashboard.putNumber("Motor Percentage",Robot.speed*100);
 
-		double rpm1 = Math.abs(Robot.throw1.getSelectedSensorVelocity());
-		int rpm = (int)rpm1;
-		SmartDashboard.putNumber("Motor RPM",rpm/100);
-		SmartDashboard.putNumber("Motor RPM 2",rpm);
+		// double rpm1 = Math.abs(Robot.throw1.getSelectedSensorVelocity());
+		// int rpm = (int)rpm1;
+		// SmartDashboard.putNumber("Motor RPM",rpm/100);
+		// SmartDashboard.putNumber("Motor RPM 2",rpm);
 
         if (driveJoystick.isRShoulderButton() ) {
 		}
@@ -101,9 +101,11 @@ public class OperatorControl extends CommandBase {
         }
 
 		if(driveJoystick.isXButton()) {
-			//Robot.sparkMax1.set(.1);
+			Robot.sparkMax1.set(.1);
+			SmartDashboard.putNumber("Spark Max",.1);
         } else {    
-            //Robot.sparkMax1.set(Y);
+            Robot.sparkMax1.set(Y);
+			SmartDashboard.putNumber("Spark Max", Y);
 		}	
 	}
 
