@@ -62,6 +62,8 @@ public class DriverControl extends CommandBase {
 		//}
 
 	    double sparkSpeed=0;
+		SmartDashboard.putBoolean("isLShoulderButton",driveJoystick.isLShoulderButton());
+		SmartDashboard.putBoolean("isRShoulderButton",driveJoystick.isRShoulderButton());
 		if (driveJoystick.isLShoulderButton() ) {
 			sparkSpeed=.1;
 		} else if (driveJoystick.isRShoulderButton() ) {

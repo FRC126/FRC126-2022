@@ -58,6 +58,9 @@ public class PixyCameraData extends CommandBase {
 		} else if (driveJoystick.getPovLeft() ) {
 			Robot.targetType = Robot.targetTypes.PixyTargetSeek;
 			Robot.objectId=3;
+		} else if (driveJoystick.getPovRight() ) {
+			Robot.targetType = Robot.targetTypes.TargetSeek;
+			Robot.objectId=1;
 		} else {
 			Robot.targetType = Robot.targetTypes.NoTarget;
 		}
@@ -98,8 +101,8 @@ public class PixyCameraData extends CommandBase {
 		if ( Robot.targetType == Robot.targetTypes.BallSeek) {
             SmartDashboard.putString("TargetType: ", "BallSeek");
 		}
-		if ( Robot.targetType == Robot.targetTypes.BallSeek) {
-            SmartDashboard.putString("TargetType: ", "BallSeek");
+		if ( Robot.targetType == Robot.targetTypes.TargetSeek) {
+            SmartDashboard.putString("TargetType: ", "TargetSeek");
 		}
 		if ( Robot.targetType == Robot.targetTypes.NoTarget) {
             SmartDashboard.putString("TargetType: ", "NoTarget");
