@@ -46,29 +46,31 @@ public class DriverControl extends CommandBase {
 		JoystickWrapper driveJoystick = new JoystickWrapper(Robot.oi.driveController, 0.05);
 
 		count++;
-
-		if (driveJoystick.isLShoulderButton() ) {
-			// TODO Shift Up Drive Train
-		}
-
-        if (driveJoystick.isRShoulderButton() ) {
-			// TODO Shift Down Drive Train
-		}
-
         double Y = driveJoystick.getLeftStickY();
         double X = driveJoystick.getRightStickX();
 
         Robot.driveBase.Drive(X,Y);
 
-		if(Robot.robotDrive > 0) {
-			Robot.sparkMax1.set(.1);
-			double turns = Robot.sparkMax1.getEncoder().getPosition();
-			double rpms = Robot.sparkMax1.getEncoder().getVelocity();
-			SmartDashboard.putNumber("Turns",turns);
-			SmartDashboard.putNumber("RPMS",rpms);
+		//if(Robot.robotDrive > 0) {
+		//	Robot.sparkMax1.set(.1);
+		//	double turns = Robot.sparkMax1.getEncoder().getPosition();
+		//	double rpms = Robot.sparkMax1.getEncoder().getVelocity();
+		//	SmartDashboard.putNumber("Turns",turns);
+		//	SmartDashboard.putNumber("RPMS",rpms);
+		//} else {
+		//	Robot.sparkMax1.set(0);
+		//}
+
+	    double sparkSpeed=0;
+		if (driveJoystick.isLShoulderButton() ) {
+			sparkSpeed=.1;
+		} else if (driveJoystick.isRShoulderButton() ) {
+			sparkSpeed=.2;
 		} else {
-			Robot.sparkMax1.set(0);
+			sparkSpeed=0;
 		}
+
+		Robot.sparkMax1.set(sparkSpeed);
 
   		// Log the Joystick X,Y Axis to the SmartDashboard.
 		SmartDashboard.putNumber("JoyStick Y Axis",Y);
