@@ -46,8 +46,12 @@ public class LimeLightWork extends CommandBase {
 
         if (Robot.targetType != Robot.targetTypes.TargetSeek) {
             Robot.shootNow=false;
+            Robot.ThrowerRPM=0;
+            //.limeLight.setLED(false);
 		 	return;
         }
+
+        Robot.limeLight.setLED(true);
         
         Robot.limeLight.getCameraData();
 
@@ -66,15 +70,23 @@ public class LimeLightWork extends CommandBase {
 
             SmartDashboard.putNumber("LL Area:", area);
 
-            if (area < .2) {
-                threshold = 1.5;
+            if ( area < .02 ) { Robot.ThrowerRPM = 9000; }
+            if ( area > .02 && area < 0.05 ) { Robot.ThrowerRPM = 6000; }
+            if ( area > .05 && area < 0.1 ) { Robot.ThrowerRPM = 3000; }
+
+            SmartDashboard.putNumber("Thrower RPM:", Robot.ThrowerRPM);
+
+            if (area < .1) {
+                threshold = 25;
             } else if (area < 1) {
-                threshold = 2.5;
+                threshold = 25;
             } else if (area < 2) {
-                threshold = 3.5;
+                threshold = 35;
             } else {
-                threshold = 4.5;
+                threshold = 45;
             }
+
+            SmartDashboard.putNumber("getllTargetX:", Robot.limeLight.getllTargetX());
 
             if ( Robot.limeLight.getllTargetX() < ( -1 * threshold ) ) {
                 // Target is to the left of the Robot, need to move left
@@ -125,6 +137,7 @@ public class LimeLightWork extends CommandBase {
             iter++;
             centeredCount=0;
             Robot.shootNow=false;
+            Robot.ThrowerRPM=0;
 
             if (iter > 10 && iter < 350) {
                 // Try turning until we pick up a target

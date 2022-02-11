@@ -29,6 +29,7 @@ public class ThrowerControl extends CommandBase {
     static int count;
 	static double speed;
 	static int delay=0;
+	static int throwCount=0;
 
     public ThrowerControl(BallThrower subsystem) {
 		addRequirements(subsystem);
@@ -81,6 +82,32 @@ public class ThrowerControl extends CommandBase {
 			}
 		}
 
+		int rpm = (int)Math.abs(Robot.throw1.getSelectedSensorVelocity());
+
+		if (Robot.shootNow) {
+             if (Robot.ThrowerRPM == 9000) { speed = 0.65;}
+             if (Robot.ThrowerRPM == 6000) { speed = 0.45;}
+             if (Robot.ThrowerRPM == 3000) { speed = 0.25;}
+             if (Robot.ThrowerRPM == 0) { speed = 0;}
+
+			 if ( rpm > Robot.ThrowerRPM) { 
+				 throwCount++;
+			 }
+
+			 if (throwCount > 50) {
+				 Robot.sparkMax1.set(.25);
+			 }
+            
+			 Robot.ballThrower.ThrowerSpeed(speed);
+		} else {
+			if (Robot.targetType == Robot.targetTypes.TargetSeek) {
+				speed=0;
+				Robot.ballThrower.ThrowerSpeed(speed);
+			}
+			throwCount=0;
+			Robot.sparkMax1.set(0);
+		}
+
         if (driveJoystick.isRShoulderButton() ) {
 		}
  
@@ -89,9 +116,9 @@ public class ThrowerControl extends CommandBase {
 
 		// Log the thrower motor percentage to the Smart Dashboard 
 		SmartDashboard.putNumber("Motor Percentage",speed*100);
-		int rpm = (int)Math.abs(Robot.throw1.getSelectedSensorVelocity());
 		SmartDashboard.putNumber("Motor RPM",rpm/100);
 		SmartDashboard.putNumber("Motor RPM 2",rpm);
+		SmartDashboard.putNumber("Throw Count",throwCount);
 
 		delay--;	
 	}

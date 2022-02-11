@@ -57,6 +57,10 @@ public class Robot extends TimedRobot {
 
 	public static double voltageThreshold = 10.0;
 
+  public static double ThrowerRPM=0;
+
+
+
 
   // Automation Variables
   public static double robotTurn = 0;

@@ -72,7 +72,7 @@ public class DriverControl extends CommandBase {
 			sparkSpeed=0;
 		}
 
-		Robot.sparkMax1.set(sparkSpeed);
+		//Robot.sparkMax1.set(sparkSpeed);
 
   		// Log the Joystick X,Y Axis to the SmartDashboard.
 		SmartDashboard.putNumber("JoyStick Y Axis",Y);
