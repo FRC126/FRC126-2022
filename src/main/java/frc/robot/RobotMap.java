@@ -45,7 +45,11 @@ public class RobotMap {
 	public static int RightDriveMotorCanID1 = 22;
 	public static int RightDriveMotorCanID2 = 23;
 
-	// Driver Motor Can ID's
+	// Climber Arm Motors
+	public static int RightClimberMotor = 24;
+	public static int LeftClimberMotor = 25;
+
+	// Thrower Motor Can ID's
 	public static int ThrowerMotorCanID1 = 9;
 	public static int ThrowerMotorCanID2 = 10;
 
@@ -59,6 +63,8 @@ public class RobotMap {
 	public static int left2Inversion;
 	public static int right1Inversion;
 	public static int right2Inversion;
+	public static int LeftClimberInversion;
+	public static int RightClimberInversion;
 
 	//Position Calibrations
 	public static void setRobot(double robotID){
@@ -71,6 +77,8 @@ public class RobotMap {
 			left2Inversion     = 1;
 			right1Inversion    = 1;
 			right2Inversion    = 1;
+			LeftClimberInversion = 1;
+			RightClimberInversion = 1;
 		} else { // 2022 DriveBase
 			SparkMax1Inversion = 1; // Motor inversions
 			SparkMax2Inversion = 1;
@@ -80,6 +88,8 @@ public class RobotMap {
 			left2Inversion     = 1;
 			right1Inversion    = 1;
 			right2Inversion    = 1;
+			LeftClimberInversion = 1;
+			RightClimberInversion = 1;
 		}
 	}
 

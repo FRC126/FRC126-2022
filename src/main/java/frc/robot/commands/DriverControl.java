@@ -29,6 +29,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriverControl extends CommandBase {
     static int count;
+	static double sparkIncr=0;
 
     public DriverControl(WestCoastDrive subsystem) {
 		addRequirements(subsystem);
@@ -58,6 +59,10 @@ public class DriverControl extends CommandBase {
         double Y = driveJoystick.getLeftStickY();
         double X = driveJoystick.getRightStickX();
 
+		double RY = driveJoystick.getRightStickY();
+
+
+
         Robot.driveBase.Drive(X,Y);
 
 		if(Robot.robotDrive > 0) {
@@ -67,7 +72,12 @@ public class DriverControl extends CommandBase {
 			SmartDashboard.putNumber("Turns",turns);
 			SmartDashboard.putNumber("RPMS",rpms);
 		} else {
-			Robot.sparkMax1.set(0);
+			if ( RY > -0.1 && RY < 0.1 ) {
+			    Robot.sparkMax1.set(0);	
+			} else {
+                Robot.sparkMax1.set(RY); 
+			}
+			
 		}
 
   		// Log the Joystick X,Y Axis to the SmartDashboard.

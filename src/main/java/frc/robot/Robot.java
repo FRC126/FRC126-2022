@@ -19,11 +19,17 @@
 
 package frc.robot;
 
+
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.cscore.VideoSink;
+import edu.wpi.first.cscore.VideoSource;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 //import edu.wpi.first.wpilibj.Timer;
 //import edu.wpi.first.wpilibj.DigitalInput;
 //import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.cameraserver.CameraServer;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
@@ -46,6 +52,9 @@ public class Robot extends TimedRobot {
 
   public static TalonFX throw1 = new TalonFX(RobotMap.ThrowerMotorCanID1);
   public static TalonFX throw2 = new TalonFX(RobotMap.ThrowerMotorCanID2);
+
+  public static TalonFX LeftClimber = new TalonFX(RobotMap.LeftClimberMotor);
+  public static TalonFX RightClimber = new TalonFX(RobotMap.RightClimberMotor);
 
   public static TalonFX leftDriveMotor1 = new TalonFX(RobotMap.LeftDriveMotorCanID1);
   public static TalonFX leftDriveMotor2 = new TalonFX(RobotMap.LeftDriveMotorCanID2);
@@ -72,6 +81,8 @@ public class Robot extends TimedRobot {
   public static WestCoastDrive driveBase;
   public static PixyVision pixyVision;
   public static LimeLight limeLight;
+	public static UsbCamera driveCam;
+	public static VideoSink server;
 
   public static enum targetHeights{LowTarget,HighTarget};
   public static enum targetTypes{NoTarget,BallSeek,TargetSeek, PixyTargetSeek};
@@ -105,6 +116,13 @@ public class Robot extends TimedRobot {
 
     internalData.initGyro();
     internalData.resetGyro();
+
+    driveCam = CameraServer.startAutomaticCapture();
+		server = CameraServer.getServer();
+
+    driveCam.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
+		server.setSource(driveCam);
+    
 
     Log.print(0, "Robot", "Robot Init Complete");
   }

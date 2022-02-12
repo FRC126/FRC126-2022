@@ -113,7 +113,7 @@ public class PixyCameraData extends CommandBase {
 		    Robot.pixyVision.setLamp(true,false);
 		} else {
 			Robot.pixyVision.setLamp(false,false);
-			//return;
+			return;
 		}
 		
 	    if (Robot.pixyVision.packetData[objectId].isValid) {
