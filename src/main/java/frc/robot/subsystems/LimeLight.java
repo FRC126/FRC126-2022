@@ -46,8 +46,25 @@ public class LimeLight extends SubsystemBase {
 
 	/************************************************************************
 	 ************************************************************************/
-
-    public void periodic() {}
+    @Override
+    public void periodic() {
+        //if ( Robot.trackTarget == Robot.targetTypes.throwingTarget ||
+        //Robot.trackTarget == Robot.targetTypes.turretOnly ) {
+            getEntry("pipeline").setNumber(0);
+        //} else {
+        //    getEntry("pipeline").setNumber(1);
+        //}
+        double tv = getEntry("tv").getDouble(0);
+        double tx = getEntry("tx").getDouble(0);
+        double ty = getEntry("ty").getDouble(0);
+        double ta = getEntry("ta").getDouble(0);
+        
+        if (tv < 1.0) {
+            setllTargetData(false, 0, 0, 0);
+        } else {
+            setllTargetData(true, ta, tx, ty);
+        }        
+    }
 
 	/************************************************************************
 	 ************************************************************************/
@@ -107,61 +124,36 @@ public class LimeLight extends SubsystemBase {
 	/************************************************************************
 	 ************************************************************************/
 
-    public void getCameraData() {
-
-        //if ( Robot.trackTarget == Robot.targetTypes.throwingTarget ||
-        //Robot.trackTarget == Robot.targetTypes.turretOnly ) {
-            NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(0);
-        //} else {
-        //    NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(1);
-        //}
-        double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0);
-        double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0);
-        double ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0);
-        double ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0);
-        
-        if (tv < 1.0) {
-            setllTargetData(false, 0, 0, 0);
-        } else {
-            setllTargetData(true, ta, tx, ty);
-        }        
-    }
-
-	/************************************************************************
-	 ************************************************************************/
-
     public void setLED(boolean onOff) {
-        if (onOff) {
-            NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
-        } else {
-            NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
-        }    
+        getEntry("ledMode").setNumber(onOff ? 1 : 0);
     }
 
 	/************************************************************************
 	 ************************************************************************/
 
     public void setCameraMode(boolean vision) {
-        if (vision) {
-            NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(0);
-        } else {
-            NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(1);
-        }    
+        getEntry("camMode").setNumber(vision ? 0 : 1);
     }
 
 	/************************************************************************
 	 ************************************************************************/
 
     public void setPipeline(int pipeline) {
-        NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(pipeline);
+        getEntry("pipeline").setNumber(pipeline);
     }
 
 	/************************************************************************
 	 ************************************************************************/
 
     public void setStreamMode(int mode) {
-        NetworkTableInstance.getDefault().getTable("limelight").getEntry("stream").setNumber(mode);
+        getEntry("stream").setNumber(mode);
     }
 
+    /************************************************************************
+	 ************************************************************************/
+
+    public NetworkTableEntry getEntry(String entry) {
+        return NetworkTableInstance.getDefault().getTable("limelight").getEntry(entry);   
+    }
 }
 

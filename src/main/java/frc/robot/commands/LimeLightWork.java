@@ -17,13 +17,16 @@ package frc.robot.commands;
 import frc.robot.Robot;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
+
+import java.util.Arrays;
+import java.util.List;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LimeLightWork extends CommandBase {
     public static int iter=0;
     int centeredCount=0;
+    private List<String> limelightParams = Arrays.asList("tv", "tx", "ty", "ta", "ts", "tl", "tshort", "tlong", "thor", "tvert", "getpipe", "camtran");
 
 	/************************************************************************
 	 ************************************************************************/
@@ -46,19 +49,9 @@ public class LimeLightWork extends CommandBase {
     public void execute() {
         SmartDashboard.putBoolean("shootnow:", Robot.shootNow);
 
-        NetworkTable networkTable = getLimeLightNetworkTable();
-        SmartDashboard.putNumber("LL tv", networkTable.getEntry("tv").getDouble(0));
-        SmartDashboard.putNumber("LL tx", networkTable.getEntry("tx").getDouble(0));
-        SmartDashboard.putNumber("LL ty", networkTable.getEntry("ty").getDouble(0));
-        SmartDashboard.putNumber("LL ta", networkTable.getEntry("ta").getDouble(0));
-        SmartDashboard.putNumber("LL ts", networkTable.getEntry("ts").getDouble(0));
-        SmartDashboard.putNumber("LL tl", networkTable.getEntry("tl").getDouble(0));
-        SmartDashboard.putNumber("LL tshort", networkTable.getEntry("tshort").getDouble(0));
-        SmartDashboard.putNumber("LL tlong", networkTable.getEntry("tlong").getDouble(0));
-        SmartDashboard.putNumber("LL thor", networkTable.getEntry("thor").getDouble(0));
-        SmartDashboard.putNumber("LL tvert", networkTable.getEntry("tvert").getDouble(0));
-        SmartDashboard.putNumber("LL getpipe", networkTable.getEntry("getpipe").getDouble(0));
-        SmartDashboard.putNumber("LL camtran", networkTable.getEntry("camtran").getDouble(0));
+        limelightParams.forEach(e -> {
+            SmartDashboard.putNumber("LL " + e, Robot.limeLight.getEntry(e).getDouble(0));
+        });
 
         if (Robot.targetType != Robot.targetTypes.TargetSeek) {
             Robot.shootNow=false;
@@ -69,8 +62,6 @@ public class LimeLightWork extends CommandBase {
 
         Robot.limeLight.setLED(true);
         
-        Robot.limeLight.getCameraData();
-
         SmartDashboard.putBoolean("LL Valid:", Robot.limeLight.getllTargetValid());
 
         if (Robot.limeLight.getllTargetValid()){
@@ -170,10 +161,6 @@ public class LimeLightWork extends CommandBase {
             Robot.robotDrive=0;
         }
     }        
-    
-    private NetworkTable getLimeLightNetworkTable(){
-        return NetworkTableInstance.getDefault().getTable("limelight");
-    }    
 
 	/************************************************************************
 	 ************************************************************************/
