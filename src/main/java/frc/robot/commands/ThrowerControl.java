@@ -52,7 +52,7 @@ public class ThrowerControl extends CommandBase {
 		count++;
 
 		if (operatorJoystick.getPovDown()) {
-            throwerRPM=8000;`
+            throwerRPM=8000;
 			autoThrow=true;
 		} else if (operatorJoystick.getPovLeft()) {
 			throwerRPM=11000;
