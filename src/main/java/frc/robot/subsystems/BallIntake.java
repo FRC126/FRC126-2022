@@ -80,6 +80,7 @@ public class BallIntake extends SubsystemBase {
   	/************************************************************************
 	 ************************************************************************/
 
+     
      public void ExtendIntake() {      
         intakeSolenoid1.set(true);
         intakeSolenoid2.set(true);

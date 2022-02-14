@@ -26,11 +26,8 @@ import edu.wpi.first.cscore.VideoSource;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-<<<<<<< Updated upstream
 import edu.wpi.first.cameraserver.CameraServer;
 
-=======
->>>>>>> Stashed changes
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
 import com.ctre.phoenix.motorcontrol.can.*;
@@ -79,14 +76,11 @@ public class Robot extends TimedRobot {
 
 	public static double voltageThreshold = 10.0;
 
-<<<<<<< Updated upstream
-=======
   // For use with limelight class
   public static double ThrowerRPM=0;
 
   // Lidar Light Distance Measure
 	public static LidarLite distance;
->>>>>>> Stashed changes
 
   // Automation Variables
   public static double robotTurn = 0;
