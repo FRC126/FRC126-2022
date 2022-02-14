@@ -34,30 +34,28 @@ public class RobotMap {
 	public static int xboxRStick = 10; // Right stick button
 
     // Motor Can Bus ID's
-    public static int SparkMax1 = 2;
-	public static int SparkMax2 = 3;
-	public static int SparkMax3 = 4;
-	public static int SparkMax4 = 5;
-
+    public static int intakeMotor1CanID = 2;
+	public static int intakeMotor2CanID = 3;
+	public static int feederMotorCanID = 4;
+	
 	// Driver Motor Can ID's
-	public static int LeftDriveMotorCanID1 = 20;
-	public static int LeftDriveMotorCanID2 = 21;
-	public static int RightDriveMotorCanID1 = 22;
-	public static int RightDriveMotorCanID2 = 23;
-
-	// Climber Arm Motors
-	public static int RightClimberMotor = 24;
-	public static int LeftClimberMotor = 25;
+	public static int leftDriveMotorCanID1 = 20;
+	public static int leftDriveMotorCanID2 = 21;
+	public static int rightDriveMotorCanID1 = 22;
+	public static int rightDriveMotorCanID2 = 23;
 
 	// Thrower Motor Can ID's
-	public static int ThrowerMotorCanID1 = 9;
-	public static int ThrowerMotorCanID2 = 10;
+	public static int throwerMotorCanID1 = 9;
+	public static int throwerMotorCanID2 = 10;
 
+	// Climber Motor Can ID's
+	public static int climberMotorLCanID = 11;
+	public static int climberMotorRCanID = 12;
+	
 	//Motor Inversions
-	public static int SparkMax1Inversion;
-	public static int SparkMax2Inversion;
-	public static int SparkMax3Inversion;
-	public static int SparkMax4Inversion;
+	public static int intakeMotor1Inversion;
+	public static int intakeMotor2Inversion;
+	public static int feederMotorIversion;
 
 	public static int left1Inversion;
 	public static int left2Inversion;
@@ -66,24 +64,29 @@ public class RobotMap {
 	public static int LeftClimberInversion;
 	public static int RightClimberInversion;
 
+	public static int climverMotorLInversion;
+	public static int climverMotorRInversion;
+
 	//Position Calibrations
 	public static void setRobot(double robotID){
-		if(robotID == 0){ // 2022 BreadBoard
-			SparkMax1Inversion = 1; // Motor inversions
-			SparkMax2Inversion = 1;
-			SparkMax3Inversion = 1;
-			SparkMax4Inversion = 1;
+		if(robotID == 0) { 
+			// 2022 DriveBase
+			intakeMotor1Inversion = 1; // Motor inversions
+			intakeMotor2Inversion = 1;
+			feederMotorIversion = 1;
+			climverMotorLInversion = 1;
+			climverMotorRInversion = 1;
 			left1Inversion     = 1;
 			left2Inversion     = 1;
 			right1Inversion    = 1;
 			right2Inversion    = 1;
-			LeftClimberInversion = 1;
-			RightClimberInversion = 1;
-		} else { // 2022 DriveBase
-			SparkMax1Inversion = 1; // Motor inversions
-			SparkMax2Inversion = 1;
-			SparkMax3Inversion = 1;
-			SparkMax4Inversion = 1;
+		} else { 
+			// 2022 Breadboard
+			intakeMotor1Inversion = 1; // Motor inversions
+			intakeMotor2Inversion = 1;
+			feederMotorIversion = 1;
+			climverMotorLInversion = 1;
+			climverMotorRInversion = 1;
 			left1Inversion     = 1;
 			left2Inversion     = 1;
 			right1Inversion    = 1;

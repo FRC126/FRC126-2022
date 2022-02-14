@@ -16,7 +16,6 @@
 
 ***********************************/
 
-
 package frc.robot;
 
 
@@ -25,18 +24,24 @@ import edu.wpi.first.cscore.VideoSink;
 import edu.wpi.first.cscore.VideoSource;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-//import edu.wpi.first.wpilibj.Timer;
-//import edu.wpi.first.wpilibj.DigitalInput;
-//import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+<<<<<<< Updated upstream
 import edu.wpi.first.cameraserver.CameraServer;
 
+=======
+>>>>>>> Stashed changes
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
-//import com.revrobotics.ColorSensorV3;
-
 import com.ctre.phoenix.motorcontrol.can.*;
 import frc.robot.subsystems.*;
+import frc.robot.commands.*;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+
+//import com.revrobotics.ColorSensorV3;
+//import edu.wpi.first.wpilibj.Timer;
+//import edu.wpi.first.wpilibj.util.Color;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -45,27 +50,43 @@ import frc.robot.subsystems.*;
  * directory.
  */
 public class Robot extends TimedRobot {
-  public static CANSparkMax sparkMax1 = new CANSparkMax(2, CANSparkMaxLowLevel.MotorType.kBrushless);
-  public static CANSparkMax sparkMax2 = new CANSparkMax(RobotMap.SparkMax2, CANSparkMaxLowLevel.MotorType.kBrushless);
-  //public static CANSparkMax sparkMax3 = new CANSparkMax(RobotMap.SparkMax3, CANSparkMaxLowLevel.MotorType.kBrushless);
-  public static CANSparkMax sparkMax4 = new CANSparkMax(RobotMap.SparkMax4, CANSparkMaxLowLevel.MotorType.kBrushless);
+  // TODO Remove ME
+  public static TalonFX testTalon = new TalonFX(15);
 
-  public static TalonFX throw1 = new TalonFX(RobotMap.ThrowerMotorCanID1);
-  public static TalonFX throw2 = new TalonFX(RobotMap.ThrowerMotorCanID2);
+  // Ball Intake Motors
+  public static CANSparkMax intakeMotor1 = new CANSparkMax(RobotMap.intakeMotor1CanID, CANSparkMaxLowLevel.MotorType.kBrushless);
+  public static CANSparkMax intakeMotor2 = new CANSparkMax(RobotMap.intakeMotor2CanID, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-  public static TalonFX LeftClimber = new TalonFX(RobotMap.LeftClimberMotor);
-  public static TalonFX RightClimber = new TalonFX(RobotMap.RightClimberMotor);
+  // Ball Feeder Motor
+  public static CANSparkMax feederMotor = new CANSparkMax(RobotMap.feederMotorCanID, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-  public static TalonFX leftDriveMotor1 = new TalonFX(RobotMap.LeftDriveMotorCanID1);
-  public static TalonFX leftDriveMotor2 = new TalonFX(RobotMap.LeftDriveMotorCanID2);
-  public static TalonFX rightDriveMotor1 = new TalonFX(RobotMap.RightDriveMotorCanID1);
-  public static TalonFX rightDriveMotor2 = new TalonFX(RobotMap.RightDriveMotorCanID2);
+  // Climber Motors
+  public static TalonFX climberMotorL = new TalonFX(RobotMap.climberMotorLCanID);
+  public static TalonFX climberMotorR = new TalonFX(RobotMap.climberMotorRCanID);
+
+  // Thrower Motors
+  public static TalonFX throwerMotor1 = new TalonFX(RobotMap.throwerMotorCanID1);
+  public static TalonFX throwerMotor2 = new TalonFX(RobotMap.throwerMotorCanID2);
+
+  // Driver Base Motorts
+  public static TalonFX leftDriveMotor1 = new TalonFX(RobotMap.leftDriveMotorCanID1);
+  public static TalonFX leftDriveMotor2 = new TalonFX(RobotMap.leftDriveMotorCanID2);
+  public static TalonFX rightDriveMotor1 = new TalonFX(RobotMap.rightDriveMotorCanID1);
+  public static TalonFX rightDriveMotor2 = new TalonFX(RobotMap.rightDriveMotorCanID2);
   
-  public int RobotID;
+  public int RobotID = 0;
   public static int objectId=1;
 
 	public static double voltageThreshold = 10.0;
 
+<<<<<<< Updated upstream
+=======
+  // For use with limelight class
+  public static double ThrowerRPM=0;
+
+  // Lidar Light Distance Measure
+	public static LidarLite distance;
+>>>>>>> Stashed changes
 
   // Automation Variables
   public static double robotTurn = 0;
@@ -80,40 +101,47 @@ public class Robot extends TimedRobot {
   public static BallIntake ballIntake;
   public static WestCoastDrive driveBase;
   public static PixyVision pixyVision;
+  public static VerticalClimber verticalClimber;
   public static LimeLight limeLight;
 	public static UsbCamera driveCam;
 	public static VideoSink server;
+
+  public static SequentialCommandGroup autonomous; // Create the subsystems that control the hardware
 
   public static enum targetHeights{LowTarget,HighTarget};
   public static enum targetTypes{NoTarget,BallSeek,TargetSeek, PixyTargetSeek};
   public static enum allianceColor{Red,Blue};
   public static targetTypes targetType = Robot.targetTypes.NoTarget;
 
-  
-  /**
+    /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
   @Override
   public void robotInit() {
     
-    // TODO Read from SmartDashboard to switch between platforms
-    RobotID=0;
+    // Set the robot id for use by RobotMap
     RobotMap.setRobot(RobotID);
 
+    // Enable the command scheduler
+    CommandScheduler.getInstance().enable();
+
+    // Create and register the robot Subsystems
     oi = new Controllers();
     log = new Log();
     internalData = new InternalData();
-
-    CommandScheduler.getInstance().enable();
-
-    // Create and register the motorController Subsystem
     ballThrower = new BallThrower();
     ballIntake = new BallIntake();
     driveBase = new WestCoastDrive();
-    pixyVision = new PixyVision();
     limeLight = new LimeLight();
+    verticalClimber = new VerticalClimber();
 
+    // create the lidarlite class on DIO 5
+    distance = new LidarLite(new DigitalInput(5));
+    
+    // Not using the PIXY right now
+    //pixyVision = new PixyVision();
+  
     internalData.initGyro();
     internalData.resetGyro();
 
@@ -131,6 +159,8 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     Log.print(0, "Robot", "Robot Autonomous Init");
+
+    autonomous = new AutoTest();
   }
 
   /** This function is called periodically during autonomous. */
@@ -143,7 +173,11 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     Log.print(0, "Robot", "Robot Teleop Init");
-  }
+  
+    if(autonomous != null){
+			autonomous.cancel();
+		}
+}
 
   /** This function is called periodically during teleoperated mode. */
   @Override

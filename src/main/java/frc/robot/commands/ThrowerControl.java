@@ -29,6 +29,11 @@ public class ThrowerControl extends CommandBase {
     static int count;
 	static double speed;
 	static int delay=0;
+<<<<<<< Updated upstream
+=======
+	static int throwCount=0;
+    static int throwerRPM=0;
+>>>>>>> Stashed changes
 
     public ThrowerControl(BallThrower subsystem) {
 		addRequirements(subsystem);
@@ -44,33 +49,27 @@ public class ThrowerControl extends CommandBase {
 	@Override
 	public void execute() {
 		// Get stick inputs
-		JoystickWrapper driveJoystick = new JoystickWrapper(Robot.oi.driveController, 0.05);
-		//JoystickWrapper operatorJoystick = new JoystickWrapper(Robot.oi.operatorController, 0.05);
-
-		//Log.print(0, "Robot", "operator control");
+		//JoystickWrapper driveJoystick = new JoystickWrapper(Robot.oi.driveController, 0.05);
+		JoystickWrapper operatorJoystick = new JoystickWrapper(Robot.oi.operatorController, 0.05);
 
 		count++;
-
-		//////////////////////////////////////////////////////////////
-		// Thrower Controls
-
-		if(driveJoystick.isXButton()) {
-			Robot.ballThrower.ThrowerSpeed(0.90);
-        }    
-					
-		if (driveJoystick.isYButton()) {
-			speed=0;
-			Robot.ballThrower.ThrowerSpeed(speed);
-        }
-
-        if (driveJoystick.isAButton()) {
-			if ( delay <= 0 ) {
-				speed += 0.05;
-				if (speed > 1.0) { speed = 1; }
-				delay=15;
-				Robot.ballThrower.ThrowerSpeed(speed);
-			} 
+ 
+        if (operatorJoystick.isAButton()) {
+            // Run Ball Intake
+		    if (delay <= 0) {
+				throwerRPM+=500;
+				delay=5;
+			}	
         } 
+
+		if (operatorJoystick.isBButton()) {
+            // Run Ball Intake
+		    if (delay <= 0) {
+				throwerRPM-=500;
+				delay=5;
+			}	
+        } 
+<<<<<<< Updated upstream
 		
 		if (driveJoystick.isBButton()) {
 			if ( delay <= 0 ) {
@@ -92,6 +91,20 @@ public class ThrowerControl extends CommandBase {
 		int rpm = (int)Math.abs(Robot.throw1.getSelectedSensorVelocity());
 		SmartDashboard.putNumber("Motor RPM",rpm/100);
 		SmartDashboard.putNumber("Motor RPM 2",rpm);
+=======
+
+		if (operatorJoystick.isYButton()) {
+            // Run Ball Intake
+		    throwerRPM=0;
+        } 
+
+		if (throwerRPM > 20000) { throwerRPM = 20000; }
+		if (throwerRPM < 0) { throwerRPM = 0; }
+
+		Robot.ballThrower.throwerRPM(throwerRPM);
+
+		SmartDashboard.putNumber("Thrower RPM",throwerRPM);
+>>>>>>> Stashed changes
 
 		delay--;	
 	}

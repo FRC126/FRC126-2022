@@ -19,6 +19,9 @@ import frc.robot.RobotMap;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+//import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
@@ -29,6 +32,7 @@ public class WestCoastDrive extends SubsystemBase {
 	double leftMultiplier, rightMultiplier, leftSpeed, rightSpeed, fbSlowDown, rotSlowDown, limiter, left1RPM, left2RPM, right1RPM, right2RPM;
 	double previousLimiter = 1;
 
+	private DoubleSolenoid shiftSolenoid;
 
 	/************************************************************************
 	 ************************************************************************/
@@ -40,6 +44,8 @@ public class WestCoastDrive extends SubsystemBase {
 
 		leftSpeed = 0;
 		rightSpeed = 0;
+
+        shiftSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,2,3);
 	}
 
 	/************************************************************************
@@ -90,6 +96,20 @@ public class WestCoastDrive extends SubsystemBase {
 		peakrpms[3] = right2RPM;
 		Arrays.sort(peakrpms);
 		return(peakrpms[peakrpms.length - 1]);
+	}
+
+	/************************************************************************
+	 ************************************************************************/
+
+	 public void shiftUp() {
+		shiftSolenoid.set(DoubleSolenoid.Value.kForward);
+	}
+
+    /************************************************************************
+	 ************************************************************************/
+
+	public void shiftDown() {
+		shiftSolenoid.set(DoubleSolenoid.Value.kReverse);
 	}
 
 	/************************************************************************

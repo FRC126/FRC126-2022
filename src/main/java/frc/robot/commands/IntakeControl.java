@@ -24,11 +24,13 @@ import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class IntakeControl extends CommandBase {
     static int count=0;
 	static int delay=0;
     static boolean intakeExtended=false;
+	static int intakeRPM=0;
 
     public IntakeControl(BallIntake subsystem) {
 		addRequirements(subsystem);
@@ -69,11 +71,31 @@ public class IntakeControl extends CommandBase {
             }    
         }
         
+		double foo = operatorJoystick.getRightStickY();
+		if (foo > .1 || foo < -.1) {
+            intakeRPM = (int)(foo * 20000);
+		}
+		
         if (operatorJoystick.isAButton()) {
             // Run Ball Intake
-            Robot.ballIntake.IntakeSpeed(1);
+		    intakeRPM=18000;
         } 
-		
+
+		if (operatorJoystick.isBButton()) {
+            // Run Ball Intake
+		    intakeRPM=5000;
+        } 
+
+		if (operatorJoystick.isXButton()) {
+            // Run Ball Intake
+		    intakeRPM=10000;
+        } 
+
+		if (operatorJoystick.isYButton()) {
+            // Run Ball Intake
+		    intakeRPM=0;
+        } 
+
 		delay--;	
 	}
 
