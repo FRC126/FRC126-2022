@@ -72,30 +72,14 @@ public class IntakeControl extends CommandBase {
         }
         
 		double foo = operatorJoystick.getRightStickY();
-		if (foo > .1 || foo < -.1) {
-            intakeRPM = (int)(foo * 20000);
+		if (foo > .2) {
+			Robot.ballIntake.IntakeRun();
+		} else if ( foo < -.2) {
+			Robot.ballIntake.IntakeReverse();
+		} else {
+			Robot.ballIntake.IntakeStop();
 		}
 		
-        if (operatorJoystick.isAButton()) {
-            // Run Ball Intake
-		    intakeRPM=18000;
-        } 
-
-		if (operatorJoystick.isBButton()) {
-            // Run Ball Intake
-		    intakeRPM=5000;
-        } 
-
-		if (operatorJoystick.isXButton()) {
-            // Run Ball Intake
-		    intakeRPM=10000;
-        } 
-
-		if (operatorJoystick.isYButton()) {
-            // Run Ball Intake
-		    intakeRPM=0;
-        } 
-
 		delay--;	
 	}
 

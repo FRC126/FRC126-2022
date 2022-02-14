@@ -59,6 +59,10 @@ public class BallIntake extends SubsystemBase {
         IntakeSpeed(0.3);
     }
 
+    public void IntakeReverse() {
+        IntakeSpeed(-0.3);
+    }
+
     public void IntakeStop() {
         IntakeSpeed(0);
     }
@@ -80,7 +84,7 @@ public class BallIntake extends SubsystemBase {
   	/************************************************************************
 	 ************************************************************************/
 
-     
+
      public void ExtendIntake() {      
         intakeSolenoid1.set(true);
         intakeSolenoid2.set(true);

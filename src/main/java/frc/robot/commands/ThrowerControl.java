@@ -31,6 +31,7 @@ public class ThrowerControl extends CommandBase {
 	static int delay=0;
 	static int throwCount=0;
     static int throwerRPM=0;
+	static boolean autoThrow=false;
 
     public ThrowerControl(BallThrower subsystem) {
 	}
@@ -49,7 +50,27 @@ public class ThrowerControl extends CommandBase {
 		JoystickWrapper operatorJoystick = new JoystickWrapper(Robot.oi.operatorController, 0.05);
 
 		count++;
- 
+
+		if (operatorJoystick.getPovDown()) {
+            throwerRPM=8000;`
+			autoThrow=true;
+		} else if (operatorJoystick.getPovLeft()) {
+			throwerRPM=11000;
+			autoThrow=true;
+		} else if (operatorJoystick.getPovUp()) {
+			throwerRPM=14000;
+			autoThrow=true;
+		} else if (operatorJoystick.getPovRight()) {
+			throwerRPM=17000;
+			autoThrow=true;
+		} else {
+			if ( autoThrow == true ) {
+				throwerRPM=0;
+				autoThrow=false;
+				Robot.ballThrower.ThowerIntakeStop();
+			}
+		}	
+
         if (operatorJoystick.isAButton()) {
             // Run Ball Intake
 		    if (delay <= 0) {
@@ -74,7 +95,11 @@ public class ThrowerControl extends CommandBase {
 		if (throwerRPM > 20000) { throwerRPM = 20000; }
 		if (throwerRPM < 0) { throwerRPM = 0; }
 
-		Robot.ballThrower.throwerRPM(throwerRPM);
+		boolean rpmReached = Robot.ballThrower.throwerRPM(throwerRPM);
+
+		if (rpmReached && autoThrow) {
+			Robot.ballThrower.ThowerIntakeRun();
+		}
 
 		SmartDashboard.putNumber("Thrower RPM",throwerRPM);
 
