@@ -48,14 +48,6 @@ public class DriverControl extends CommandBase {
 
 		count++;
 
-		if (driveJoystick.isLShoulderButton() ) {
-			// TODO Shift Up Drive Train
-		}
-
-        if (driveJoystick.isRShoulderButton() ) {
-			// TODO Shift Down Drive Train
-		}
-
         double Y = driveJoystick.getLeftStickY();
         double X = driveJoystick.getRightStickX();
 
@@ -64,6 +56,7 @@ public class DriverControl extends CommandBase {
 		Robot.driveBase.Drive(X,Y);
 
 		if (driveJoystick.isLShoulderButton()) {
+			// TODO Shift Down Drive Train
 		    if (delay <= 0 ) {
 				Robot.driveBase.shiftDown();
 				delay=20;
@@ -71,6 +64,7 @@ public class DriverControl extends CommandBase {
 		}
 
 		if (driveJoystick.isRShoulderButton()) {
+			// TODO Shift Up Drive Train
 		    if (delay <= 0 ) {
 				Robot.driveBase.shiftUp();
 				delay=20;

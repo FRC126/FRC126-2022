@@ -14,8 +14,8 @@
 
 package frc.robot.subsystems;
 
-//import frc.robot.Robot;
-//import frc.robot.commands.*;
+import frc.robot.Robot;
+import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -29,7 +29,7 @@ public class VerticalClimber extends SubsystemBase {
      public VerticalClimber() {
         // Register this subsystem with command scheduler and set the default command
         CommandScheduler.getInstance().registerSubsystem(this);
-        //setDefaultCommand(new IntakeControl(this));
+        setDefaultCommand(new ClimberControl(this));
     }
 
 	/************************************************************************
@@ -42,6 +42,8 @@ public class VerticalClimber extends SubsystemBase {
 
     public void RaiseClimber() {
         // TODO Raise Climber
+        
+        // Need to use encoder to track max extension
     }   
 
   	/************************************************************************
@@ -49,6 +51,18 @@ public class VerticalClimber extends SubsystemBase {
 
     public void LowerClimber() {
         // TODO Lower Climber
+
+        // Need to use encoder to track retraction.
+
+        if (Robot.leftClimbLimit.get() == true) {
+            // Stop lowering left arm
+            // zero encoder
+        }
+
+        if (Robot.rightClimbLimit.get() == true) {
+            // Stop lowering rightlc -l arm
+            // zero encoder
+        }
     }
 }
 

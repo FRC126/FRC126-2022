@@ -27,7 +27,6 @@ public class DriveWork extends CommandBase {
     double driveLr;
     double targetAngle;
     int iters;
-    int count=0;
 
     public DriveWork(double fb, double lr, int iters_in) {
         // Use requires() here to declare subsystem dependencies
@@ -44,7 +43,7 @@ public class DriveWork extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     public void execute() {
-        count--;
+        iters--;
         if(driveLr == 0) {
             if(Robot.internalData.getGyroAngle() - targetAngle > 1) {
                 Robot.driveBase.Drive(driveFb, -0.1);
@@ -62,7 +61,7 @@ public class DriveWork extends CommandBase {
 
     // Make this return true when this Command no longer needs to run execute()
     public boolean isFinished() {
-        if (count <= 0) {
+        if (iters <= 0) {
             Robot.driveBase.Drive(0, 0);
             return true;
         }

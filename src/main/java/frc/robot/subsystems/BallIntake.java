@@ -50,20 +50,28 @@ public class BallIntake extends SubsystemBase {
 	 ************************************************************************/
 
     public void IntakeSpeed(double speed) {
-        // TODO Define Thrower Motors  
         Robot.intakeMotor1.set(speed);
         Robot.intakeMotor2.set(speed);
     }   
 
-    public void IntakeRun() {
+  	/************************************************************************
+	 ************************************************************************/
+
+     public void IntakeRun() {
         IntakeSpeed(0.3);
     }
 
-    public void IntakeReverse() {
+  	/************************************************************************
+	 ************************************************************************/
+
+     public void IntakeReverse() {
         IntakeSpeed(-0.3);
     }
 
-    public void IntakeStop() {
+  	/************************************************************************
+	 ************************************************************************/
+
+     public void IntakeStop() {
         IntakeSpeed(0);
     }
 
@@ -83,7 +91,6 @@ public class BallIntake extends SubsystemBase {
 
   	/************************************************************************
 	 ************************************************************************/
-
 
      public void ExtendIntake() {      
         intakeSolenoid1.set(true);

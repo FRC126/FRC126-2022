@@ -100,6 +100,9 @@ public class Robot extends TimedRobot {
 	public static UsbCamera driveCam;
 	public static VideoSink server;
 
+  public static DigitalInput rightClimbLimit;
+	public static DigitalInput leftClimbLimit;
+
   public static SequentialCommandGroup autonomous; // Create the subsystems that control the hardware
 
   public static enum targetHeights{LowTarget,HighTarget};
@@ -133,6 +136,9 @@ public class Robot extends TimedRobot {
     // create the lidarlite class on DIO 5
     distance = new LidarLite(new DigitalInput(5));
     
+    rightClimbLimit = new DigitalInput(0);
+    leftClimbLimit = new DigitalInput(1);
+
     // Not using the PIXY right now
     //pixyVision = new PixyVision();
   

@@ -15,20 +15,22 @@
 package frc.robot.commands;
 
 import frc.robot.Robot;
+import frc.robot.InternalData;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
  *
  */
-public class ThrowerWork extends CommandBase {
-    int targetRPM, 
-        iters=0;
-    boolean reachedRPM=false;
+public class IntakeWork extends CommandBase {
+    boolean forward;
+    int iters;
+    int count=0;
 
-    public ThrowerWork(int targetRPM_in, int iters_in) {
+    public IntakeWork(boolean forward_in, int iters_in) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-        targetRPM = targetRPM_in;
+        forward = forward_in;
         iters = iters_in;
     }
 
@@ -38,13 +40,18 @@ public class ThrowerWork extends CommandBase {
 
     // Called repeatedly when this Command is scheduled to run
     public void execute() {
-        iters--;
-        reachedRPM = Robot.ballThrower.throwerRPM(targetRPM);
-    }
+        count--;
+        if(forward) {
+            Robot.ballIntake.IntakeSpeed(0.3);
+        } else {    
+            Robot.ballIntake.IntakeSpeed(-0.3);
+        }    
+     }
 
     // Make this return true when this Command no longer needs to run execute()
     public boolean isFinished() {
-        if (reachedRPM && iters <= 0) {
+        if (count <= 0) {
+            Robot.ballIntake.IntakeSpeed(0.0);
             return true;
         }
         return false;
@@ -52,7 +59,7 @@ public class ThrowerWork extends CommandBase {
 
     // Called once after isFinished returns true
     public void end(boolean isInteruppted) {
-        Robot.ballThrower.throwerRPM(0);
+        Robot.ballIntake.IntakeSpeed(0.0);
     }
 
 }
