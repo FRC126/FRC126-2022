@@ -14,9 +14,10 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
+public class PixyException extends Exception{
+	private static final long serialVersionUID = 1L;
 
-public class Controllers {
-    public Joystick driveController = new Joystick(0);
-	public Joystick operatorController = new Joystick(1);
+	public PixyException(String message) {
+		super(message);
+	}
 }

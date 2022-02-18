@@ -1,8 +1,20 @@
-package frc.robot.subsystems;
+/**********************************
+	   _      ___      ____
+	 /' \   /'___`\   /'___\
+	/\_, \ /\_\ /\ \ /\ \__/
+	\/_/\ \\/_/// /__\ \  _``\
+	   \ \ \  // /_\ \\ \ \L\ \
+	    \ \_\/\______/ \ \____/
+		 \/_/\/_____/   \/___/
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+    Team 126 2022 Code       
+	Go get em gaels!
 
-public class Log extends SubsystemBase {
+***********************************/
+
+package frc.robot;
+
+public class Log {
 	static String[] mutedSystems = new String[]{}; // MUTED SYSTEMS
 	public void initDefaultCommand() {
 	}

@@ -1,15 +1,26 @@
-package frc.robot.subsystems;
+/**********************************
+	   _      ___      ____
+	 /' \   /'___`\   /'___\
+	/\_, \ /\_\ /\ \ /\ \__/
+	\/_/\ \\/_/// /__\ \  _``\
+	   \ \ \  // /_\ \\ \ \L\ \
+	    \ \_\/\______/ \ \____/
+		 \/_/\/_____/   \/___/
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+    Team 126 2022 Code       
+	Go get em gaels!
+
+***********************************/
+
+package frc.robot;
+
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.Timer;
 
-public class InternalData extends SubsystemBase {
+public class InternalData {
 	static ADXRS450_Gyro gyro;
-	public void initDefaultCommand() {
-	}
 
 	// Match stats
 	public boolean isAuto() { // Is the robot in auto mode?
