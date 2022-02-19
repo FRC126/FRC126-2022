@@ -39,18 +39,18 @@ import frc.robot.subsystems.*;
  * directory.
  */
 public class Robot extends TimedRobot {
-  public static CANSparkMax sparkMax1 = new CANSparkMax(7, CANSparkMaxLowLevel.MotorType.kBrushless);
+  public static CANSparkMax sparkMax1 = new CANSparkMax(RobotMap.SparkMax1, CANSparkMaxLowLevel.MotorType.kBrushless);
   public static CANSparkMax sparkMax2 = new CANSparkMax(RobotMap.SparkMax2, CANSparkMaxLowLevel.MotorType.kBrushless);
   //public static CANSparkMax sparkMax3 = new CANSparkMax(RobotMap.SparkMax3, CANSparkMaxLowLevel.MotorType.kBrushless);
   public static CANSparkMax sparkMax4 = new CANSparkMax(RobotMap.SparkMax4, CANSparkMaxLowLevel.MotorType.kBrushless);
 
-  public static TalonFX throw1 = new TalonFX(RobotMap.ThrowerMotorCanID1);
-  public static TalonFX throw2 = new TalonFX(RobotMap.ThrowerMotorCanID2);
+  // public static TalonFX throw1 = new TalonFX(RobotMap.ThrowerMotorCanID1);
+  // public static TalonFX throw2 = new TalonFX(RobotMap.ThrowerMotorCanID2);
 
-  public static TalonFX leftDriveMotor1 = new TalonFX(RobotMap.LeftDriveMotorCanID1);
-  public static TalonFX leftDriveMotor2 = new TalonFX(RobotMap.LeftDriveMotorCanID2);
-  public static TalonFX rightDriveMotor1 = new TalonFX(RobotMap.RightDriveMotorCanID1);
-  public static TalonFX rightDriveMotor2 = new TalonFX(RobotMap.RightDriveMotorCanID2);
+  // public static TalonFX leftDriveMotor1 = new TalonFX(RobotMap.LeftDriveMotorCanID1);
+  // public static TalonFX leftDriveMotor2 = new TalonFX(RobotMap.LeftDriveMotorCanID2);
+  // public static TalonFX rightDriveMotor1 = new TalonFX(RobotMap.RightDriveMotorCanID1);
+  // public static TalonFX rightDriveMotor2 = new TalonFX(RobotMap.RightDriveMotorCanID2);
   
   public int RobotID;
   public static int objectId=1;

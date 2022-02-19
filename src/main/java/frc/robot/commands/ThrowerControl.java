@@ -95,9 +95,9 @@ public class ThrowerControl extends CommandBase {
 
 		// Log the thrower motor percentage to the Smart Dashboard 
 		SmartDashboard.putNumber("Motor Percentage",speed*100);
-		int rpm = (int)Math.abs(Robot.throw1.getSelectedSensorVelocity());
-		SmartDashboard.putNumber("Motor RPM",rpm/100);
-		SmartDashboard.putNumber("Motor RPM 2",rpm);
+		// int rpm = (int)Math.abs(Robot.throw1.getSelectedSensorVelocity());
+		// SmartDashboard.putNumber("Motor RPM",rpm/100);
+		// SmartDashboard.putNumber("Motor RPM 2",rpm);
 
 		delay--;	
 	}

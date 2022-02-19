@@ -35,7 +35,7 @@ public class RobotMap {
 
     // Motor Can Bus ID's
     public static int SparkMax1 = 2;
-	public static int SparkMax2 = 3;
+	public static int SparkMax2 = 7;
 	public static int SparkMax3 = 4;
 	public static int SparkMax4 = 5;
 

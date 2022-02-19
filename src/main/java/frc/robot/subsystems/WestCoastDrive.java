@@ -51,10 +51,10 @@ public class WestCoastDrive extends SubsystemBase {
 	 ************************************************************************/
 
 	 public double getMeanRPM() {
-		left1RPM = Math.abs(Robot.leftDriveMotor1.getSelectedSensorVelocity() / 3.41);
-		left2RPM = Math.abs(Robot.leftDriveMotor2.getSelectedSensorVelocity() / 3.41);
-		right1RPM = Math.abs(Robot.rightDriveMotor1.getSelectedSensorVelocity() / 3.41);
-		right2RPM = Math.abs(Robot.rightDriveMotor2.getSelectedSensorVelocity() / 3.41);
+		// left1RPM = Math.abs(Robot.leftDriveMotor1.getSelectedSensorVelocity() / 3.41);
+		// left2RPM = Math.abs(Robot.leftDriveMotor2.getSelectedSensorVelocity() / 3.41);
+		// right1RPM = Math.abs(Robot.rightDriveMotor1.getSelectedSensorVelocity() / 3.41);
+		// right2RPM = Math.abs(Robot.rightDriveMotor2.getSelectedSensorVelocity() / 3.41);
 		return((left1RPM + left2RPM + right1RPM + right2RPM) / 4);
 	}
 
@@ -63,10 +63,10 @@ public class WestCoastDrive extends SubsystemBase {
 
 	 public double getStallRPM() {
 		double[] stallrpms = {0,0,0,0};
-		left1RPM = Math.abs(Robot.leftDriveMotor1.getSelectedSensorVelocity() / 3.41);
-		left2RPM = Math.abs(Robot.leftDriveMotor2.getSelectedSensorVelocity() / 3.41);
-		right1RPM = Math.abs(Robot.rightDriveMotor1.getSelectedSensorVelocity() / 3.41);
-		right2RPM = Math.abs(Robot.rightDriveMotor2.getSelectedSensorVelocity() / 3.41);
+		// left1RPM = Math.abs(Robot.leftDriveMotor1.getSelectedSensorVelocity() / 3.41);
+		// left2RPM = Math.abs(Robot.leftDriveMotor2.getSelectedSensorVelocity() / 3.41);
+		// right1RPM = Math.abs(Robot.rightDriveMotor1.getSelectedSensorVelocity() / 3.41);
+		// right2RPM = Math.abs(Robot.rightDriveMotor2.getSelectedSensorVelocity() / 3.41);
 		stallrpms[0] = left1RPM;
 		stallrpms[1] = left2RPM;
 		stallrpms[2] = right1RPM;
@@ -80,10 +80,10 @@ public class WestCoastDrive extends SubsystemBase {
 
 	 public double getPeakRPM() {
 		double[] peakrpms = {0,0,0,0};
-		left1RPM = Math.abs(Robot.leftDriveMotor1.getSelectedSensorVelocity() / 3.41);
-		left2RPM = Math.abs(Robot.leftDriveMotor2.getSelectedSensorVelocity() / 3.41);
-		right1RPM = Math.abs(Robot.rightDriveMotor1.getSelectedSensorVelocity() / 3.41);
-		right2RPM = Math.abs(Robot.rightDriveMotor2.getSelectedSensorVelocity() / 3.41);
+		// left1RPM = Math.abs(Robot.leftDriveMotor1.getSelectedSensorVelocity() / 3.41);
+		// left2RPM = Math.abs(Robot.leftDriveMotor2.getSelectedSensorVelocity() / 3.41);
+		// right1RPM = Math.abs(Robot.rightDriveMotor1.getSelectedSensorVelocity() / 3.41);
+		// right2RPM = Math.abs(Robot.rightDriveMotor2.getSelectedSensorVelocity() / 3.41);
 		peakrpms[0] = left1RPM;
 		peakrpms[1] = left2RPM;
 		peakrpms[2] = right1RPM;
@@ -115,10 +115,10 @@ public class WestCoastDrive extends SubsystemBase {
 			rightSpeed *= previousLimiter;
 		}
 
-		Robot.leftDriveMotor1.set(ControlMode.PercentOutput, leftSpeed * RobotMap.left1Inversion);
-		Robot.leftDriveMotor2.set(ControlMode.PercentOutput, leftSpeed * RobotMap.left2Inversion);
+		// Robot.leftDriveMotor1.set(ControlMode.PercentOutput, leftSpeed * RobotMap.left1Inversion);
+		// Robot.leftDriveMotor2.set(ControlMode.PercentOutput, leftSpeed * RobotMap.left2Inversion);
 
-        Robot.rightDriveMotor1.set(ControlMode.PercentOutput, rightSpeed * RobotMap.right1Inversion);
-		Robot.rightDriveMotor2.set(ControlMode.PercentOutput, rightSpeed * RobotMap.right2Inversion);
+        // Robot.rightDriveMotor1.set(ControlMode.PercentOutput, rightSpeed * RobotMap.right1Inversion);
+		// Robot.rightDriveMotor2.set(ControlMode.PercentOutput, rightSpeed * RobotMap.right2Inversion);
 	}
 }

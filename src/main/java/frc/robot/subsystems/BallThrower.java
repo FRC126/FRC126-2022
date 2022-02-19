@@ -42,8 +42,8 @@ public class BallThrower extends SubsystemBase {
 	 ************************************************************************/
 
     public void ThrowerSpeed(double speed) {
-        Robot.throw1.set(ControlMode.PercentOutput,speed);
-        Robot.throw2.set(ControlMode.PercentOutput,speed * -1);
+        // Robot.throw1.set(ControlMode.PercentOutput,speed);
+        // Robot.throw2.set(ControlMode.PercentOutput,speed * -1);
     }   
 
   	/************************************************************************
