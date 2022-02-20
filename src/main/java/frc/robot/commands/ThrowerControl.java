@@ -34,11 +34,10 @@ public class ThrowerControl extends CommandBase {
 	static boolean autoThrow=false;
 
     public ThrowerControl(BallThrower subsystem) {
+		addRequirements(subsystem);
 	}
 
-	@Override
 	public void initialize() {
-		Log.print(0, "OI", "Operator control initialized.");
 	}    
 
 	// Called every tick (20ms)
@@ -67,7 +66,7 @@ public class ThrowerControl extends CommandBase {
 			if ( autoThrow == true ) {
 				throwerRPM=0;
 				autoThrow=false;
-				Robot.ballThrower.ThowerIntakeStop();
+				Robot.ballThrower.ThrowerIntakeStop();
 			}
 		}	
 
@@ -98,7 +97,13 @@ public class ThrowerControl extends CommandBase {
 		boolean rpmReached = Robot.ballThrower.throwerRPM(throwerRPM);
 
 		if (rpmReached && autoThrow) {
-			Robot.ballThrower.ThowerIntakeRun();
+			Robot.ballThrower.ThrowerIntakeRun();
+		} else {
+			if (operatorJoystick.isXButton()) {
+				Robot.ballThrower.ThrowerIntakeRun();
+			} else {
+				Robot.ballThrower.ThrowerIntakeStop();
+			}
 		}
 
 		SmartDashboard.putNumber("Thrower RPM",throwerRPM);

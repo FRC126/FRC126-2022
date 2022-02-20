@@ -55,12 +55,12 @@ public class ClimberControl extends CommandBase {
         if (driveJoystick.isAButton()) {
             // Extend the Climber
 		    Robot.verticalClimber.RaiseClimber();
-        } 
-
-		if (driveJoystick.isBButton()) {
+        }  else if (driveJoystick.isBButton()) {
             // Retact the Climber
 		    Robot.verticalClimber.LowerClimber();
-        } 
+        } else {
+		    Robot.verticalClimber.StopClimber();
+		}
 
 		delay--;	
 	}

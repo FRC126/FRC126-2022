@@ -41,17 +41,15 @@ public class LidarLite extends SubsystemBase {
      * @param source The DigitalInput or DigitalSource where the LIDAR-Lite is attached (ex: new DigitalInput(9))
      */
     public LidarLite (DigitalSource source) {
+        CommandScheduler.getInstance().registerSubsystem(this);
+        setDefaultCommand(new DistanceMeasure(this));
+
         counter = new Counter(source);
         counter.setMaxPeriod(1.0);
         // Configure for measuring rising to falling pulses
         counter.setSemiPeriodMode(true);
         counter.reset();
         dataSeries = new double[10];
-    }
-
-    public void initDefaultCommand() {
-        CommandScheduler.getInstance().registerSubsystem(this);
-        setDefaultCommand(new DistanceMeasure(this));
     }
 
     /**

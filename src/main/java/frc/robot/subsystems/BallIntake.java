@@ -22,12 +22,12 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 public class BallIntake extends SubsystemBase {
     int delay=0;
-	private Solenoid intakeSolenoid1;
-	private Solenoid intakeSolenoid2;
-
+	private DoubleSolenoid intakeSolenoid;
+	
 	/************************************************************************
 	 ************************************************************************/
 
@@ -35,9 +35,8 @@ public class BallIntake extends SubsystemBase {
         // Register this subsystem with command scheduler and set the default command
         CommandScheduler.getInstance().registerSubsystem(this);
         setDefaultCommand(new IntakeControl(this));
-    
-        intakeSolenoid1 = new Solenoid(PneumaticsModuleType.CTREPCM,1);
-        intakeSolenoid2 = new Solenoid(PneumaticsModuleType.CTREPCM,2);
+
+        intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,3,4);
     }
 
 	/************************************************************************
@@ -81,11 +80,9 @@ public class BallIntake extends SubsystemBase {
 
     public void MoveIntake(boolean extend) {      
         if (extend) {
-            intakeSolenoid1.set(true);
-            intakeSolenoid2.set(true);
+            intakeSolenoid.set(DoubleSolenoid.Value.kForward);
         } else {
-            intakeSolenoid1.set(false);
-            intakeSolenoid2.set(false);
+            intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
         }
     }
 
@@ -93,16 +90,14 @@ public class BallIntake extends SubsystemBase {
 	 ************************************************************************/
 
      public void ExtendIntake() {      
-        intakeSolenoid1.set(true);
-        intakeSolenoid2.set(true);
+        intakeSolenoid.set(DoubleSolenoid.Value.kForward);
     }
 
   	/************************************************************************
 	 ************************************************************************/
 
     public void RetractIntake() {      
-        intakeSolenoid1.set(true);
-        intakeSolenoid2.set(true);
+        intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
     }
 }
 

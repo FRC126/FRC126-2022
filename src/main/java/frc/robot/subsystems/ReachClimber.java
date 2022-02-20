@@ -29,7 +29,7 @@ public class ReachClimber extends SubsystemBase {
      public ReachClimber() {
         // Register this subsystem with command scheduler and set the default command
         CommandScheduler.getInstance().registerSubsystem(this);
-        //setDefaultCommand(new IntakeControl(this));
+        //setDefaultCommand(new ReachControl(this));
     }
 
 	/************************************************************************

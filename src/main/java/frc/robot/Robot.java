@@ -58,8 +58,8 @@ public class Robot extends TimedRobot {
   public static CANSparkMax feederMotor = new CANSparkMax(RobotMap.feederMotorCanID, CANSparkMaxLowLevel.MotorType.kBrushless);
 
   // Climber Motors
-  public static TalonFX climberMotorL = new TalonFX(RobotMap.climberMotorLCanID);
-  public static TalonFX climberMotorR = new TalonFX(RobotMap.climberMotorRCanID);
+  public static TalonFX climberMotorLeft = new TalonFX(RobotMap.climberMotorLCanID);
+  public static TalonFX climberMotorRight = new TalonFX(RobotMap.climberMotorRCanID);
 
   // Thrower Motors
   public static TalonFX throwerMotor1 = new TalonFX(RobotMap.throwerMotorCanID1);

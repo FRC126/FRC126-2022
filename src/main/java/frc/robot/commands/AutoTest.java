@@ -54,10 +54,10 @@ public class AutoTest extends SequentialCommandGroup {
                 // TODO ?? How long to throw both balls.
                 new ThrowerWork(throwRPM,500),
                 // Run Feeder Motor
-                new InstantCommand(Robot.ballThrower::ThowerIntakeRun,Robot.ballThrower)
+                new InstantCommand(Robot.ballThrower::ThrowerIntakeRun,Robot.ballThrower)
             ),
 
-            new InstantCommand(Robot.ballThrower::ThowerIntakeStop,Robot.ballThrower),
+            new InstantCommand(Robot.ballThrower::ThrowerIntakeStop,Robot.ballThrower),
             new ThrowerWork(0,0),
 
             // TODO should we put the transmission in high?

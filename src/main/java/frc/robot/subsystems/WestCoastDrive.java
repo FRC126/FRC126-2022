@@ -45,7 +45,7 @@ public class WestCoastDrive extends SubsystemBase {
 		leftSpeed = 0;
 		rightSpeed = 0;
 
-        shiftSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,2,3);
+        shiftSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,1,2);
 	}
 
 	/************************************************************************
@@ -136,9 +136,9 @@ public class WestCoastDrive extends SubsystemBase {
 		}
 
 		Robot.leftDriveMotor1.set(ControlMode.PercentOutput, leftSpeed * RobotMap.left1Inversion);
-		Robot.leftDriveMotor2.set(ControlMode.PercentOutput, leftSpeed * RobotMap.left2Inversion);
+		//Robot.leftDriveMotor2.set(ControlMode.PercentOutput, leftSpeed * RobotMap.left2Inversion);
 
-        Robot.rightDriveMotor1.set(ControlMode.PercentOutput, rightSpeed * RobotMap.right1Inversion);
-		Robot.rightDriveMotor2.set(ControlMode.PercentOutput, rightSpeed * RobotMap.right2Inversion);
+        //Robot.rightDriveMotor1.set(ControlMode.PercentOutput, rightSpeed * RobotMap.right1Inversion);
+		//Robot.rightDriveMotor2.set(ControlMode.PercentOutput, rightSpeed * RobotMap.right2Inversion);
 	}
 }
