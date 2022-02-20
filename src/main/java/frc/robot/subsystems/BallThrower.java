@@ -92,7 +92,7 @@ public class BallThrower extends SubsystemBase {
         delay--;
 
         // Test Motor
-        //Robot.testTalon.set(ControlMode.PercentOutput, throwerSpeed);
+        // Robot.testTalon.set(ControlMode.PercentOutput, throwerSpeed);
 
         // Real Thrower Motors
         Robot.throwerMotor1.set(ControlMode.PercentOutput,throwerSpeed);
