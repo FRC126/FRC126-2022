@@ -74,7 +74,7 @@ public class Robot extends TimedRobot {
   public int RobotID = 0;
   public static int objectId=1;
 
-	public static double voltageThreshold = 10.0;
+	public static double voltageThreshold = 8.0;
 
   // For use with limelight class
   public static double ThrowerRPM=0;

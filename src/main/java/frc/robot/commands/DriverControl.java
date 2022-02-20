@@ -44,7 +44,7 @@ public class DriverControl extends CommandBase {
 	@Override
 	public void execute() {
 		// Get stick inputs
-		JoystickWrapper driveJoystick = new JoystickWrapper(Robot.oi.driveController, 0.05);
+		JoystickWrapper driveJoystick = new JoystickWrapper(Robot.oi.driveController, 0.10);
 
 		count++;
 

@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.util.Arrays;
 
@@ -135,10 +136,13 @@ public class WestCoastDrive extends SubsystemBase {
 			rightSpeed *= previousLimiter;
 		}
 
-		Robot.leftDriveMotor1.set(ControlMode.PercentOutput, leftSpeed * RobotMap.left1Inversion);
-		//Robot.leftDriveMotor2.set(ControlMode.PercentOutput, leftSpeed * RobotMap.left2Inversion);
+		SmartDashboard.putNumber("Left Drive Speed", leftSpeed);
+        SmartDashboard.putNumber("Right Drive Speed", rightSpeed);
 
-        //Robot.rightDriveMotor1.set(ControlMode.PercentOutput, rightSpeed * RobotMap.right1Inversion);
-		//Robot.rightDriveMotor2.set(ControlMode.PercentOutput, rightSpeed * RobotMap.right2Inversion);
+		Robot.leftDriveMotor1.set(ControlMode.PercentOutput, leftSpeed * RobotMap.left1Inversion);
+		Robot.leftDriveMotor2.set(ControlMode.PercentOutput, leftSpeed * RobotMap.left2Inversion);
+
+        Robot.rightDriveMotor1.set(ControlMode.PercentOutput, rightSpeed * RobotMap.right1Inversion);
+		Robot.rightDriveMotor2.set(ControlMode.PercentOutput, rightSpeed * RobotMap.right2Inversion);
 	}
 }
