@@ -110,6 +110,9 @@ public class Robot extends TimedRobot {
   public static enum allianceColor{Red,Blue};
   public static targetTypes targetType = Robot.targetTypes.NoTarget;
 
+  public static boolean isAutonomous;
+  public static boolean isThrowCommand;
+
     /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -151,6 +154,8 @@ public class Robot extends TimedRobot {
     driveCam.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
 		server.setSource(driveCam);
     
+    isAutonomous = false;
+    isThrowCommand = false;
 
     Log.print(0, "Robot", "Robot Init Complete");
   }
@@ -161,6 +166,7 @@ public class Robot extends TimedRobot {
     Log.print(0, "Robot", "Robot Autonomous Init");
 
     autonomous = new AutoTest();
+    isAutonomous = true;
   }
 
   /** This function is called periodically during autonomous. */
@@ -174,6 +180,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     Log.print(0, "Robot", "Robot Teleop Init");
   
+    isAutonomous = false;
     if(autonomous != null){
 			autonomous.cancel();
 		}

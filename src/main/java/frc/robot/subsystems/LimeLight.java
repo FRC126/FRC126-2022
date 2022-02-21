@@ -32,7 +32,6 @@ public class LimeLight extends SubsystemBase {
     private int missedCount;
     private int centeredCount;
     private int iter;
-    private boolean throwNow;
     public static SequentialCommandGroup throwCommand;
 
 	/************************************************************************
@@ -55,7 +54,7 @@ public class LimeLight extends SubsystemBase {
 
         iter=0;
 
-        throwNow=false;
+        Robot.isThrowCommand = false;
     }
 
 	/************************************************************************
@@ -189,9 +188,9 @@ public class LimeLight extends SubsystemBase {
             centeredCount=0;
             iter=0;
 
-            if (throwNow == true) {
+            if (Robot.isThrowCommand == true) {
                 throwCommand.cancel();
-                throwNow=false;
+                Robot.isThrowCommand = false;
             }
             
             dashboardData();
@@ -255,10 +254,21 @@ public class LimeLight extends SubsystemBase {
                 Robot.robotTurn = 0;
             } else {
                 iter++;
-                centeredCount=0;
-                Robot.shootNow=false;
-                validCount=0;
 
+                // Don't move forward or back
+                Robot.robotDrive=0;
+                // Initialize all target data
+                Robot.shootNow=false; 
+                setllTargetData(false, 0, 0, 0);
+                validCount=0;
+                missedCount=0;
+                centeredCount=0;
+    
+                if (Robot.isThrowCommand == true) {
+                    throwCommand.cancel();
+                    Robot.isThrowCommand = false;
+                }
+    
                 if (iter > 10 && iter < 350) {
                     // Try turning until we pick up a target
                     Robot.robotTurn= -0.3;
@@ -270,15 +280,13 @@ public class LimeLight extends SubsystemBase {
                     iter=0; 
                 }
 
-                // Don't move forward or back
-                Robot.robotDrive=0;
                 
             }    
         }
 
-        if (Robot.shootNow && throwNow == false) {
+        if (Robot.shootNow && Robot.isThrowCommand == false) {
             throwCommand = new AutoThrow();
-            throwNow=true;
+            Robot.isThrowCommand = true;
         }
 
         dashboardData();

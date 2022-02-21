@@ -36,9 +36,14 @@ public class DriverControl extends CommandBase {
 	@SuppressWarnings("static-access")
 	@Override
 	public void execute() {
+		if (Robot.isAutonomous) {
+			// Ignore user controls during Autonomous
+			return;
+		}
+
 		// Get stick inputs
 		JoystickWrapper driveJoystick = new JoystickWrapper(Robot.oi.driveController, 0.10);
-
+		
 		count++;
 
         double Y = driveJoystick.getLeftStickY();

@@ -38,6 +38,11 @@ public class IntakeControl extends CommandBase {
 	// Called every tick (20ms)
 	@Override
 	public void execute() {
+		if (Robot.isAutonomous) {
+			// Ignore user controls during Autonomous
+			return;
+		}
+
 		// Get stick inputs
 		//JoystickWrapper driveJoystick = new JoystickWrapper(Robot.oi.driveController, 0.05);
 		JoystickWrapper operatorJoystick = new JoystickWrapper(Robot.oi.operatorController, 0.10);

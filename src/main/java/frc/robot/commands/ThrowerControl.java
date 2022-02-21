@@ -39,6 +39,11 @@ public class ThrowerControl extends CommandBase {
 	@SuppressWarnings("static-access")
 	@Override
 	public void execute() {
+		if (Robot.isAutonomous || Robot.isThrowCommand ) {
+			// Ignore user controls during Autonomous
+			return;
+		}
+
 		// Get stick inputs
 		//JoystickWrapper driveJoystick = new JoystickWrapper(Robot.oi.driveController, 0.05);
 		JoystickWrapper operatorJoystick = new JoystickWrapper(Robot.oi.operatorController, 0.05);
