@@ -51,31 +51,38 @@ public class BallThrower extends SubsystemBase {
         int rpm = (int)Math.abs(Robot.testTalon.getSelectedSensorVelocity());
 
         if (rpm < targetRPM-25) {
+            // If we are below the rpm target
             if (delay <= 0 ) {
                 if (rpm < targetRPM-500) {
+                    // If we are more than 500 RPM away, change speed faster
                     if (rpm < targetRPM-1500) {
+                        // If we are more than 1500 RPM away, change speed even faster
                         delay=1;
                     } else {
                         delay=2;
                     }
                     throwerSpeed = throwerSpeed + 0.01;   
-                    throwerSpeed = throwerSpeed + 0.01;   
                 } else {
+                    // if we less than 500 RPM awawy, change speed slower
                     delay=5;
                     throwerSpeed = throwerSpeed + 0.0025;
                 }
                 if (throwerSpeed > 1) { throwerSpeed = 1; }
             }
         } else if (rpm > targetRPM+25) {
+            // If we are above the rpm target
             if (delay <= 0 ) {
                 if (rpm > targetRPM+500) {
+                    // If we are more than 500 RPM away, change speed faster
                     if (rpm > targetRPM+1500) {
+                        // If we are more than 1500 RPM away, change speed even faster
                         delay=1;
                     } else {
                         delay=2;
                     }
                     throwerSpeed = throwerSpeed - 0.01;   
                 } else {
+                    // if we less than 500 RPM awawy, change speed slower
                     delay=5;
                     throwerSpeed = throwerSpeed - 0.0025;
                 }
@@ -91,10 +98,7 @@ public class BallThrower extends SubsystemBase {
 
         delay--;
 
-        // Test Motor
-        // Robot.testTalon.set(ControlMode.PercentOutput, throwerSpeed);
-
-        // Real Thrower Motors
+        // Thrower Motors
         Robot.throwerMotor1.set(ControlMode.PercentOutput,throwerSpeed);
         Robot.throwerMotor2.set(ControlMode.PercentOutput,throwerSpeed * -1);
 
@@ -109,7 +113,6 @@ public class BallThrower extends SubsystemBase {
 	 ************************************************************************/
 
     public void ThrowerIntake(double speed) {
-        // TODO Define Thrower Motors  
         Robot.feederMotor.set(speed);
     }
 

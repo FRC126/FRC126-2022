@@ -20,28 +20,30 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 /**
  *
  */
-public class DriveWork extends CommandBase {
+public class DriveDistance extends CommandBase {
     double driveFb;
     double driveLr;
     double targetAngle;
+    double distance;
     int iters;
 
-    public DriveWork(double fb, double lr, int iters_in) {
+    public DriveDistance(double fb, double lr, double distance_in, int iters_in ) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         driveFb = fb;
         driveLr = lr;
+        distance = distance_in;
         iters = iters_in;
     }
 
     // Called just before this Command runs the first time
     public void initialize() {
         targetAngle = Robot.internalData.getGyroAngle();
+        Robot.driveBase.resetEncoders();
     }
 
     // Called repeatedly when this Command is scheduled to run
     public void execute() {
-        iters--;
         boolean useGyro=false;
 
         if(driveLr == 0 && useGyro == true) {
@@ -54,13 +56,16 @@ public class DriveWork extends CommandBase {
                 Robot.driveBase.Drive(driveFb, 0);
             }
         } else {
-            Robot.driveBase.Drive(driveFb, driveLr);            
+            Robot.driveBase.Drive(driveFb, driveLr);
+            
         }
      }
 
     // Make this return true when this Command no longer needs to run execute()
     public boolean isFinished() {
-        if (iters <= 0) {
+        iters--;
+        double currentDistance = Robot.driveBase.getDistanceInches();
+        if (currentDistance >= distance || iters <= 0) {
             Robot.driveBase.Drive(0, 0);
             return true;
         }
@@ -73,3 +78,4 @@ public class DriveWork extends CommandBase {
     }
 
 }
+

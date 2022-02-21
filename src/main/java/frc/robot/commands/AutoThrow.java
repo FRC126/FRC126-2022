@@ -19,39 +19,17 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Robot;
  
-public class AutoTest extends SequentialCommandGroup {
-    public AutoTest() {
-        // TODO Target RPM for throw after picking up second ball
-        int throwRPM=12000;
+public class AutoThrow extends SequentialCommandGroup {
+    public AutoThrow() {
+            // TODO Target RPM for throw after picking up second ball
+            int throwRPM=12000;
 
         addCommands(
-            // Shift the Transmission to Low
-            new InstantCommand(Robot.driveBase::shiftDown,Robot.driveBase),
-
-            // Extend the Intake
-            new InstantCommand(Robot.ballIntake::ExtendIntake,Robot.ballIntake),
-
-            // Start Running the Intake
-            new InstantCommand(Robot.ballIntake::IntakeRun,Robot.ballIntake),
-
-            // Backup to the Ball by measuring distance traveled
-            new DriveDistance(0.3,0,36,250),
-            // Backup to the Ball, TODO how long to backup and what speed
-            // new DriveWork(-0.3,0,150),
-
-            // Keep running intake for a little bit, will stop when done
-            new IntakeWork(true,20),
-
             // Stop Running the Intake
             new InstantCommand(Robot.ballIntake::IntakeStop,Robot.ballIntake),
 
             // Retract the Intake
             new InstantCommand(Robot.ballIntake::RetractIntake,Robot.ballIntake),
-
-            // Turn 180 degrees, TODO how long to turn and what speed
-            new DriveWork(0,.3,200),
-            // Turn by degrees
-            // new TurnDegrees(0.3,180,250),
 
             // Spin up the thrower
             new ThrowerWork(throwRPM,0),
@@ -64,13 +42,7 @@ public class AutoTest extends SequentialCommandGroup {
             ),
 
             new InstantCommand(Robot.ballThrower::ThrowerIntakeStop,Robot.ballThrower),
-            new ThrowerWork(0,0),
-
-            // put the transmission in high gear
-            new InstantCommand(Robot.driveBase::shiftUp,Robot.driveBase)
+            new ThrowerWork(0,0)
         );
     }       
 }
-
-
-

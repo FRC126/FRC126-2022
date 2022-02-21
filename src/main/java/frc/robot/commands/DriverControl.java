@@ -14,16 +14,9 @@
 
 package frc.robot.commands;
 
-import frc.robot.JoystickWrapper;
-//import frc.robot.Log;
 import frc.robot.Robot;
 import frc.robot.subsystems.*;	
-
-//import edu.wpi.first.wpilibj.Solenoid;
-//import com.ctre.phoenix.motorcontrol.ControlMode;
-//import edu.wpi.first.wpilibj.DoubleSolenoid;
-//import edu.wpi.first.wpilibj.util.Color;
-
+import frc.robot.JoystickWrapper;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -51,10 +44,6 @@ public class DriverControl extends CommandBase {
         double Y = driveJoystick.getLeftStickY();
         double X = driveJoystick.getRightStickX();
 
-		double RY = driveJoystick.getRightStickY();
-
-		Robot.driveBase.Drive(X,Y);
-
 		if (driveJoystick.isLShoulderButton()) {
 			// TODO Shift Down Drive Train
 		    if (delay <= 0 ) {
@@ -76,10 +65,17 @@ public class DriverControl extends CommandBase {
 		// Log the Joystick X,Y Axis to the SmartDashboard.
 		SmartDashboard.putNumber("JoyStick Y Axis",Y);
 		SmartDashboard.putNumber("JoyStick X Axis",X);
-
 		SmartDashboard.putNumber("robotTurn",Robot.robotTurn);
 		SmartDashboard.putNumber("robotDrive",Robot.robotDrive);
+
+		if (Robot.targetType == Robot.targetTypes.TargetSeek) {
+			Robot.driveBase.Drive(Robot.robotDrive,Robot.robotTurn);
+		} else {
+			Robot.driveBase.Drive(X,Y);
+		}
 	}
+
+
 
 	// Returns true if command finished
 	@Override

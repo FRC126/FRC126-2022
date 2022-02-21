@@ -145,4 +145,37 @@ public class WestCoastDrive extends SubsystemBase {
         Robot.rightDriveMotor1.set(ControlMode.PercentOutput, rightSpeed * RobotMap.right1Inversion);
 		Robot.rightDriveMotor2.set(ControlMode.PercentOutput, rightSpeed * RobotMap.right2Inversion);
 	}
+
+    /************************************************************************
+	 ************************************************************************/
+
+	public void resetEncoders() {
+		Robot.leftDriveMotor1.setSelectedSensorPosition(0);
+		Robot.leftDriveMotor2.setSelectedSensorPosition(0);
+
+        Robot.rightDriveMotor1.setSelectedSensorPosition(0);
+		Robot.rightDriveMotor2.setSelectedSensorPosition(0);
+	}
+
+    /************************************************************************
+	 ************************************************************************/
+
+	public double getDistanceInches() {
+		double ticksPerRotation=2048;
+		double wheelDiameter = 5;
+		double gearRatio = 3.41;
+		
+		double left1 = Robot.leftDriveMotor1.getSelectedSensorPosition();
+		double left2 = Robot.leftDriveMotor2.getSelectedSensorPosition();
+
+        double right1 = Robot.rightDriveMotor1.getSelectedSensorPosition();
+		double right2 = Robot.rightDriveMotor2.getSelectedSensorPosition();
+
+		double avg = (left1 + left2 + right1+ right2) / 4;
+
+		double distance = ((avg / ticksPerRotation) / gearRatio) * (wheelDiameter *3.1459);
+
+		return(distance);
+	}
+
 }

@@ -19,12 +19,6 @@ import frc.robot.Log;
 import frc.robot.Robot;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-//import edu.wpi.first.wpilibj.Solenoid;
-//import com.ctre.phoenix.motorcontrol.ControlMode;
-//import edu.wpi.first.wpilibj.DoubleSolenoid;
-//import edu.wpi.first.wpilibj.util.Color;
 
 public class IntakeControl extends CommandBase {
     static int count=0;
@@ -56,7 +50,7 @@ public class IntakeControl extends CommandBase {
 		if(operatorJoystick.isLShoulderButton()) {
             if (delay <= 0 && !intakeExtended) {
                 // Extend Ball Intake
-                Robot.ballIntake.MoveIntake(true);
+                Robot.ballIntake.ExtendIntake();
                 intakeExtended=true;
                 delay=100;
             }    
@@ -65,7 +59,7 @@ public class IntakeControl extends CommandBase {
 		if (operatorJoystick.isRShoulderButton()) {
             if (delay <= 0 && intakeExtended) {
                 // Retract Ball Intake
-                Robot.ballIntake.MoveIntake(false);
+                Robot.ballIntake.RetractIntake();
                 intakeExtended=false;
                 delay=100;
             }    

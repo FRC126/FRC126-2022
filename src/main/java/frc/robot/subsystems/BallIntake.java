@@ -18,9 +18,6 @@ import frc.robot.Robot;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 
@@ -72,18 +69,6 @@ public class BallIntake extends SubsystemBase {
 
      public void IntakeStop() {
         IntakeSpeed(0);
-    }
-
-  	/************************************************************************
-    * Extend/Retract Intake
-	 ************************************************************************/
-
-    public void MoveIntake(boolean extend) {      
-        if (extend) {
-            intakeSolenoid.set(DoubleSolenoid.Value.kForward);
-        } else {
-            intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
-        }
     }
 
   	/************************************************************************
