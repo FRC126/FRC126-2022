@@ -25,6 +25,9 @@ public class ThrowerWork extends CommandBase {
         iters=0;
     boolean reachedRPM=false;
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
     public ThrowerWork(int targetRPM_in, int iters_in) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -32,16 +35,25 @@ public class ThrowerWork extends CommandBase {
         iters = iters_in;
     }
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
     // Called just before this Command runs the first time
     public void initialize() {
     }
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
     // Called repeatedly when this Command is scheduled to run
     public void execute() {
         iters--;
         reachedRPM = Robot.ballThrower.throwerRPM(targetRPM);
     }
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
     // Make this return true when this Command no longer needs to run execute()
     public boolean isFinished() {
         if (reachedRPM && iters <= 0) {
@@ -50,6 +62,9 @@ public class ThrowerWork extends CommandBase {
         return false;
     }
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
     // Called once after isFinished returns true
     public void end(boolean isInteruppted) {
         Robot.ballThrower.throwerRPM(0);

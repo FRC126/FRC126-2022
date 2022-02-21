@@ -25,25 +25,33 @@ public class ClimberControl extends CommandBase {
     static boolean intakeExtended=false;
 	static int intakeRPM=0;
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
     public ClimberControl(VerticalClimber subsystem) {
 		addRequirements(subsystem);
     }
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
 	@Override
 	public void initialize() {
 	}    
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
 	// Called every tick (20ms)
 	@Override
 	public void execute() {
-		if (Robot.isAutonomous) {
+		if (Robot.internalData.isAuto()) {
 			// Ignore user controls during Autonomous
 			return;
 		}
 
 		// Get stick inputs
 		JoystickWrapper driveJoystick = new JoystickWrapper(Robot.oi.driveController, 0.05);
-		//JoystickWrapper operatorJoystick = new JoystickWrapper(Robot.oi.operatorController, 0.05);
 
 		count++;
 
@@ -63,12 +71,18 @@ public class ClimberControl extends CommandBase {
 		delay--;	
 	}
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
 	// Returns true if command finished
 	@Override
 	public boolean isFinished() {
 		return false;
 	}
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
 	// Called once after isFinished returns true
     @Override
 	public void end(boolean isInterrupted) {

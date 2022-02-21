@@ -25,6 +25,9 @@ public class IntakeWork extends CommandBase {
     int iters;
     int count=0;
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
     public IntakeWork(boolean forward_in, int iters_in) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -32,10 +35,16 @@ public class IntakeWork extends CommandBase {
         iters = iters_in;
     }
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
     // Called just before this Command runs the first time
     public void initialize() {
     }
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
     // Called repeatedly when this Command is scheduled to run
     public void execute() {
         count--;
@@ -46,6 +55,9 @@ public class IntakeWork extends CommandBase {
         }    
      }
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
     // Make this return true when this Command no longer needs to run execute()
     public boolean isFinished() {
         if (count <= 0) {
@@ -55,6 +67,9 @@ public class IntakeWork extends CommandBase {
         return false;
     }
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
     // Called once after isFinished returns true
     public void end(boolean isInteruppted) {
         Robot.ballIntake.IntakeSpeed(0.0);

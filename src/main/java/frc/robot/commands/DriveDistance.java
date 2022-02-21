@@ -27,6 +27,9 @@ public class DriveDistance extends CommandBase {
     double distance;
     int iters;
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
     public DriveDistance(double fb, double lr, double distance_in, int iters_in ) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -36,12 +39,18 @@ public class DriveDistance extends CommandBase {
         iters = iters_in;
     }
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
     // Called just before this Command runs the first time
     public void initialize() {
         targetAngle = Robot.internalData.getGyroAngle();
         Robot.driveBase.resetEncoders();
     }
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
     // Called repeatedly when this Command is scheduled to run
     public void execute() {
         boolean useGyro=false;
@@ -61,6 +70,9 @@ public class DriveDistance extends CommandBase {
         }
      }
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
     // Make this return true when this Command no longer needs to run execute()
     public boolean isFinished() {
         iters--;
@@ -72,6 +84,9 @@ public class DriveDistance extends CommandBase {
         return false;
     }
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
     // Called once after isFinished returns true
     public void end(boolean isInteruppted) {
         Robot.driveBase.Drive(0, 0);

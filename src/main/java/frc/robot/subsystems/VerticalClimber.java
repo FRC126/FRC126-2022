@@ -103,10 +103,8 @@ public class VerticalClimber extends SubsystemBase {
         // Check the current draw before we move the motors
         checkCurrent();   
 
-        double posRight = getRightPos();
-        double posLeft = getLeftPos();
-
         // Need to use encoder to track max extension
+        double posLeft = getLeftPos();
         if (posLeft < heightLimit && limitCountLeft <= 0 ) {
             if (posLeft < heightLimit - 5000) {
                 // Slow down as we get close to the limit
@@ -118,6 +116,7 @@ public class VerticalClimber extends SubsystemBase {
             Robot.climberMotorLeft.set(ControlMode.PercentOutput,-0);
         }
 
+        double posRight = getRightPos();
         if (posRight < heightLimit && limitCountRight <= 0 ) {
             if (posRight < heightLimit - 5000) {
                 // Slow down as we get close to the limit
@@ -144,9 +143,7 @@ public class VerticalClimber extends SubsystemBase {
         checkCurrent();
 
         // Need to use encoder to track retraction.
-        double posRight = getRightPos();
         double posLeft = getLeftPos();
-
        if (Robot.leftClimbLimit.get() == true) {
             // Stop lowering left arm
             // zero encoder
@@ -165,6 +162,7 @@ public class VerticalClimber extends SubsystemBase {
             }
         }
 
+        double posRight = getRightPos();
         if (Robot.rightClimbLimit.get() == true) {
             // Stop lowering rightlc -l arm
             // zero encoder

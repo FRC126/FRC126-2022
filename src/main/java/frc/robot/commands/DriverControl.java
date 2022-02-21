@@ -23,20 +23,31 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriverControl extends CommandBase {
     static int count;
 	static int delay=0;
-
+	static boolean turnAround;
+	static double startAngle;
+	
+	/**********************************************************************************
+	 **********************************************************************************/
+	
     public DriverControl(WestCoastDrive subsystem) {
 		addRequirements(subsystem);
     }
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
 	@Override
 	public void initialize() {
 	}    
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
 	// Called every tick (20ms)
 	@SuppressWarnings("static-access")
 	@Override
 	public void execute() {
-		if (Robot.isAutonomous) {
+		if (Robot.internalData.isAuto()) {
 			// Ignore user controls during Autonomous
 			return;
 		}
@@ -46,11 +57,11 @@ public class DriverControl extends CommandBase {
 		
 		count++;
 
-        double Y = driveJoystick.getLeftStickY();
-        double X = driveJoystick.getRightStickX();
+        double FB = driveJoystick.getLeftStickY();
+        double LR = driveJoystick.getRightStickX();
 
 		if (driveJoystick.isLShoulderButton()) {
-			// TODO Shift Down Drive Train
+			// Shift Down Drive Train
 		    if (delay <= 0 ) {
 				Robot.driveBase.shiftDown();
 				delay=20;
@@ -58,29 +69,45 @@ public class DriverControl extends CommandBase {
 		}
 
 		if (driveJoystick.isRShoulderButton()) {
-			// TODO Shift Up Drive Train
+			// Shift Up Drive Train
 		    if (delay <= 0 ) {
 				Robot.driveBase.shiftUp();
 				delay=20;
 			}	
 		}
 
+		if (driveJoystick.isXButton()) {
+			if (turnAround == false) {
+				startAngle = Robot.internalData.getGyroAngle();
+			}
+		}
+
+		if (turnAround == true) {
+			double currAngle = Robot.internalData.getGyroAngle();
+			if ( currAngle < startAngle + 175) {
+				LR=0.3;
+			} else {
+				LR=0;
+				turnAround=false;
+			}
+		}
 		delay--;
 
 		// Log the Joystick X,Y Axis to the SmartDashboard.
-		SmartDashboard.putNumber("JoyStick Y Axis",Y);
-		SmartDashboard.putNumber("JoyStick X Axis",X);
+		SmartDashboard.putNumber("JoyStick Y Axis",FB);
+		SmartDashboard.putNumber("JoyStick X Axis",LR);
 		SmartDashboard.putNumber("robotTurn",Robot.robotTurn);
 		SmartDashboard.putNumber("robotDrive",Robot.robotDrive);
 
 		if (Robot.targetType == Robot.targetTypes.TargetSeek) {
 			Robot.driveBase.Drive(Robot.robotDrive,Robot.robotTurn);
 		} else {
-			Robot.driveBase.Drive(X,Y);
+			Robot.driveBase.Drive(FB,LR);
 		}
 	}
 
-
+	/**********************************************************************************
+	 **********************************************************************************/
 
 	// Returns true if command finished
 	@Override
@@ -88,6 +115,9 @@ public class DriverControl extends CommandBase {
 		return false;
 	}
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
 	// Called once after isFinished returns true
     @Override
 	public void end(boolean isInterrupted) {

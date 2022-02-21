@@ -28,18 +28,27 @@ public class ThrowerControl extends CommandBase {
     static int throwerRPM=0;
 	static boolean autoThrow=false;
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
     public ThrowerControl(BallThrower subsystem) {
 		addRequirements(subsystem);
 	}
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
 	public void initialize() {
 	}    
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
 	// Called every tick (20ms)
 	@SuppressWarnings("static-access")
 	@Override
 	public void execute() {
-		if (Robot.isAutonomous || Robot.isThrowCommand ) {
+		if (Robot.internalData.isAuto() || Robot.isThrowCommand ) {
 			// Ignore user controls during Autonomous
 			return;
 		}
@@ -111,12 +120,18 @@ public class ThrowerControl extends CommandBase {
 		delay--;	
 	}
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
 	// Returns true if command finished
 	@Override
 	public boolean isFinished() {
 		return false;
 	}
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
 	// Called once after isFinished returns true
     @Override
 	public void end(boolean isInterrupted) {

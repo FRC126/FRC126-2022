@@ -145,3 +145,41 @@ public class JoystickWrapper {
         return false;
     }   
 }
+
+/**************************************************************************************
+ *  Current Joystick Mappings:
+ * 
+ * Drivers Joystick
+ *     Drive Base Controls
+ *         Left Joystick Y-Axis: Robot drive forward and back
+ *         Right Joystick X-Axis: Robot drive left and right
+ *         X Button - Turn around 180 degrees
+ * 
+ *     Climber Controls
+ *         A Button - Raise Climber Arms - only moves while held
+ *         B Button - Lower Climber Arms - only moves while held
+ * 
+ *     Lime Light Controls
+ *         POV Up - Turn to lock onto target and then auto throw
+ *                  Button must be held the whole time
+ * 
+ * Operators Joystick
+ *     Intake Controls
+ *         Left Shoulder Button - Extend Ball Intake
+ *         Right Shoulder Button - Retract Ball Inake
+ *         Right Joystick Y-Axis - Run Intake Forwards or Backwards
+ *         Left Trigger - While held, extend intake and run intake, when 
+ *                        released stop intake and retract intake
+ * 
+ *     Thrower Control
+ *         Spins up thrower and automatically throws ball while button is held
+ *             POV Down - Hold to throw short distance
+ *             POV Left - Hold to throw middle short distance
+ *             POV Up - Hold to throw middle long distance
+ *             POV Right - Hold to throw long distance
+ *         A Button - Increase Intake Speed 500RPM
+ *         B Button - Decrease Intake sPeed 500RPM
+ *         Y Button - Set Thrower Speed to 0
+ *         X Button - Throw the Ball if using A and B buttons
+ * 
+ */

@@ -32,9 +32,16 @@ public class LidarLite extends SubsystemBase {
     private Counter counter;
     private double distanceAvg=0;
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
     public double getDistanceAvg() {
         return distanceAvg;
     } 
+
+	/**********************************************************************************
+	 **********************************************************************************/
+	
     /*
      * Create an object for a LIDAR-Lite attached to some digital input on the roboRIO
      * 
@@ -52,6 +59,9 @@ public class LidarLite extends SubsystemBase {
         dataSeries = new double[10];
     }
 
+	/**********************************************************************************
+	 **********************************************************************************/
+	
     /**
      * Take a measurement and return the distance in cm
      * 

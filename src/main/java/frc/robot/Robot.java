@@ -35,11 +35,6 @@ import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-//import com.revrobotics.ColorSensorV3;
-//import edu.wpi.first.wpilibj.Timer;
-//import edu.wpi.first.wpilibj.util.Color;
-
-
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
@@ -110,7 +105,6 @@ public class Robot extends TimedRobot {
   public static enum allianceColor{Red,Blue};
   public static targetTypes targetType = Robot.targetTypes.NoTarget;
 
-  public static boolean isAutonomous;
   public static boolean isThrowCommand;
 
     /**
@@ -137,7 +131,7 @@ public class Robot extends TimedRobot {
     verticalClimber = new VerticalClimber();
 
     // create the lidarlite class on DIO 5
-    distance = new LidarLite(new DigitalInput(5));
+    // distance = new LidarLite(new DigitalInput(5));
     
     rightClimbLimit = new DigitalInput(0);
     leftClimbLimit = new DigitalInput(1);
@@ -154,7 +148,6 @@ public class Robot extends TimedRobot {
     driveCam.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
 		server.setSource(driveCam);
     
-    isAutonomous = false;
     isThrowCommand = false;
 
     Log.print(0, "Robot", "Robot Init Complete");
@@ -166,7 +159,6 @@ public class Robot extends TimedRobot {
     Log.print(0, "Robot", "Robot Autonomous Init");
 
     autonomous = new AutoTest();
-    isAutonomous = true;
   }
 
   /** This function is called periodically during autonomous. */
@@ -180,7 +172,6 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     Log.print(0, "Robot", "Robot Teleop Init");
   
-    isAutonomous = false;
     if(autonomous != null){
 			autonomous.cancel();
 		}
