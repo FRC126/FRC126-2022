@@ -21,28 +21,28 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class LimeLightWork extends CommandBase {
     public static int iter=0;
-    int centeredCount=0;
+    JoystickWrapper driveJoystick;
 
 	/************************************************************************
 	 ************************************************************************/
 
     public LimeLightWork(LimeLight subsystem) {
 		addRequirements(subsystem);
+        driveJoystick = new JoystickWrapper(Robot.oi.driveController, 0.05);
     }
 
 	/************************************************************************
+     * Called just before this Command runs the first time
 	 ************************************************************************/
 
-    // Called just before this Command runs the first time
     public void initialize() {
     }
 
 	/************************************************************************
+     * Called repeatedly when this Command is scheduled to run
 	 ************************************************************************/
 
-    // Called repeatedly when this Command is scheduled to run
     public void execute() {
-       JoystickWrapper driveJoystick = new JoystickWrapper(Robot.oi.driveController, 0.05);
 
         if (driveJoystick.getPovUp()) {
             Robot.targetType = Robot.targetTypes.TargetSeek;
@@ -54,9 +54,9 @@ public class LimeLightWork extends CommandBase {
     }
 
 	/************************************************************************
+     * Make this return true when this Command no longer needs to run execute()
 	 ************************************************************************/
 
-    // Make this return true when this Command no longer needs to run execute()
     public boolean isFinished() {
         return false;
     }

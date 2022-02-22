@@ -22,39 +22,45 @@ import edu.wpi.first.wpilibj.Timer;
 public class InternalData {
 	static ADXRS450_Gyro gyro;
 
+	// Match stats
+
 	/**********************************************************************************
+	 * Is the robot in auto mode?
 	 **********************************************************************************/
 	
-	// Match stats
-	public boolean isAuto() { // Is the robot in auto mode?
+	public boolean isAuto() {
 		return  RobotState.isAutonomous();
 	}
 
 	/**********************************************************************************
+	 * Or is it in teleop mode?
 	 **********************************************************************************/
 	
-	public boolean isTeleop() { // Or is it in teleop mode?
+	public boolean isTeleop() {
 		return  RobotState.isTeleop();
 	}
 
 	/**********************************************************************************
+	 *  Or is it just enabled at all?
 	 **********************************************************************************/
 	
-	public boolean isEnabled() { // Or is it just enabled at all?
+	public boolean isEnabled() {
 		return  RobotState.isEnabled();
 	}
 
 	/**********************************************************************************
+	 * Get the time left in the match
 	 **********************************************************************************/
 	
-	public double getMatchTime() { // Get the time left in the match
+	public double getMatchTime() {
 		return  Timer.getMatchTime();
 	}
 
 	/**********************************************************************************
+	 * Get battery voltage
 	 **********************************************************************************/
 	
-	public double getVoltage() { // Get battery voltage
+	public double getVoltage() {
 		return RobotController.getBatteryVoltage();
 	}
 

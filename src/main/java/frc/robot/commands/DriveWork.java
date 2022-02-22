@@ -38,17 +38,17 @@ public class DriveWork extends CommandBase {
     }
 
 	/**********************************************************************************
+     * Called just before this Command runs the first time
 	 **********************************************************************************/
 	
-    // Called just before this Command runs the first time
     public void initialize() {
         targetAngle = Robot.internalData.getGyroAngle();
     }
 
 	/**********************************************************************************
+     * Called repeatedly when this Command is scheduled to run
 	 **********************************************************************************/
 	
-    // Called repeatedly when this Command is scheduled to run
     public void execute() {
         iters--;
         boolean useGyro=false;
@@ -68,6 +68,7 @@ public class DriveWork extends CommandBase {
      }
 
 	/**********************************************************************************
+     * Make this return true when this Command no longer needs to run execute()
 	 **********************************************************************************/
 	
     // Make this return true when this Command no longer needs to run execute()
@@ -80,9 +81,9 @@ public class DriveWork extends CommandBase {
     }
 
 	/**********************************************************************************
+     * Called once after isFinished returns true
 	 **********************************************************************************/
 	
-    // Called once after isFinished returns true
     public void end(boolean isInteruppted) {
         Robot.driveBase.Drive(0, 0);
     }

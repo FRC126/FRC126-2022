@@ -36,36 +36,39 @@ public class ThrowerWork extends CommandBase {
     }
 
 	/**********************************************************************************
+     * Called just before this Command runs the first time
 	 **********************************************************************************/
 	
-    // Called just before this Command runs the first time
     public void initialize() {
     }
 
 	/**********************************************************************************
+     * Called repeatedly when this Command is scheduled to run
 	 **********************************************************************************/
 	
-    // Called repeatedly when this Command is scheduled to run
     public void execute() {
+        //  Call Thrower RPM to spin up the thrower wheels.
         iters--;
         reachedRPM = Robot.ballThrower.throwerRPM(targetRPM);
     }
 
 	/**********************************************************************************
+     * Make this return true when this Command no longer needs to run execute()
 	 **********************************************************************************/
 	
-    // Make this return true when this Command no longer needs to run execute()
     public boolean isFinished() {
         if (reachedRPM && iters <= 0) {
+            // If we reached the target RPM and the number of iterations has expired
+            // Finish this command.
             return true;
         }
         return false;
     }
 
 	/**********************************************************************************
+     * Called once after isFinished returns true
 	 **********************************************************************************/
 	
-    // Called once after isFinished returns true
     public void end(boolean isInteruppted) {
         Robot.ballThrower.throwerRPM(0);
     }

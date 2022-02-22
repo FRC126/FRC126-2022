@@ -64,9 +64,27 @@ public class AutoTest extends SequentialCommandGroup {
             new ThrowerWork(0, 0),
 
             // put the transmission in high gear
-            new InstantCommand(Robot.driveBase::shiftUp, Robot.driveBase)
+            new InstantCommand(Robot.driveBase::shiftUp, Robot.driveBase),
+
+            // Turn 180 degrees, TODO how long to turn and what speed
+            //new DriveWork(0,.3,200),
+            // Turn by degrees
+            new TurnDegrees(0.3, 175, 250)
         );
     }       
+
+    /******************************************************************************************
+     * Called once after isFinished returns true
+     ******************************************************************************************/
+    @Override
+    public void end(boolean isInterrupted) {
+        Robot.ballIntake.IntakeStop();
+        Robot.ballIntake.RetractIntake();
+        Robot.driveBase.Drive(0,0);
+        Robot.ballThrower.ThrowerIntakeStop();
+        Robot.ballThrower.throwerRPM(0);
+    }  
+    
 }
 
 

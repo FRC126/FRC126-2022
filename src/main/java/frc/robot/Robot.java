@@ -42,8 +42,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
  * directory.
  */
 public class Robot extends TimedRobot {
-  // TODO Remove ME
-  public static TalonFX testTalon = new TalonFX(15);
 
   // Ball Intake Motors
   public static CANSparkMax intakeMotor1 = new CANSparkMax(RobotMap.intakeMotor1CanID, CANSparkMaxLowLevel.MotorType.kBrushless);
@@ -60,19 +58,11 @@ public class Robot extends TimedRobot {
   public static TalonFX throwerMotor1 = new TalonFX(RobotMap.throwerMotorCanID1);
   public static TalonFX throwerMotor2 = new TalonFX(RobotMap.throwerMotorCanID2);
 
-  // Driver Base Motorts
+  // Driver Base Motors
   public static TalonFX leftDriveMotor1 = new TalonFX(RobotMap.leftDriveMotorCanID1);
   public static TalonFX leftDriveMotor2 = new TalonFX(RobotMap.leftDriveMotorCanID2);
   public static TalonFX rightDriveMotor1 = new TalonFX(RobotMap.rightDriveMotorCanID1);
-  public static TalonFX rightDriveMotor2 = new TalonFX(RobotMap.rightDriveMotorCanID2);
-  
-  public int RobotID = 0;
-  public static int objectId=1;
-
-	public static double voltageThreshold = 8.0;
-
-  // For use with limelight class
-  public static double ThrowerRPM=0;
+  public static TalonFX rightDriveMotor2 = new TalonFX(RobotMap.rightDriveMotorCanID2); 
 
   // Lidar Light Distance Measure
 	public static LidarLite distance;
@@ -82,7 +72,11 @@ public class Robot extends TimedRobot {
 	public static double robotDrive = 0;
   public static boolean shootNow = false;
   public static boolean pickupNow = false;
+  public static boolean isThrowCommand=false;
+  public static targetTypes targetType = Robot.targetTypes.NoTarget;
+  public static int objectId=1;
 
+  // Subsystems
   public static Controllers oi;
   public static Log log;
   public static InternalData internalData;
@@ -94,24 +88,26 @@ public class Robot extends TimedRobot {
   public static LimeLight limeLight;
 	public static UsbCamera driveCam;
 	public static VideoSink server;
+  public static SequentialCommandGroup autonomous;
+
+  // Global Robot Variables
+  public int RobotID = 0;
 
   public static DigitalInput rightClimbLimit;
 	public static DigitalInput leftClimbLimit;
-
-  public static SequentialCommandGroup autonomous; // Create the subsystems that control the hardware
-
   public static enum targetHeights{LowTarget,HighTarget};
   public static enum targetTypes{NoTarget,BallSeek,TargetSeek, PixyTargetSeek};
   public static enum allianceColor{Red,Blue};
-  public static targetTypes targetType = Robot.targetTypes.NoTarget;
+	public static double voltageThreshold = 10.0;
 
-  public static boolean isThrowCommand;
+  // For use with limelight class
+  public static double ThrowerRPM=0;
 
-    /**
+ 	/************************************************************************
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
-   */
-  @Override
+	 ************************************************************************/
+   @Override
   public void robotInit() {
     
     // Set the robot id for use by RobotMap
@@ -132,63 +128,78 @@ public class Robot extends TimedRobot {
 
     // create the lidarlite class on DIO 5
     // distance = new LidarLite(new DigitalInput(5));
-    
-    rightClimbLimit = new DigitalInput(0);
-    leftClimbLimit = new DigitalInput(1);
 
     // Not using the PIXY right now
     //pixyVision = new PixyVision();
-  
+
+    // Limit switches on the climbers
+    rightClimbLimit = new DigitalInput(0);
+    leftClimbLimit = new DigitalInput(1);
+
+    // Initialize the built in gyro
     internalData.initGyro();
     internalData.resetGyro();
 
+    // Start the camera server for the drive camera
     driveCam = CameraServer.startAutomaticCapture();
 		server = CameraServer.getServer();
-
     driveCam.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
 		server.setSource(driveCam);
-    
-    isThrowCommand = false;
 
     Log.print(0, "Robot", "Robot Init Complete");
   }
 
-  /** This function is run once each time the robot enters autonomous mode. */
+ 	/************************************************************************
+	 * This function is run once each time the robot enters autonomous mode. 
+   ************************************************************************/
   @Override
   public void autonomousInit() {
     Log.print(0, "Robot", "Robot Autonomous Init");
 
+    // Create the new auto command
     autonomous = new AutoTest();
   }
 
-  /** This function is called periodically during autonomous. */
+ 	/************************************************************************
+    * This function is called periodically during autonomous.
+	 ************************************************************************/
   @Override
   public void autonomousPeriodic() {
     CommandScheduler.getInstance().run();
   }
 
-  /** This function is called once each time the robot enters teleoperated mode. */
+ 	/************************************************************************
+    * This function is called once each time the robot enters teleoperated mode.
+	 ************************************************************************/
   @Override
-  public void teleopInit() {
+  public void teleopInit() { 
     Log.print(0, "Robot", "Robot Teleop Init");
   
     if(autonomous != null){
-			autonomous.cancel();
-		}
-}
+      // Cancel the auto command if it was created
+	    autonomous.cancel();
+    }
+  }
 
-  /** This function is called periodically during teleoperated mode. */
+ 	/************************************************************************
+    * This function is called periodically during teleoperated mode.
+	 ************************************************************************/
   @Override
   public void teleopPeriodic() {
-    //Log.print(0, "Robot", "Robot Teleop periodic");
     CommandScheduler.getInstance().run();
   }
 
-  /** This function is called once each time the robot enters test mode. */
+ 	/************************************************************************
+    * This function is called once each time the robot enters test mode.
+	 ************************************************************************/
   @Override
-  public void testInit() {}
+  public void testInit() {
+    Log.print(0, "Robot", "Robot Test Init");
+  }  
 
-  /** This function is called periodically during test mode. */
+ 	/************************************************************************
+    * This function is called periodically during test mode.
+	 ************************************************************************/
   @Override
   public void testPeriodic() {
     CommandScheduler.getInstance().run();

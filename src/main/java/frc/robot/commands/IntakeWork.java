@@ -36,16 +36,16 @@ public class IntakeWork extends CommandBase {
     }
 
 	/**********************************************************************************
+     * Called just before this Command runs the first time
 	 **********************************************************************************/
 	
-    // Called just before this Command runs the first time
     public void initialize() {
     }
 
 	/**********************************************************************************
+     * Called repeatedly when this Command is scheduled to run
 	 **********************************************************************************/
 	
-    // Called repeatedly when this Command is scheduled to run
     public void execute() {
         count--;
         if(forward) {
@@ -56,9 +56,9 @@ public class IntakeWork extends CommandBase {
      }
 
 	/**********************************************************************************
+     * Make this return true when this Command no longer needs to run execute()
 	 **********************************************************************************/
 	
-    // Make this return true when this Command no longer needs to run execute()
     public boolean isFinished() {
         if (count <= 0) {
             Robot.ballIntake.IntakeSpeed(0.0);
@@ -68,9 +68,9 @@ public class IntakeWork extends CommandBase {
     }
 
 	/**********************************************************************************
+     * Called once after isFinished returns true
 	 **********************************************************************************/
 	
-    // Called once after isFinished returns true
     public void end(boolean isInteruppted) {
         Robot.ballIntake.IntakeSpeed(0.0);
     }

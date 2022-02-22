@@ -168,6 +168,7 @@ public class LimeLight extends SubsystemBase {
      private void dashboardData() {
         SmartDashboard.putBoolean("LL Valid:", Robot.limeLight.getllTargetValid());
         SmartDashboard.putNumber("LL Area:", getllTargetArea());
+        SmartDashboard.putNumber("LL X:", getllTargetX());
         SmartDashboard.putBoolean("shootnow:", Robot.shootNow);
      }
 
@@ -177,6 +178,9 @@ public class LimeLight extends SubsystemBase {
     public void trackTarget() {
 
         if (Robot.targetType != Robot.targetTypes.TargetSeek) {
+            // If we are not seeking a target, then reset all target 
+            // data and return
+
             Robot.robotDrive=0;
             Robot.robotTurn=0;
             Robot.shootNow=false;
@@ -189,6 +193,7 @@ public class LimeLight extends SubsystemBase {
             iter=0;
 
             if (Robot.isThrowCommand == true) {
+                // Cancel any outstanding throw commands.
                 throwCommand.cancel();
                 Robot.isThrowCommand = false;
             }
@@ -212,11 +217,12 @@ public class LimeLight extends SubsystemBase {
             double area = Robot.limeLight.getllTargetArea();
             double threshold;
 
+            // The further the object is awway from the us, allow less deviation from the center.
             if (area < .2) {
                 threshold = 1.5;
-            } else if (area < 1) {
+            } else if (area < .5) {
                 threshold = 2.5;
-            } else if (area < 2) {
+            } else if (area < 1) {
                 threshold = 3.5;
             } else {
                 threshold = 4.5;
@@ -239,8 +245,11 @@ public class LimeLight extends SubsystemBase {
                 centeredCount=0;
                 Robot.shootNow=false;
             } else {
+                // Target is centered, don't turn the robot
                 centeredCount++;
                 if (centeredCount > 10) {
+                    // If we have stayed centered on the target for 10 interations, 
+                    // throw the ball
                     Robot.shootNow=true;
                 } else {
                    Robot.shootNow=false;
@@ -251,6 +260,7 @@ public class LimeLight extends SubsystemBase {
             if (validCount > 10 && missedCount <= 3) {
                 // Don't change the old data, so we won't stop on dropping a frame or 3
                 missedCount++;
+                // Stop turning if we dropped a frame.
                 Robot.robotTurn = 0;
             } else {
                 iter++;
@@ -278,13 +288,13 @@ public class LimeLight extends SubsystemBase {
 
                 if ( iter > 500 ) { 
                     iter=0; 
-                }
-
-                
+                }              
             }    
         }
 
         if (Robot.shootNow && Robot.isThrowCommand == false) {
+            // If we are centered on the target, and shooNow is true, the create
+            // an autoThrow command to throw the balls.
             throwCommand = new AutoThrow();
             Robot.isThrowCommand = true;
         }

@@ -19,7 +19,6 @@ import frc.robot.subsystems.LidarLite;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DistanceMeasure extends CommandBase {
-	int count=0;
 
 	/**********************************************************************************
 	 **********************************************************************************/
@@ -30,9 +29,9 @@ public class DistanceMeasure extends CommandBase {
     }     
 
 	/**********************************************************************************
+	 * Run before command starts 1st iteration
 	 **********************************************************************************/
 	
-	// Run before command starts 1st iteration
 	@Override
 	public void initialize() {
 	}    
@@ -46,19 +45,19 @@ public class DistanceMeasure extends CommandBase {
     }
 
 	/**********************************************************************************
+	 * Returns true if command finished
 	 **********************************************************************************/
-	
-	// Returns true if command finished
-	@Override
+
+	 @Override
 	public boolean isFinished() {
 		return false;
 	}
 
 	/**********************************************************************************
+	 * Called once after isFinished returns true
 	 **********************************************************************************/
-	
-	// Called once after isFinished returns true
-    @Override
+
+	 @Override
 	public void end(boolean isInterrupted) {
 	}  
 }

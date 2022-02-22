@@ -21,18 +21,19 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ThrowerControl extends CommandBase {
-    static int count;
 	static double speed;
 	static int delay=0;
 	static int throwCount=0;
     static int throwerRPM=0;
 	static boolean autoThrow=false;
+	JoystickWrapper operatorJoystick;
 
 	/**********************************************************************************
 	 **********************************************************************************/
 	
     public ThrowerControl(BallThrower subsystem) {
 		addRequirements(subsystem);
+		operatorJoystick = new JoystickWrapper(Robot.oi.operatorController, 0.05);
 	}
 
 	/**********************************************************************************
@@ -42,9 +43,9 @@ public class ThrowerControl extends CommandBase {
 	}    
 
 	/**********************************************************************************
+	 * Called every tick (20ms)
 	 **********************************************************************************/
 	
-	// Called every tick (20ms)
 	@SuppressWarnings("static-access")
 	@Override
 	public void execute() {
@@ -53,12 +54,8 @@ public class ThrowerControl extends CommandBase {
 			return;
 		}
 
-		// Get stick inputs
-		//JoystickWrapper driveJoystick = new JoystickWrapper(Robot.oi.driveController, 0.05);
-		JoystickWrapper operatorJoystick = new JoystickWrapper(Robot.oi.operatorController, 0.05);
-
-		count++;
-
+		// Use the POV pad to set 4 different throwing distances.  Button needs to be
+		// held down for length of throwing action
 		if (operatorJoystick.getPovDown()) {
             throwerRPM=8000;
 			autoThrow=true;
@@ -73,12 +70,14 @@ public class ThrowerControl extends CommandBase {
 			autoThrow=true;
 		} else {
 			if ( autoThrow == true ) {
+				// IF autoThrow was true, cancel it.
 				throwerRPM=0;
 				autoThrow=false;
 				Robot.ballThrower.ThrowerIntakeStop();
 			}
 		}	
 
+		// Manually increment the throwing wheel speeds
         if (operatorJoystick.isAButton()) {
             // Run Ball Intake
 		    if (delay <= 0) {
@@ -87,6 +86,7 @@ public class ThrowerControl extends CommandBase {
 			}	
         } 
 
+		// Manually decrement the throwing wheel speeds
 		if (operatorJoystick.isBButton()) {
             // Run Ball Intake
 		    if (delay <= 0) {
@@ -95,19 +95,26 @@ public class ThrowerControl extends CommandBase {
 			}	
         } 
 
+		// Stop the throwing wheels
 		if (operatorJoystick.isYButton()) {
             // Run Ball Intake
 		    throwerRPM=0;
         } 
 
-		if (throwerRPM > 20000) { throwerRPM = 20000; }
+        // Range check the RPM
+		if (throwerRPM > 20500) { throwerRPM = 20500; }
 		if (throwerRPM < 0) { throwerRPM = 0; }
 
+		// Call throwerRPM to set the target RPM for the thrower motors and check if 
+		// the target RPM has been reached
 		boolean rpmReached = Robot.ballThrower.throwerRPM(throwerRPM);
 
 		if (rpmReached && autoThrow) {
+			// If we reached the target RPM, and autoThrow is set, run the thrower intake motor
 			Robot.ballThrower.ThrowerIntakeRun();
 		} else {
+			// If autoThrow is false or the targetRPM isn't reach, run the thrower intake motor
+			// motor is the X button is pressed, otherwise stop the thrower intake motor
 			if (operatorJoystick.isXButton()) {
 				Robot.ballThrower.ThrowerIntakeRun();
 			} else {
@@ -121,18 +128,18 @@ public class ThrowerControl extends CommandBase {
 	}
 
 	/**********************************************************************************
+	 * Returns true if command finished
 	 **********************************************************************************/
 	
-	// Returns true if command finished
 	@Override
 	public boolean isFinished() {
 		return false;
 	}
 
 	/**********************************************************************************
+	 * Called once after isFinished returns true
 	 **********************************************************************************/
 	
-	// Called once after isFinished returns true
     @Override
 	public void end(boolean isInterrupted) {
 	}  

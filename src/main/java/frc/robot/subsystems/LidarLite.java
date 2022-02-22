@@ -40,13 +40,11 @@ public class LidarLite extends SubsystemBase {
     } 
 
 	/**********************************************************************************
-	 **********************************************************************************/
-	
-    /*
      * Create an object for a LIDAR-Lite attached to some digital input on the roboRIO
      * 
      * @param source The DigitalInput or DigitalSource where the LIDAR-Lite is attached (ex: new DigitalInput(9))
-     */
+	 **********************************************************************************/
+	
     public LidarLite (DigitalSource source) {
         CommandScheduler.getInstance().registerSubsystem(this);
         setDefaultCommand(new DistanceMeasure(this));
@@ -60,13 +58,11 @@ public class LidarLite extends SubsystemBase {
     }
 
 	/**********************************************************************************
-	 **********************************************************************************/
-	
-    /**
      * Take a measurement and return the distance in cm
      * 
      * @return Distance in cm
-     */
+	 **********************************************************************************/
+	
     public double measureDistance() {
         double cm;
         /* If we haven't seen the first rising to falling pulse, then we have no measurement.

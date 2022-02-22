@@ -21,16 +21,17 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriverControl extends CommandBase {
-    static int count;
 	static int delay=0;
 	static boolean turnAround;
 	static double startAngle;
+	JoystickWrapper driveJoystick;
 	
 	/**********************************************************************************
 	 **********************************************************************************/
 	
     public DriverControl(WestCoastDrive subsystem) {
 		addRequirements(subsystem);
+		driveJoystick = new JoystickWrapper(Robot.oi.driveController, 0.10);
     }
 
 	/**********************************************************************************
@@ -41,9 +42,9 @@ public class DriverControl extends CommandBase {
 	}    
 
 	/**********************************************************************************
+	 * Called every tick (20ms)
 	 **********************************************************************************/
 	
-	// Called every tick (20ms)
 	@SuppressWarnings("static-access")
 	@Override
 	public void execute() {
@@ -53,10 +54,6 @@ public class DriverControl extends CommandBase {
 		}
 
 		// Get stick inputs
-		JoystickWrapper driveJoystick = new JoystickWrapper(Robot.oi.driveController, 0.10);
-		
-		count++;
-
         double FB = driveJoystick.getLeftStickY();
         double LR = driveJoystick.getRightStickX();
 
@@ -64,7 +61,7 @@ public class DriverControl extends CommandBase {
 			// Shift Down Drive Train
 		    if (delay <= 0 ) {
 				Robot.driveBase.shiftDown();
-				delay=20;
+				delay=50;
 			}	
 		}
 
@@ -72,17 +69,21 @@ public class DriverControl extends CommandBase {
 			// Shift Up Drive Train
 		    if (delay <= 0 ) {
 				Robot.driveBase.shiftUp();
-				delay=20;
+				delay=50;
 			}	
 		}
 
 		if (driveJoystick.isXButton()) {
+			// Turn 180 degrees after X Button is pressed
 			if (turnAround == false) {
 				startAngle = Robot.internalData.getGyroAngle();
 			}
 		}
 
 		if (turnAround == true) {
+			// If we are supposed to turn around, check the current gyro
+			// angle and see if we have reached our desired position,
+			// if not, keep turning
 			double currAngle = Robot.internalData.getGyroAngle();
 			if ( currAngle < startAngle + 175) {
 				LR=0.3;
@@ -100,26 +101,28 @@ public class DriverControl extends CommandBase {
 		SmartDashboard.putNumber("robotDrive",Robot.robotDrive);
 
 		if (Robot.targetType == Robot.targetTypes.TargetSeek) {
+			// If we are seeking the throwing target, ignore the driver input
 			Robot.driveBase.Drive(Robot.robotDrive,Robot.robotTurn);
 		} else {
+			// Set drivebase speed based on user input
 			Robot.driveBase.Drive(FB,LR);
 		}
 	}
 
 	/**********************************************************************************
+	 * Returns true if command finished
 	 **********************************************************************************/
 
-	// Returns true if command finished
 	@Override
 	public boolean isFinished() {
 		return false;
 	}
 
 	/**********************************************************************************
+	 * Called once after isFinished returns true
 	 **********************************************************************************/
-	
-	// Called once after isFinished returns true
-    @Override
+
+	 @Override
 	public void end(boolean isInterrupted) {
 	}  
 }

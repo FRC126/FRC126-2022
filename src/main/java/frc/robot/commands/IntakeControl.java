@@ -21,17 +21,18 @@ import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class IntakeControl extends CommandBase {
-    static int count=0;
 	static int delay=0;
     static boolean intakeExtended=false;
 	static boolean autoIntakeExtend=false;
 	static int intakeRPM=0;
+	JoystickWrapper operatorJoystick;
 
 	/**********************************************************************************
 	 **********************************************************************************/
 	
     public IntakeControl(BallIntake subsystem) {
 		addRequirements(subsystem);
+		operatorJoystick = new JoystickWrapper(Robot.oi.operatorController, 0.10);
     }
 
 	/**********************************************************************************
@@ -43,21 +44,15 @@ public class IntakeControl extends CommandBase {
 	}    
 
 	/**********************************************************************************
+	 * Called every tick (20ms)
 	 **********************************************************************************/
 	
-	// Called every tick (20ms)
 	@Override
 	public void execute() {
 		if (Robot.internalData.isAuto()) {
 			// Ignore user controls during Autonomous
 			return;
 		}
-
-		// Get stick inputs
-		//JoystickWrapper driveJoystick = new JoystickWrapper(Robot.oi.driveController, 0.05);
-		JoystickWrapper operatorJoystick = new JoystickWrapper(Robot.oi.operatorController, 0.10);
-
-		count++;
 
 		//////////////////////////////////////////////////////////////
 		// Intake Controls
@@ -114,18 +109,18 @@ public class IntakeControl extends CommandBase {
 	}
 
 	/**********************************************************************************
+	 * Returns true if command finished
 	 **********************************************************************************/
 	
-	// Returns true if command finished
 	@Override
 	public boolean isFinished() {
 		return false;
 	}
 
 	/**********************************************************************************
+	 * Called once after isFinished returns true
 	 **********************************************************************************/
 	
-	// Called once after isFinished returns true
     @Override
 	public void end(boolean isInterrupted) {
 	}  

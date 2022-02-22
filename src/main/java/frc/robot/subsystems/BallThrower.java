@@ -42,13 +42,13 @@ public class BallThrower extends SubsystemBase {
     public void periodic() {}
 
 	/************************************************************************
-     * Run Main Thower Wheels
+     * Run Main Thower Wheels by target RPM
 	 ************************************************************************/
 
     public boolean throwerRPM(int targetRPM) {
         boolean targetReached=false;
 
-        int rpm = (int)Math.abs(Robot.testTalon.getSelectedSensorVelocity());
+        int rpm = (int)Math.abs(Robot.throwerMotor1.getSelectedSensorVelocity());
 
         if (rpm < targetRPM-25) {
             // If we are below the rpm target
@@ -93,15 +93,17 @@ public class BallThrower extends SubsystemBase {
         }
 
         if (targetRPM == 0) {
+            // Short cut to stop the thrower motors
             throwerSpeed=0;
         }
 
         delay--;
 
-        // Thrower Motors
+        // Set the speed on the Thrower Motors
         Robot.throwerMotor1.set(ControlMode.PercentOutput,throwerSpeed);
         Robot.throwerMotor2.set(ControlMode.PercentOutput,throwerSpeed * -1);
 
+        // Log info to the smart dashboard
 		SmartDashboard.putNumber("Intake RPM Current",rpm);
         SmartDashboard.putNumber("Intake RPM Target",targetRPM);
 

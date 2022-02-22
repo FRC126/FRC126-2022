@@ -40,39 +40,42 @@ public class TurnDegrees extends CommandBase {
     }
 
 	/**********************************************************************************
+     * Called just before this Command runs the first time
 	 **********************************************************************************/
 	
-    // Called just before this Command runs the first time
     public void initialize() {
+        // Save the starting angle for the turn
         startAngle = Robot.internalData.getGyroAngle();
         Robot.driveBase.resetEncoders();
     }
 
 	/**********************************************************************************
+     * Called repeatedly when this Command is scheduled to run
 	 **********************************************************************************/
 	
-    // Called repeatedly when this Command is scheduled to run
     public void execute() {
+        // get the current angle from the gyro
         double currentDegrees = Robot.internalData.getGyroAngle();
 
-        if (currentDegrees <= startAngle + degrees) {
+        if (currentDegrees <= startAngle + degrees - 5) {
             // We still need to turn more to reach our target angle
             Robot.driveBase.Drive(driveFb, driveLr);
         } else {
+            // Stop turing
             Robot.driveBase.Drive(0, 0);
         }
      }
 
 	/**********************************************************************************
+     * Make this return true when this Command no longer needs to run execute()
 	 **********************************************************************************/
 	
-    // Make this return true when this Command no longer needs to run execute()
     public boolean isFinished() {
         iters--;
         double currentDegrees = Robot.internalData.getGyroAngle();
 
-        if (currentDegrees >= startAngle + degrees || iters <= 0) {
-            // Wehave reached our target angle
+        if (currentDegrees >= startAngle + degrees -5 || iters <= 0) {
+            // We have reached our target angle or run out of time to do so.
             Robot.driveBase.Drive(0, 0);
             return true;
         }
@@ -80,9 +83,9 @@ public class TurnDegrees extends CommandBase {
     }
 
 	/**********************************************************************************
+     * Called once after isFinished returns true
 	 **********************************************************************************/
 	
-    // Called once after isFinished returns true
     public void end(boolean isInteruppted) {
         Robot.driveBase.Drive(0, 0);
     }

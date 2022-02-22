@@ -33,7 +33,7 @@ public class RobotMap {
 	public static int xboxLStick = 9; // Left stick button
 	public static int xboxRStick = 10; // Right stick button
 
-    // Motor Can Bus ID's
+    // Neo Motor Can Bus ID's
     public static int intakeMotor1CanID = 2;
 	public static int intakeMotor2CanID = 3;
 	public static int feederMotorCanID = 4;

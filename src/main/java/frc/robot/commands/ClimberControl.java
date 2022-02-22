@@ -20,16 +20,16 @@ import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ClimberControl extends CommandBase {
-    static int count=0;
-	static int delay=0;
     static boolean intakeExtended=false;
 	static int intakeRPM=0;
+	JoystickWrapper driveJoystick;
 
 	/**********************************************************************************
 	 **********************************************************************************/
 	
     public ClimberControl(VerticalClimber subsystem) {
 		addRequirements(subsystem);
+		driveJoystick = new JoystickWrapper(Robot.oi.driveController, 0.05);
     }
 
 	/**********************************************************************************
@@ -40,50 +40,44 @@ public class ClimberControl extends CommandBase {
 	}    
 
 	/**********************************************************************************
+	 * Called every tick (20ms)
 	 **********************************************************************************/
-	
-	// Called every tick (20ms)
-	@Override
+
+	 @Override
 	public void execute() {
 		if (Robot.internalData.isAuto()) {
 			// Ignore user controls during Autonomous
 			return;
 		}
 
-		// Get stick inputs
-		JoystickWrapper driveJoystick = new JoystickWrapper(Robot.oi.driveController, 0.05);
-
-		count++;
-
 		//////////////////////////////////////////////////////////////
 		// Climber Controls
 
         if (driveJoystick.isAButton()) {
-            // Extend the Climber
+            // Extend the Climber while the A Button is pressed
 		    Robot.verticalClimber.RaiseClimber();
         }  else if (driveJoystick.isBButton()) {
-            // Retact the Climber
+            // Retact the Climber while the B Button is pressed
 		    Robot.verticalClimber.LowerClimber();
         } else {
+			// If neither button is pressed, stop moving the climber
 		    Robot.verticalClimber.StopClimber();
 		}
-
-		delay--;	
 	}
 
 	/**********************************************************************************
+     * Returns true if command finished
 	 **********************************************************************************/
 	
-	// Returns true if command finished
 	@Override
 	public boolean isFinished() {
 		return false;
 	}
 
 	/**********************************************************************************
+	 * Called once after isFinished returns true
 	 **********************************************************************************/
 	
-	// Called once after isFinished returns true
     @Override
 	public void end(boolean isInterrupted) {
 	}  
