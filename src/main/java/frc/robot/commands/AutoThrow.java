@@ -20,10 +20,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Robot;
  
 public class AutoThrow extends SequentialCommandGroup {
-    public AutoThrow() {
-            // TODO Target RPM for throw after picking up second ball
-            int throwRPM=12000;
-
+    public AutoThrow(int throwRPM) {
         addCommands(
             // Stop Running the Intake
             new InstantCommand(Robot.ballIntake::IntakeStop,Robot.ballIntake),

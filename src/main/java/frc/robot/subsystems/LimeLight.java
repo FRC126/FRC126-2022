@@ -295,7 +295,9 @@ public class LimeLight extends SubsystemBase {
         if (Robot.shootNow && Robot.isThrowCommand == false) {
             // If we are centered on the target, and shooNow is true, the create
             // an autoThrow command to throw the balls.
-            throwCommand = new AutoThrow();
+
+            // TODO Need to set RPM based on targetArea.
+            throwCommand = new AutoThrow(14000);
             Robot.isThrowCommand = true;
         }
 

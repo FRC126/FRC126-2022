@@ -22,7 +22,7 @@ import frc.robot.Robot;
 public class AutoTest extends SequentialCommandGroup {
     public AutoTest() {
         // TODO Target RPM for throw after picking up second ball
-        int throwRPM=12000;
+        int throwRPM=14000;
 
         addCommands(
             // Shift the Transmission to Low
