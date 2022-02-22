@@ -166,10 +166,10 @@ public class LimeLight extends SubsystemBase {
 	 ************************************************************************/
     
      private void dashboardData() {
-        SmartDashboard.putBoolean("LL Valid:", Robot.limeLight.getllTargetValid());
-        SmartDashboard.putNumber("LL Area:", getllTargetArea());
-        SmartDashboard.putNumber("LL X:", getllTargetX());
-        SmartDashboard.putBoolean("shootnow:", Robot.shootNow);
+        SmartDashboard.putBoolean("LL Valid", Robot.limeLight.getllTargetValid());
+        SmartDashboard.putNumber("LL Area", getllTargetArea());
+        SmartDashboard.putNumber("LL X", getllTargetX());
+        SmartDashboard.putBoolean("shootnow", Robot.shootNow);
      }
 
    	/************************************************************************

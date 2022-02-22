@@ -104,8 +104,9 @@ public class BallThrower extends SubsystemBase {
         Robot.throwerMotor2.set(ControlMode.PercentOutput,throwerSpeed * -1);
 
         // Log info to the smart dashboard
-		SmartDashboard.putNumber("Intake RPM Current",rpm);
-        SmartDashboard.putNumber("Intake RPM Target",targetRPM);
+		SmartDashboard.putNumber("Throw RPM Current",rpm);
+        SmartDashboard.putNumber("Throw RPM Target",targetRPM);
+        SmartDashboard.putBoolean("RPM Reached",targetReached);
 
         return(targetReached);
     }

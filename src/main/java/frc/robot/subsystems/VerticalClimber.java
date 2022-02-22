@@ -57,17 +57,23 @@ public class VerticalClimber extends SubsystemBase {
 
         double currentLimit = 5;
 
-        SmartDashboard.putNumber("Climber Currentn R", currentRight);
-        SmartDashboard.putNumber("Climber Currentn L", currentLeft);
+        SmartDashboard.putNumber("Climber Curr R", currentRight);
+        SmartDashboard.putNumber("Climber Curr L", currentLeft);
 
         if ( currentLeft > currentLimit ) {
             Robot.climberMotorLeft.set(ControlMode.PercentOutput,0);
-            limitCountLeft=50;
-        }    
+            limitCountLeft=50; 
+            SmartDashboard.putBoolean("Curr Over L", true);
+        } else {
+            SmartDashboard.putBoolean("Curr Over L", false);
+        }
         if ( currentRight > currentLimit ) {
             Robot.climberMotorRight.set(ControlMode.PercentOutput,0);
             limitCountRight=50;
-        }    
+            SmartDashboard.putBoolean("Curr Over R", true);
+        } else {
+            SmartDashboard.putBoolean("Curr Over R", false);
+        }
     }
 
 	/************************************************************************
@@ -75,7 +81,7 @@ public class VerticalClimber extends SubsystemBase {
 
      private double getRightPos() {
         double posRight = Robot.climberMotorRight.getSelectedSensorPosition();
-        SmartDashboard.putNumber("Arm Position Right", posRight);
+        SmartDashboard.putNumber("Arm Pos Right", posRight);
         return(posRight);
      }
 
@@ -84,7 +90,7 @@ public class VerticalClimber extends SubsystemBase {
 
     private double getLeftPos() {
         double posLeft = Robot.climberMotorLeft.getSelectedSensorPosition();
-        SmartDashboard.putNumber("Arm Position Left", posLeft);
+        SmartDashboard.putNumber("Arm Pos Left", posLeft);
         return(posLeft);
      }
 
