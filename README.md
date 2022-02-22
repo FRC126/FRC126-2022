@@ -1,13 +1,15 @@
 # FRC126-2022
 
-ToDos - (Section added by JJ)
+TODOS
 
-1. Identify subsystems
-  <br/>I. Identify unique subsystems
-  <br/>II. Identify number of motors required for each subsystem
-  <br/>III. Identify (additional) sensors required for each subsystem
-  <br/>IV. Identify Commands required for each subsystem.
-  <br/>V. Assign programming tasks.
-  
-2. Update Firmware on devices (ongoing, and as necessary; list items that need to be updated below and remove them upon completion)
-  <br/>I. Limelight update to image 2022.1.0
+1. Tune hardcoded variables once we have robot to test with
+  a. Thrower RPMs
+  b. Drive distance for auto
+  c. Turn time
+  d. throwing time
+2. Update Firmware on devices 
+  a. Talon FX Motors
+  b. spark max controllers
+  c. pdp
+  d. pneumatics hub
+   
