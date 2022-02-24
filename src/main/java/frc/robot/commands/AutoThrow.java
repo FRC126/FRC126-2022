@@ -19,7 +19,11 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Robot;
  
+/**********************************************************************************
+ **********************************************************************************/
+
 public class AutoThrow extends SequentialCommandGroup {
+    
     public AutoThrow(int throwRPM) {
         addCommands(
             // Stop Running the Intake
@@ -46,7 +50,8 @@ public class AutoThrow extends SequentialCommandGroup {
     /******************************************************************************************
      * Called once after isFinished returns true
      ******************************************************************************************/
-    @Override
+    
+     @Override
 	public void end(boolean isInterrupted) {
         Robot.ballThrower.ThrowerIntakeStop();
         Robot.ballThrower.throwerRPM(0);

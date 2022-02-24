@@ -21,6 +21,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**********************************************************************************
+ **********************************************************************************/
+
 public class LidarLite extends SubsystemBase {
     /*
     * Adjust the Calibration Offset to compensate for differences in each unit.

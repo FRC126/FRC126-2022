@@ -74,7 +74,7 @@ public class RobotMap {
 			intakeMotor1Inversion = 1; // Motor inversions
 			intakeMotor2Inversion = 1;
 			feederMotorIversion = 1;
-			climverMotorLInversion = 1;
+			climverMotorLInversion = -1;
 			climverMotorRInversion = 1;
 			left1Inversion     = 1;
 			left2Inversion     = 1;

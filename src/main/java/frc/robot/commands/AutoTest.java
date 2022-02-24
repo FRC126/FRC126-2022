@@ -19,12 +19,18 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Robot;
  
+/**********************************************************************************
+ **********************************************************************************/
+
 public class AutoTest extends SequentialCommandGroup {
     public AutoTest() {
         // TODO Target RPM for throw after picking up second ball
         int throwRPM=14000;
 
-        addCommands(
+    /**********************************************************************************
+     **********************************************************************************/
+
+     addCommands(
             // Shift the Transmission to Low
             new InstantCommand(Robot.driveBase::shiftDown, Robot.driveBase),
 
@@ -76,7 +82,8 @@ public class AutoTest extends SequentialCommandGroup {
     /******************************************************************************************
      * Called once after isFinished returns true
      ******************************************************************************************/
-    @Override
+
+     @Override
     public void end(boolean isInterrupted) {
         Robot.ballIntake.IntakeStop();
         Robot.ballIntake.RetractIntake();

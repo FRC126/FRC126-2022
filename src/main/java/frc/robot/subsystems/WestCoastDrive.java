@@ -19,14 +19,14 @@ import frc.robot.RobotMap;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-//import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import java.util.Arrays;
+
+/**********************************************************************************
+ **********************************************************************************/
 
 public class WestCoastDrive extends SubsystemBase {
 
@@ -120,24 +120,24 @@ public class WestCoastDrive extends SubsystemBase {
 	public void Drive(double fb, double rot) { 
 		leftMultiplier = fb + (rot);
 		rightMultiplier = fb - (rot);
-		leftSpeed = leftMultiplier / 2;
-		rightSpeed = rightMultiplier / 2;
+		leftSpeed = leftMultiplier / 1.5;
+		rightSpeed = rightMultiplier / 1.5;
 
 		SmartDashboard.putNumber("drive fb", fb);
 		SmartDashboard.putNumber("drive rot", rot);
 
-		//limiter = 1 + (1 * (Robot.internalData.getVoltage() - Robot.voltageThreshold));
-		//if(limiter < 0) {
-		//	limiter = 0;
-		//} else if(limiter > 1) {
-		//	limiter = 1;
-		//}
+		limiter = 1 + (1 * (Robot.internalData.getVoltage() - Robot.voltageThreshold));
+		if(limiter < 0) {
+			limiter = 0;
+		} else if(limiter > 1) {
+			limiter = 1;
+		}
 
-		//previousLimiter = (4 * previousLimiter + limiter) / 5;
-		//if(Robot.internalData.getVoltage() < Robot.voltageThreshold) {
-		//	leftSpeed *= previousLimiter;
-		//	rightSpeed *= previousLimiter;
-		//}
+		previousLimiter = (4 * previousLimiter + limiter) / 5;
+		if(Robot.internalData.getVoltage() < Robot.voltageThreshold) {
+			leftSpeed *= previousLimiter;
+			rightSpeed *= previousLimiter;
+		}
 
 		SmartDashboard.putNumber("Left Speed", leftSpeed);
         SmartDashboard.putNumber("Right Speed", rightSpeed);

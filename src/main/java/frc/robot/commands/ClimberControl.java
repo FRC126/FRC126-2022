@@ -19,6 +19,9 @@ import frc.robot.Robot;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+/**********************************************************************************
+ **********************************************************************************/
+
 public class ClimberControl extends CommandBase {
     static boolean intakeExtended=false;
 	static int intakeRPM=0;

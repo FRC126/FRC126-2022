@@ -64,11 +64,11 @@ public class Robot extends TimedRobot {
     public static TalonFX rightDriveMotor2 = new TalonFX(RobotMap.rightDriveMotorCanID2); 
 
     // Lidar Light Distance Measure
-	  public static LidarLite distance;
+    public static LidarLite distance;
 
     // Automation Variables
     public static double robotTurn = 0;
-	  public static double robotDrive = 0;
+	public static double robotDrive = 0;
     public static boolean shootNow = false;
     public static boolean pickupNow = false;
     public static boolean isThrowCommand=false;
@@ -85,8 +85,8 @@ public class Robot extends TimedRobot {
     public static PixyVision pixyVision;
     public static VerticalClimber verticalClimber;
     public static LimeLight limeLight;
-	  public static UsbCamera driveCam;
-	  public static VideoSink server;
+	public static UsbCamera driveCam;
+	public static VideoSink server;
     public static SequentialCommandGroup autonomous;
     public static boolean intakeRunning=false;
     public static boolean throwerRunning=false;
@@ -95,11 +95,11 @@ public class Robot extends TimedRobot {
     public int RobotID = 0;
 
     public static DigitalInput rightClimbLimit;
-	  public static DigitalInput leftClimbLimit;
+	public static DigitalInput leftClimbLimit;
     public static enum targetHeights{LowTarget,HighTarget};
     public static enum targetTypes{NoTarget,BallSeek,TargetSeek, PixyTargetSeek};
     public static enum allianceColor{Red,Blue};
-	  public static double voltageThreshold = 10.0;
+	public static double voltageThreshold = 10.0;
 
     // For use with limelight class
     public static double ThrowerRPM=0;

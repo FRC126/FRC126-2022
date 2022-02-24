@@ -17,10 +17,10 @@ package frc.robot.commands;
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-/**
- *
- */
-public class DriveDistance extends CommandBase {
+/**********************************************************************************
+ **********************************************************************************/
+
+ public class DriveDistance extends CommandBase {
     double driveFb;
     double driveLr;
     double targetAngle;

@@ -25,6 +25,9 @@ import frc.robot.PixyI2C;
 import frc.robot.PixyPacket;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
+/**********************************************************************************
+ **********************************************************************************/
+
 public class PixyVision extends SubsystemBase {
     public PixyI2C Pixy;
 	public PixyPacket[] packetData;

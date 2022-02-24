@@ -20,6 +20,9 @@ import frc.robot.Robot;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
+/**********************************************************************************
+ **********************************************************************************/
+
 public class IntakeControl extends CommandBase {
 	static int delay=0;
     static boolean intakeExtended=false;
@@ -86,6 +89,14 @@ public class IntakeControl extends CommandBase {
 			} else {
 				Robot.intakeRunning=true;
 				Robot.ballIntake.IntakeRun();
+     		}
+		} else if (operatorJoystick.getRightTrigger() > 0.1) {
+			if (!autoIntakeExtend) {
+                Robot.ballIntake.ExtendIntake();
+				autoIntakeExtend = true;
+			} else {
+				Robot.intakeRunning=true;
+				Robot.ballIntake.IntakeReverse();
      		}
 		} else {
 			if (autoIntakeExtend) {
