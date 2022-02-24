@@ -120,21 +120,24 @@ public class WestCoastDrive extends SubsystemBase {
 	public void Drive(double fb, double rot) { 
 		leftMultiplier = fb + (rot);
 		rightMultiplier = fb - (rot);
-		leftSpeed = leftMultiplier;
-		rightSpeed = rightMultiplier;
+		leftSpeed = leftMultiplier / 2;
+		rightSpeed = rightMultiplier / 2;
 
-		limiter = 1 + (1 * (Robot.internalData.getVoltage() - Robot.voltageThreshold));
-		if(limiter < 0) {
-			limiter = 0;
-		} else if(limiter > 1) {
-			limiter = 1;
-		}
+		SmartDashboard.putNumber("drive fb", fb);
+		SmartDashboard.putNumber("drive rot", rot);
 
-		previousLimiter = (4 * previousLimiter + limiter) / 5;
-		if(Robot.internalData.getVoltage() < Robot.voltageThreshold) {
-			leftSpeed *= previousLimiter;
-			rightSpeed *= previousLimiter;
-		}
+		//limiter = 1 + (1 * (Robot.internalData.getVoltage() - Robot.voltageThreshold));
+		//if(limiter < 0) {
+		//	limiter = 0;
+		//} else if(limiter > 1) {
+		//	limiter = 1;
+		//}
+
+		//previousLimiter = (4 * previousLimiter + limiter) / 5;
+		//if(Robot.internalData.getVoltage() < Robot.voltageThreshold) {
+		//	leftSpeed *= previousLimiter;
+		//	rightSpeed *= previousLimiter;
+		//}
 
 		SmartDashboard.putNumber("Left Speed", leftSpeed);
         SmartDashboard.putNumber("Right Speed", rightSpeed);

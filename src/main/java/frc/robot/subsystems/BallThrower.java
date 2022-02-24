@@ -48,9 +48,9 @@ public class BallThrower extends SubsystemBase {
     public boolean throwerRPM(int targetRPM) {
         boolean targetReached=false;
 
-        int rpm = (int)Math.abs(Robot.throwerMotor1.getSelectedSensorVelocity());
+        int rpm = (int)Math.abs(Robot.throwerMotor2.getSelectedSensorVelocity());
 
-        if (rpm < targetRPM-25) {
+        if (rpm < targetRPM-50) {
             // If we are below the rpm target
             if (delay <= 0 ) {
                 if (rpm < targetRPM-500) {
@@ -69,7 +69,7 @@ public class BallThrower extends SubsystemBase {
                 }
                 if (throwerSpeed > 1) { throwerSpeed = 1; }
             }
-        } else if (rpm > targetRPM+25) {
+        } else if (rpm > targetRPM+50) {
             // If we are above the rpm target
             if (delay <= 0 ) {
                 if (rpm > targetRPM+500) {
@@ -100,13 +100,13 @@ public class BallThrower extends SubsystemBase {
         delay--;
 
         // Set the speed on the Thrower Motors
-        Robot.throwerMotor1.set(ControlMode.PercentOutput,throwerSpeed);
-        Robot.throwerMotor2.set(ControlMode.PercentOutput,throwerSpeed * -1);
+        Robot.throwerMotor1.set(ControlMode.PercentOutput,throwerSpeed * -1);
+        Robot.throwerMotor2.set(ControlMode.PercentOutput,throwerSpeed);
 
         // Log info to the smart dashboard
 		SmartDashboard.putNumber("Throw RPM Current",rpm);
         SmartDashboard.putNumber("Throw RPM Target",targetRPM);
-        SmartDashboard.putBoolean("RPM Reached",targetReached);
+        SmartDashboard.putBoolean("Throw RPM Reached",targetReached);
 
         return(targetReached);
     }
@@ -123,13 +123,22 @@ public class BallThrower extends SubsystemBase {
 	 ************************************************************************/
 
     public void ThrowerIntakeRun() {
-        ThrowerIntake(0.4);
+        SmartDashboard.putBoolean("Thrower Intake Run",true);
+        ThrowerIntake(-0.4);
+        if (!Robot.intakeRunning) {
+            Robot.intakeMotor2.set(0.4);
+        }
+
     }
 
   	/************************************************************************
 	 ************************************************************************/
 
      public void ThrowerIntakeStop() {
+        SmartDashboard.putBoolean("Thrower Intake Run",false);
         ThrowerIntake(0.0);
+        if (!Robot.intakeRunning) {
+            Robot.intakeMotor2.set(0.0);
+        }
     }
 }

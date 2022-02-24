@@ -47,21 +47,23 @@ public class BallIntake extends SubsystemBase {
 
     public void IntakeSpeed(double speed) {
         Robot.intakeMotor1.set(speed);
-        Robot.intakeMotor2.set(speed);
+        if (!Robot.throwerRunning) {
+            Robot.intakeMotor2.set(speed*-1);
+        }    
     }   
 
   	/************************************************************************
 	 ************************************************************************/
 
      public void IntakeRun() {
-        IntakeSpeed(0.3);
+        IntakeSpeed(-0.3);
     }
 
   	/************************************************************************
 	 ************************************************************************/
 
      public void IntakeReverse() {
-        IntakeSpeed(-0.3);
+        IntakeSpeed(0.3);
     }
 
   	/************************************************************************

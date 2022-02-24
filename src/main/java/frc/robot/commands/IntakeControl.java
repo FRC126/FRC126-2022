@@ -84,10 +84,12 @@ public class IntakeControl extends CommandBase {
                 Robot.ballIntake.ExtendIntake();
 				autoIntakeExtend = true;
 			} else {
+				Robot.intakeRunning=true;
 				Robot.ballIntake.IntakeRun();
      		}
 		} else {
 			if (autoIntakeExtend) {
+				Robot.intakeRunning=false;
 				Robot.ballIntake.IntakeStop();
                 Robot.ballIntake.RetractIntake();
 			}
@@ -96,11 +98,13 @@ public class IntakeControl extends CommandBase {
 			// Forwards or backwards.
 			double foo = operatorJoystick.getRightStickY();
 			if (foo > .2) {
+				Robot.intakeRunning=true;
 				Robot.ballIntake.IntakeRun();
 			} else if ( foo < -.2) {
+				Robot.intakeRunning=true;
 				Robot.ballIntake.IntakeReverse();
 			} else {
-				
+				Robot.intakeRunning=false;
 				Robot.ballIntake.IntakeStop();
 			}
 		}	 

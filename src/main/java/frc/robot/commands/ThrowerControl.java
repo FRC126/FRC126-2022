@@ -66,13 +66,14 @@ public class ThrowerControl extends CommandBase {
 			throwerRPM=14000;
 			autoThrow=true;
 		} else if (operatorJoystick.getPovRight()) {
-			throwerRPM=17000;
+			throwerRPM=20000;
 			autoThrow=true;
 		} else {
 			if ( autoThrow == true ) {
 				// IF autoThrow was true, cancel it.
 				throwerRPM=0;
 				autoThrow=false;
+				Robot.throwerRunning=false;
 				Robot.ballThrower.ThrowerIntakeStop();
 			}
 		}	
@@ -112,12 +113,15 @@ public class ThrowerControl extends CommandBase {
 		if (rpmReached && autoThrow) {
 			// If we reached the target RPM, and autoThrow is set, run the thrower intake motor
 			Robot.ballThrower.ThrowerIntakeRun();
+			Robot.throwerRunning=true;
 		} else {
 			// If autoThrow is false or the targetRPM isn't reach, run the thrower intake motor
 			// motor is the X button is pressed, otherwise stop the thrower intake motor
 			if (operatorJoystick.isXButton()) {
+				Robot.throwerRunning=true;
 				Robot.ballThrower.ThrowerIntakeRun();
 			} else {
+				Robot.throwerRunning=false;
 				Robot.ballThrower.ThrowerIntakeStop();
 			}
 		}

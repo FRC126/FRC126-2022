@@ -34,9 +34,9 @@ public class RobotMap {
 	public static int xboxRStick = 10; // Right stick button
 
     // Neo Motor Can Bus ID's
-    public static int intakeMotor1CanID = 2;
-	public static int intakeMotor2CanID = 3;
-	public static int feederMotorCanID = 4;
+    public static int intakeMotor1CanID = 6;
+	public static int intakeMotor2CanID = 7;
+	public static int feederMotorCanID = 8;
 	
 	// Driver Motor Can ID's
 	public static int leftDriveMotorCanID1 = 20;
@@ -78,8 +78,8 @@ public class RobotMap {
 			climverMotorRInversion = 1;
 			left1Inversion     = 1;
 			left2Inversion     = 1;
-			right1Inversion    = 1;
-			right2Inversion    = 1;
+			right1Inversion    = -1;
+			right2Inversion    = -1;
 		} else { 
 			// 2022 Breadboard
 			intakeMotor1Inversion = 1; // Motor inversions

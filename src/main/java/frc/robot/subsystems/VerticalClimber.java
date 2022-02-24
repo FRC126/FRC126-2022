@@ -55,7 +55,7 @@ public class VerticalClimber extends SubsystemBase {
         double currentLeft=Robot.climberMotorLeft.getStatorCurrent();
         double currentRight=Robot.climberMotorRight.getStatorCurrent();
 
-        double currentLimit = 5;
+        double currentLimit = 50;
 
         SmartDashboard.putNumber("Climber Curr R", currentRight);
         SmartDashboard.putNumber("Climber Curr L", currentLeft);
@@ -104,19 +104,19 @@ public class VerticalClimber extends SubsystemBase {
 
         // TODO, need to know what the height limit is on the arm encoders.
         // TODO have position for first bar and second bar
-        double heightLimit = 25000;
+        double heightLimit = 250000;
 
         // Check the current draw before we move the motors
         checkCurrent();   
 
         // Need to use encoder to track max extension
-        double posLeft = getLeftPos();
+        double posLeft = getLeftPos() * -1;
         if (posLeft < heightLimit && limitCountLeft <= 0 ) {
             if (posLeft < heightLimit - 5000) {
                 // Slow down as we get close to the limit
-                Robot.climberMotorLeft.set(ControlMode.PercentOutput,0.2);
+                Robot.climberMotorLeft.set(ControlMode.PercentOutput,-0.2);
             } else {
-                Robot.climberMotorLeft.set(ControlMode.PercentOutput,0.4);
+                Robot.climberMotorLeft.set(ControlMode.PercentOutput,-0.4);
             }    
         } else {
             Robot.climberMotorLeft.set(ControlMode.PercentOutput,-0);
@@ -150,7 +150,7 @@ public class VerticalClimber extends SubsystemBase {
 
         // Need to use encoder to track retraction.
         double posLeft = getLeftPos();
-       if (Robot.leftClimbLimit.get() == true) {
+       if (Robot.leftClimbLimit.get() == true && false) {
             // Stop lowering left arm
             // zero encoder
             Robot.climberMotorLeft.set(ControlMode.PercentOutput,0);
@@ -169,7 +169,7 @@ public class VerticalClimber extends SubsystemBase {
         }
 
         double posRight = getRightPos();
-        if (Robot.rightClimbLimit.get() == true) {
+        if (Robot.rightClimbLimit.get() == true && false) {
             // Stop lowering rightlc -l arm
             // zero encoder
             Robot.climberMotorRight.set(ControlMode.PercentOutput,0);
@@ -178,9 +178,9 @@ public class VerticalClimber extends SubsystemBase {
             if ( limitCountRight <= 0 ) {
                 if (posRight<5000) {
                     // Slow down as we get close to the bottom
-                    Robot.climberMotorRight.set(ControlMode.PercentOutput,-0.2);
+                    Robot.climberMotorRight.set(ControlMode.PercentOutput,0.2);
                 } else {    
-                    Robot.climberMotorRight.set(ControlMode.PercentOutput,-0.4);
+                    Robot.climberMotorRight.set(ControlMode.PercentOutput,0.4);
                 }    
             } else {
                 Robot.climberMotorRight.set(ControlMode.PercentOutput,0);

@@ -88,6 +88,8 @@ public class Robot extends TimedRobot {
 	  public static UsbCamera driveCam;
 	  public static VideoSink server;
     public static SequentialCommandGroup autonomous;
+    public static boolean intakeRunning=false;
+    public static boolean throwerRunning=false;
 
     // Global Robot Variables
     public int RobotID = 0;

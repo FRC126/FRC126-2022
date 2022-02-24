@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriverControl extends CommandBase {
 	static int delay=0;
-	static boolean turnAround;
+	static boolean turnAround=false;
 	static double startAngle;
 	JoystickWrapper driveJoystick;
 	
@@ -31,7 +31,7 @@ public class DriverControl extends CommandBase {
 	
     public DriverControl(WestCoastDrive subsystem) {
 		addRequirements(subsystem);
-		driveJoystick = new JoystickWrapper(Robot.oi.driveController, 0.10);
+		driveJoystick = new JoystickWrapper(Robot.oi.driveController, 0.05);
     }
 
 	/**********************************************************************************
@@ -55,7 +55,7 @@ public class DriverControl extends CommandBase {
 
 		// Get stick inputs
         double FB = driveJoystick.getLeftStickY();
-        double LR = driveJoystick.getRightStickX();
+        double LR = driveJoystick.getRightStickX() * -1 ;
 
 		if (driveJoystick.isLShoulderButton()) {
 			// Shift Down Drive Train
