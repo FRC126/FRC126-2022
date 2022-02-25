@@ -123,8 +123,6 @@ public class WestCoastDrive extends SubsystemBase {
 		leftSpeed = leftMultiplier / 1.5;
 		rightSpeed = rightMultiplier / 1.5;
 
-		SmartDashboard.putNumber("drive fb", fb);
-		SmartDashboard.putNumber("drive rot", rot);
 
 		limiter = 1 + (1 * (Robot.internalData.getVoltage() - Robot.voltageThreshold));
 		if(limiter < 0) {
@@ -139,8 +137,10 @@ public class WestCoastDrive extends SubsystemBase {
 			rightSpeed *= previousLimiter;
 		}
 
-		SmartDashboard.putNumber("Left Speed", leftSpeed);
-        SmartDashboard.putNumber("Right Speed", rightSpeed);
+		//SmartDashboard.putNumber("drive fb", fb);
+		//SmartDashboard.putNumber("drive rot", rot);
+		//SmartDashboard.putNumber("Left Speed", leftSpeed);
+        //SmartDashboard.putNumber("Right Speed", rightSpeed);
 
 		Robot.leftDriveMotor1.set(ControlMode.PercentOutput, leftSpeed * RobotMap.left1Inversion);
 		Robot.leftDriveMotor2.set(ControlMode.PercentOutput, leftSpeed * RobotMap.left2Inversion);

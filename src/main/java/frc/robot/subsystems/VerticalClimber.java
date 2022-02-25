@@ -64,9 +64,6 @@ public class VerticalClimber extends SubsystemBase {
 
         double currentLimit = 25;
 
-        SmartDashboard.putNumber("Climber Curr R", currentRight);
-        SmartDashboard.putNumber("Climber Curr L", currentLeft);
-
         if ( currentLeft > currentLimit ) {
             Robot.climberMotorLeft.set(ControlMode.PercentOutput,0);
             limitCountLeft=50; 
@@ -76,6 +73,8 @@ public class VerticalClimber extends SubsystemBase {
             limitCountRight=50;
         }
 
+        SmartDashboard.putNumber("Climber Curr R", currentRight);
+        SmartDashboard.putNumber("Climber Curr L", currentLeft);
         SmartDashboard.putNumber("Limit Count L", limitCountLeft);
         SmartDashboard.putNumber("Limit Count R", limitCountRight);
     }

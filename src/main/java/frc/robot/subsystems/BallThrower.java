@@ -156,7 +156,7 @@ public class BallThrower extends SubsystemBase {
 	 ************************************************************************/
 
     public void ThrowerIntakeRun() {
-        SmartDashboard.putBoolean("Thrower Intake Run",true);
+        //SmartDashboard.putBoolean("Thrower Intake Run",true);
         ThrowerIntake(0.4 * RobotMap.feederMotorInversion);
         if (!Robot.intakeRunning) {
             Robot.intakeMotor2.set(0.4);
@@ -168,7 +168,7 @@ public class BallThrower extends SubsystemBase {
 	 ************************************************************************/
 
      public void ThrowerIntakeStop() {
-        SmartDashboard.putBoolean("Thrower Intake Run",false);
+        //SmartDashboard.putBoolean("Thrower Intake Run",false);
         ThrowerIntake(0.0);
         if (!Robot.intakeRunning) {
             Robot.intakeMotor2.set(0.0);

@@ -129,8 +129,6 @@ public class ThrowerControl extends CommandBase {
 			}
 		}
 
-		SmartDashboard.putNumber("Thrower RPM",throwerRPM);
-
 		delay--;	
 	}
 

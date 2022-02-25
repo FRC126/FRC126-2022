@@ -43,7 +43,6 @@ public class IntakeControl extends CommandBase {
 	
 	@Override
 	public void initialize() {
-		Log.print(0, "OI", "Operator control initialized.");
 	}    
 
 	/**********************************************************************************

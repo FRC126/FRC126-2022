@@ -98,8 +98,8 @@ public class DriverControl extends CommandBase {
 		delay--;
 
 		// Log the Joystick X,Y Axis to the SmartDashboard.
-		SmartDashboard.putNumber("JoyStick Y Axis",FB);
-		SmartDashboard.putNumber("JoyStick X Axis",LR);
+		//SmartDashboard.putNumber("JoyStick Y Axis",FB);
+		//SmartDashboard.putNumber("JoyStick X Axis",LR);
 		SmartDashboard.putNumber("robotTurn",Robot.robotTurn);
 		SmartDashboard.putNumber("robotDrive",Robot.robotDrive);
 
