@@ -168,13 +168,14 @@ public class WestCoastDrive extends SubsystemBase {
 		double wheelDiameter = 6.45; // 6.4 inches, 20.25" diameter
 		double gearRatio = 3.41;
 		
-		double left1 = Robot.leftDriveMotor1.getSelectedSensorPosition();
-		double left2 = Robot.leftDriveMotor2.getSelectedSensorPosition();
+		double left1 = Robot.leftDriveMotor1.getSelectedSensorPosition() * RobotMap.left1Inversion;
+		double left2 = Robot.leftDriveMotor2.getSelectedSensorPosition() * RobotMap.left2Inversion;
 
-        double right1 = Robot.rightDriveMotor1.getSelectedSensorPosition();
-		double right2 = Robot.rightDriveMotor2.getSelectedSensorPosition();
+        double right1 = Robot.rightDriveMotor1.getSelectedSensorPosition() * RobotMap.right1Inversion;
+		double right2 = Robot.rightDriveMotor2.getSelectedSensorPosition() * RobotMap.right2Inversion;
 
-		double avg = (left1 + left2 + right1+ right2) / 4;
+		// Get the absolute value of the average of all the encoders.
+		double avg = Math.abs((left1 + left2 + right1+ right2) / 4);
 
 		double distance = ((avg / ticksPerRotation) / gearRatio) * (wheelDiameter *3.1459);
 

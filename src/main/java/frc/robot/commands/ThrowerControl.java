@@ -60,13 +60,13 @@ public class ThrowerControl extends CommandBase {
 		// Use the POV pad to set 4 different throwing distances.  Button needs to be
 		// held down for length of throwing action
 		if (operatorJoystick.getPovDown()) {
-            throwerRPM=8000;
+            throwerRPM=11000;
 			autoThrow=true;
 		} else if (operatorJoystick.getPovLeft()) {
-			throwerRPM=11000;
+			throwerRPM=14000;
 			autoThrow=true;
 		} else if (operatorJoystick.getPovUp()) {
-			throwerRPM=14000;
+			throwerRPM=17000;
 			autoThrow=true;
 		} else if (operatorJoystick.getPovRight()) {
 			throwerRPM=20000;

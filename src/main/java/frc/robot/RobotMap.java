@@ -66,9 +66,6 @@ public class RobotMap {
 	public static int climberMotorLInversion;
 	public static int climberMotorRInversion;
 
-	//public static int LeftClimberInversion;
-	//public static int RightClimberInversion;
-
 	//Position Calibrations
 	public static void setRobot(double robotID){
 		if(robotID == 0) { 
@@ -97,8 +94,6 @@ public class RobotMap {
 			right2Inversion    = 1;
 			throwerMotor1Inversion = -1;
 			throwerMotor2Inversion = 1;
-			//LeftClimberInversion = 1;
-			//RightClimberInversion = 1;
 		}
 	}
 

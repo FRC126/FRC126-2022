@@ -158,6 +158,7 @@ public class JoystickWrapper {
  *     Climber Controls
  *         A Button - Raise Climber Arms - only moves while held
  *         B Button - Lower Climber Arms - only moves while held
+ *         Start Button - Reset Encoders
  * 
  *     Lime Light Controls
  *         POV Up - Turn to lock onto target and then auto throw
