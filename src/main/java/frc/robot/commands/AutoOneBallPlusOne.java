@@ -91,7 +91,7 @@ public class AutoOneBallPlusOne extends SequentialCommandGroup {
             new ThrowerWork(0, 0),
 
             // put the transmission in high gear
-            new InstantCommand(Robot.driveBase::shiftUp, Robot.driveBase),
+            new InstantCommand(Robot.driveBase::shiftUp, Robot.driveBase)
         );
     }       
 
