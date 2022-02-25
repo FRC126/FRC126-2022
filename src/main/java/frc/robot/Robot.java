@@ -114,7 +114,6 @@ public class Robot extends TimedRobot {
 	@SuppressWarnings("rawtypes")
 	SendableChooser autoFunction = new SendableChooser(); // Priority chooser
 
-
  	  /************************************************************************
      * This function is run when the robot is first started up and should be used for any
      * initialization code.
@@ -157,6 +156,14 @@ public class Robot extends TimedRobot {
         driveCam.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
 		server.setSource(driveCam);
 
+        autoFunction.setDefaultOption("One_Ball_Auto (default)",0);
+        autoFunction.addOption("Two_Ball_Auto",1);
+        autoFunction.addOption("One_Ball_Plus_OneAuto",2);
+
+        autoPosition.setDefaultOption("Right Side (default)",0);
+        autoPosition.addOption("Middle",1);
+        autoPosition.addOption("Left Side",2);
+
         Log.print(0, "Robot", "Robot Init Complete");
     }
 
@@ -179,10 +186,12 @@ public class Robot extends TimedRobot {
 		}
 
         // Position doesn't matter right now.
-        if (selectedAutoFunction == 1) {
-            autonomous = new AutoTwoBall();
-        } else {
+        if (selectedAutoFunction == 0) {
             autonomous = new AutoOneBall();
+        } else if (selectedAutoFunction == 1) {
+            autonomous = new AutoTwoBall();
+        } else if (selectedAutoFunction == 2) {
+            autonomous = new AutoOneBallPlusOne();
         }
     }
 
