@@ -22,8 +22,8 @@ import frc.robot.Robot;
 /**********************************************************************************
  **********************************************************************************/
 
-public class AutoTest extends SequentialCommandGroup {
-    public AutoTest() {
+public class AutoTwoBall extends SequentialCommandGroup {
+    public AutoTwoBall() {
         // TODO Target RPM for throw after picking up second ball
         int throwRPM=14000;
 
