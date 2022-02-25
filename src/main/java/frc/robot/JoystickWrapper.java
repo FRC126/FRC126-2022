@@ -170,6 +170,8 @@ public class JoystickWrapper {
  *         Right Joystick Y-Axis - Run Intake Forwards or Backwards
  *         Left Trigger - While held, extend intake and run intake, when 
  *                        released stop intake and retract intake
+ *         Right Trigger - While held, extend intake and run intake backwards, when 
+ *                        released stop intake and retract intake
  * 
  *     Thrower Control
  *         Spins up thrower and automatically throws ball while button is held

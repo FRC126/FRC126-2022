@@ -142,9 +142,9 @@ public class Robot extends TimedRobot {
 
         // Start the camera server for the drive camera
         driveCam = CameraServer.startAutomaticCapture();
-		    server = CameraServer.getServer();
+		server = CameraServer.getServer();
         driveCam.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
-		    server.setSource(driveCam);
+		server.setSource(driveCam);
 
         Log.print(0, "Robot", "Robot Init Complete");
     }

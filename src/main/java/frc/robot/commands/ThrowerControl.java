@@ -20,6 +20,9 @@ import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**********************************************************************************
+ **********************************************************************************/
+
 public class ThrowerControl extends CommandBase {
 	static double speed;
 	static int delay=0;

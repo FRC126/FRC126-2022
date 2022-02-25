@@ -66,8 +66,8 @@ public class BallThrower extends SubsystemBase {
                     throwerSpeed = throwerSpeed + 0.01;   
                 } else {
                     // if we less than 500 RPM awawy, change speed slower
-                    delay=5;
-                    throwerSpeed = throwerSpeed + 0.0025;
+                    delay=2;
+                    throwerSpeed = throwerSpeed + 0.0015;
                 }
                 if (throwerSpeed > 1) { throwerSpeed = 1; }
             }
@@ -85,8 +85,8 @@ public class BallThrower extends SubsystemBase {
                     throwerSpeed = throwerSpeed - 0.01;   
                 } else {
                     // if we less than 500 RPM awawy, change speed slower
-                    delay=5;
-                    throwerSpeed = throwerSpeed - 0.0025;
+                    delay=2;
+                    throwerSpeed = throwerSpeed - 0.0015;
                 }
                 if (throwerSpeed < 0) { throwerSpeed = 0; }
             }
