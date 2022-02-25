@@ -55,7 +55,9 @@ public class RobotMap {
 	//Motor Inversions
 	public static int intakeMotor1Inversion;
 	public static int intakeMotor2Inversion;
-	public static int feederMotorIversion;
+	public static int feederMotorInversion;
+	public static int throwerMotor1Inversion;
+	public static int throwerMotor2Inversion;
 
 	public static int left1Inversion;
 	public static int left2Inversion;
@@ -64,8 +66,8 @@ public class RobotMap {
 	public static int LeftClimberInversion;
 	public static int RightClimberInversion;
 
-	public static int climverMotorLInversion;
-	public static int climverMotorRInversion;
+	public static int climberMotorLInversion;
+	public static int climberMotorRInversion;
 
 	//Position Calibrations
 	public static void setRobot(double robotID){
@@ -73,20 +75,22 @@ public class RobotMap {
 			// 2022 DriveBase
 			intakeMotor1Inversion = 1; // Motor inversions
 			intakeMotor2Inversion = 1;
-			feederMotorIversion = 1;
-			climverMotorLInversion = -1;
-			climverMotorRInversion = 1;
+			feederMotorInversion = 1;
+			climberMotorLInversion = -1;
+			climberMotorRInversion = 1;
 			left1Inversion     = 1;
 			left2Inversion     = 1;
 			right1Inversion    = -1;
 			right2Inversion    = -1;
+			throwerMotor1Inversion = -1;
+			throwerMotor2Inversion = 1;
 		} else { 
 			// 2022 Breadboard
 			intakeMotor1Inversion = 1; // Motor inversions
 			intakeMotor2Inversion = 1;
-			feederMotorIversion = 1;
-			climverMotorLInversion = 1;
-			climverMotorRInversion = 1;
+			feederMotorInversion = 1;
+			climberMotorLInversion = 1;
+			climberMotorRInversion = 1;
 			left1Inversion     = 1;
 			left2Inversion     = 1;
 			right1Inversion    = 1;

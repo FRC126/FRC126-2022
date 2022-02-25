@@ -95,7 +95,7 @@ public class VerticalClimber extends SubsystemBase {
     private double getLeftPos() {
         double posLeft = Robot.climberMotorLeft.getSelectedSensorPosition();
         SmartDashboard.putNumber("Arm Pos Left", posLeft);
-        return(posLeft * RobotMap.climverMotorLInversion );
+        return(posLeft * RobotMap.climberMotorLInversion );
      }
 
   	/************************************************************************
@@ -118,9 +118,9 @@ public class VerticalClimber extends SubsystemBase {
         if (posLeft < heightLimit && limitCountLeft <= 0 ) {
             if (posLeft < heightLimit - 5000) {
                 // Slow down as we get close to the limit
-                Robot.climberMotorLeft.set(ControlMode.PercentOutput, 0.3 * RobotMap.climverMotorLInversion);
+                Robot.climberMotorLeft.set(ControlMode.PercentOutput, 0.3 * RobotMap.climberMotorLInversion);
             } else {
-                Robot.climberMotorLeft.set(ControlMode.PercentOutput, 0.6 * RobotMap.climverMotorLInversion);
+                Robot.climberMotorLeft.set(ControlMode.PercentOutput, 0.6 * RobotMap.climberMotorLInversion);
             }    
         } else {
             Robot.climberMotorLeft.set(ControlMode.PercentOutput,-0);
@@ -130,9 +130,9 @@ public class VerticalClimber extends SubsystemBase {
         if (posRight < heightLimit && limitCountRight <= 0 ) {
             if (posRight < heightLimit - 5000) {
                 // Slow down as we get close to the limit
-                Robot.climberMotorRight.set(ControlMode.PercentOutput,0.3 * RobotMap.climverMotorRInversion);
+                Robot.climberMotorRight.set(ControlMode.PercentOutput,0.3 * RobotMap.climberMotorRInversion);
             } else {
-                Robot.climberMotorRight.set(ControlMode.PercentOutput,0.6 * RobotMap.climverMotorRInversion);
+                Robot.climberMotorRight.set(ControlMode.PercentOutput,0.6 * RobotMap.climberMotorRInversion);
             }    
         } else {
             Robot.climberMotorRight.set(ControlMode.PercentOutput,-0);
@@ -163,9 +163,9 @@ public class VerticalClimber extends SubsystemBase {
             if ( limitCountLeft <= 0 ) {
                 if (posLeft<5000) {
                     // Slow down as we get close to the bottom
-                    Robot.climberMotorLeft.set(ControlMode.PercentOutput, -0.3 * RobotMap.climverMotorLInversion);
+                    Robot.climberMotorLeft.set(ControlMode.PercentOutput, -0.3 * RobotMap.climberMotorLInversion);
                 } else {    
-                    Robot.climberMotorLeft.set(ControlMode.PercentOutput, -0.6 * RobotMap.climverMotorLInversion);
+                    Robot.climberMotorLeft.set(ControlMode.PercentOutput, -0.6 * RobotMap.climberMotorLInversion);
                 }    
             } else {
                 Robot.climberMotorLeft.set(ControlMode.PercentOutput,-0);
@@ -182,9 +182,9 @@ public class VerticalClimber extends SubsystemBase {
             if ( limitCountRight <= 0 ) {
                 if (posRight<5000) {
                     // Slow down as we get close to the bottom
-                    Robot.climberMotorRight.set(ControlMode.PercentOutput, -0.3 * RobotMap.climverMotorRInversion);
+                    Robot.climberMotorRight.set(ControlMode.PercentOutput, -0.3 * RobotMap.climberMotorRInversion);
                 } else {    
-                    Robot.climberMotorRight.set(ControlMode.PercentOutput, -0.6 * RobotMap.climverMotorRInversion);
+                    Robot.climberMotorRight.set(ControlMode.PercentOutput, -0.6 * RobotMap.climberMotorRInversion);
                 }    
             } else {
                 Robot.climberMotorRight.set(ControlMode.PercentOutput,0);
