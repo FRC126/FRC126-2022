@@ -26,6 +26,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
@@ -104,6 +106,15 @@ public class Robot extends TimedRobot {
     // For use with limelight class
     public static double ThrowerRPM=0;
 
+    int selectedAutoPosition;
+	int selectedAutoFunction;
+	
+	@SuppressWarnings("rawtypes")
+	SendableChooser autoPosition = new SendableChooser(); // Position chooser
+	@SuppressWarnings("rawtypes")
+	SendableChooser autoFunction = new SendableChooser(); // Priority chooser
+
+
  	  /************************************************************************
      * This function is run when the robot is first started up and should be used for any
      * initialization code.
@@ -156,8 +167,23 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         Log.print(0, "Robot", "Robot Autonomous Init");
 
-        // Create the new auto command
-        autonomous = new AutoTest();
+        try {
+			selectedAutoPosition = (int) autoPosition.getSelected();
+		} catch(NullPointerException e) {
+			selectedAutoPosition = 0;
+		}
+		try {
+			selectedAutoFunction = (int) autoFunction.getSelected();
+		} catch(NullPointerException e) {
+			selectedAutoFunction = 0;
+		}
+
+        // Position doesn't matter right now.
+        if (selectedAutoFunction == 1) {
+            autonomous = new AutoTwoBall();
+        } else {
+            autonomous = new AutoOneBall();
+        }
     }
 
  	  /************************************************************************
