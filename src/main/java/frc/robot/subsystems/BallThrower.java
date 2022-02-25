@@ -52,7 +52,7 @@ public class BallThrower extends SubsystemBase {
 
         int rpm = (int)Math.abs(Robot.throwerMotor2.getSelectedSensorVelocity());
 
-        if (rpm < targetRPM-75) {
+        if (rpm < targetRPM-50) {
             // If we are below the rpm target
             if (delay <= 0 ) {
                 if (rpm < targetRPM-500) {
@@ -67,11 +67,11 @@ public class BallThrower extends SubsystemBase {
                 } else {
                     // if we less than 500 RPM awawy, change speed slower
                     delay=2;
-                    throwerSpeed = throwerSpeed + 0.0015;
+                    throwerSpeed = throwerSpeed + 0.002;
                 }
                 if (throwerSpeed > 1) { throwerSpeed = 1; }
             }
-        } else if (rpm > targetRPM+75) {
+        } else if (rpm > targetRPM+50) {
             // If we are above the rpm target
             if (delay <= 0 ) {
                 if (rpm > targetRPM+500) {
@@ -86,7 +86,7 @@ public class BallThrower extends SubsystemBase {
                 } else {
                     // if we less than 500 RPM awawy, change speed slower
                     delay=2;
-                    throwerSpeed = throwerSpeed - 0.0015;
+                    throwerSpeed = throwerSpeed - 0.002;
                 }
                 if (throwerSpeed < 0) { throwerSpeed = 0; }
             }

@@ -20,6 +20,7 @@ import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**********************************************************************************
@@ -37,6 +38,8 @@ public class VerticalClimber extends SubsystemBase {
         // Register this subsystem with command scheduler and set the default command
         CommandScheduler.getInstance().registerSubsystem(this);
         setDefaultCommand(new ClimberControl(this));
+        Robot.climberMotorLeft.setNeutralMode(NeutralMode.Brake);
+        Robot.climberMotorRight.setNeutralMode(NeutralMode.Brake);
     }
 
 	/************************************************************************
@@ -108,7 +111,7 @@ public class VerticalClimber extends SubsystemBase {
 
         // TODO, need to know what the height limit is on the arm encoders.
         // TODO have position for first bar and second bar
-        double heightLimit = 150000;
+        double heightLimit = 570000;
 
         // Check the current draw before we move the motors
         checkCurrent();   
@@ -154,7 +157,7 @@ public class VerticalClimber extends SubsystemBase {
 
         // Need to use encoder to track retraction.
         double posLeft = getLeftPos();
-       if (Robot.leftClimbLimit.get() == true) {
+       if (Robot.leftClimbLimit.get() == true && false) {
             // Stop lowering left arm
             // zero encoder
             Robot.climberMotorLeft.set(ControlMode.PercentOutput,0);
@@ -173,7 +176,7 @@ public class VerticalClimber extends SubsystemBase {
         }
 
         double posRight = getRightPos();
-        if (Robot.rightClimbLimit.get() == true) {
+        if (Robot.rightClimbLimit.get() == true && false) {
             // Stop lowering rightlc -l arm
             // zero encoder
             Robot.climberMotorRight.set(ControlMode.PercentOutput,0);
