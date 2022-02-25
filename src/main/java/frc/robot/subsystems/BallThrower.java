@@ -58,7 +58,10 @@ public class BallThrower extends SubsystemBase {
         int rpm = (int)Math.abs(Robot.throwerMotor2.getSelectedSensorVelocity());
 
         if (usePidLoop == true) {
-            // PID Loop for controlling motor RPM
+            /**********************************************************************
+             * PID Loop for controlling motor RPM
+             **********************************************************************/
+
             if (targetRPM == 0) { /** Spindown **/
                 throwerSpeed=0;
             } else { /** Normal operation **/
@@ -76,8 +79,13 @@ public class BallThrower extends SubsystemBase {
                 targetReached=true;
             }
         } else {
-            // Manual Motor Control
-            if (rpm < targetRPM-50) {
+            /**********************************************************************
+             * Manual Motor Control
+             **********************************************************************/
+            if (targetRPM == 0) {
+                // Short cut to stop the thrower motors
+                throwerSpeed=0;
+            } else if (rpm < targetRPM-50) {
                 // If we are below the rpm target
                 if (delay <= 0 ) {
                     if (rpm < targetRPM-500) {
@@ -119,11 +127,6 @@ public class BallThrower extends SubsystemBase {
                 }
             } else {
                 targetReached=true;
-            }
-
-            if (targetRPM == 0) {
-                // Short cut to stop the thrower motors
-                throwerSpeed=0;
             }
 
             delay--;

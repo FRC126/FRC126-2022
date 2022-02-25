@@ -66,6 +66,11 @@ public class ClimberControl extends CommandBase {
 			// If neither button is pressed, stop moving the climber
 		    Robot.verticalClimber.StopClimber();
 		}
+
+		if(driveJoystick.isStartButton()) {
+			// Reset the climber encoders
+			Robot.verticalClimber.ResetClimberEncoder();
+		}
 	}
 
 	/**********************************************************************************

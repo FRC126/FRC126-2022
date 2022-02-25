@@ -194,5 +194,13 @@ public class VerticalClimber extends SubsystemBase {
         // Check the current draw after we move the motors
         checkCurrent();
     }
-}
 
+
+  	/************************************************************************
+     ************************************************************************/
+
+     public void ResetClimberEncoder() {
+        Robot.climberMotorLeft.setSelectedSensorPosition(0);
+        Robot.climberMotorRight.setSelectedSensorPosition(0); 
+     }
+}
