@@ -153,12 +153,16 @@ public class JoystickWrapper {
  *     Drive Base Controls
  *         Left Joystick Y-Axis: Robot drive forward and back
  *         Right Joystick X-Axis: Robot drive left and right
+ *         Left Shoulder Button - Shift Down
+ *         Right Shoulder Button - Shift Up
  *         X Button - Turn around 180 degrees
  * 
  *     Climber Controls
  *         A Button - Raise Climber Arms - only moves while held
  *         B Button - Lower Climber Arms - only moves while held
  *         Start Button - Reset Encoders
+ *         POV Left - Lower Left Climber
+ *         POV Right - Lower Right Climber
  * 
  *     Lime Light Controls
  *         POV Up - Turn to lock onto target and then auto throw

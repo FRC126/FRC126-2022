@@ -27,7 +27,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
@@ -113,10 +113,8 @@ public class Robot extends TimedRobot {
     int selectedAutoPosition;
 	int selectedAutoFunction;
 	
-	@SuppressWarnings("rawtypes")
-	SendableChooser autoPosition = new SendableChooser(); // Position chooser
-	@SuppressWarnings("rawtypes")
-	SendableChooser autoFunction = new SendableChooser(); // Priority chooser
+    private final SendableChooser<Integer> autoFunction = new SendableChooser<>();
+    private final SendableChooser<Integer> autoPosition = new SendableChooser<>();
 
  	  /************************************************************************
      * This function is run when the robot is first started up and should be used for any
@@ -165,11 +163,14 @@ public class Robot extends TimedRobot {
 
         autoFunction.setDefaultOption("One_Ball_Auto (default)",0);
         autoFunction.addOption("Two_Ball_Auto",1);
-        autoFunction.addOption("One_Ball_Plus_OneAuto",2);
+        autoFunction.addOption("One_Ball+",2);
+        SmartDashboard.putData("Auto Choices",autoFunction);
+
 
         autoPosition.setDefaultOption("Right Side (default)",0);
         autoPosition.addOption("Middle",1);
         autoPosition.addOption("Left Side",2);
+        SmartDashboard.putData("Auto Position",autoPosition);
 
         Log.print(0, "Robot", "Robot Init Complete");
     }
@@ -187,7 +188,7 @@ public class Robot extends TimedRobot {
 			selectedAutoPosition = 0;
 		}
 		try {
-			selectedAutoFunction = (int) autoFunction.getSelected();
+			selectedAutoFunction = (int)autoFunction.getSelected();
 		} catch(NullPointerException e) {
 			selectedAutoFunction = 0;
 		}
