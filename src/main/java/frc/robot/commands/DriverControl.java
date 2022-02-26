@@ -65,27 +65,33 @@ public class DriverControl extends CommandBase {
 			// Shift Down Drive Train
 		    if (delay <= 0 ) {
 				Robot.driveBase.shiftDown();
-				delay=50;
+				delay=0;
 				shiftDuration = 10;
 			}
+			SmartDashboard.putBoolean("Shift Down",true);
+		} else {
+			SmartDashboard.putBoolean("Shift Down",false);
 		}
 
 		if (driveJoystick.isRShoulderButton()) {
 			// Shift Up Drive Train
 		    if (delay <= 0 ) {
 				Robot.driveBase.shiftUp();
-				delay=50;
-				shiftDuration = 10;
+				delay=0;
+				//shiftDuration = 10;
 			}	
+			SmartDashboard.putBoolean("Shift Up",true);
+		} else {
+			SmartDashboard.putBoolean("Shift Up",false);
 		}
 
-		if(shiftDuration > 0) {
-			Robot.driveBase.limitSpeedForShift();
-			shiftDuration--;
-		} else {
-			Robot.driveBase.delimitSpeed();
-			shiftDuration = 0;
-		}
+		//if(shiftDuration > 0) {
+		//	Robot.driveBase.limitSpeedForShift();
+		//	shiftDuration--;
+		//} else {
+		//	Robot.driveBase.delimitSpeed();
+		//	shiftDuration = 0;
+		//}
 
 		if (driveJoystick.isXButton()) {
 			// Turn 180 degrees after X Button is pressed

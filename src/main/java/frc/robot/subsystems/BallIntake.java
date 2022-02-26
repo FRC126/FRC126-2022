@@ -36,7 +36,7 @@ public class BallIntake extends SubsystemBase {
         CommandScheduler.getInstance().registerSubsystem(this);
         setDefaultCommand(new IntakeControl(this));
 
-        intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,3,4);
+        intakeSolenoid = new DoubleSolenoid(PneumaticsModuleType.REVPH,11,12);
     }
 
 	/************************************************************************

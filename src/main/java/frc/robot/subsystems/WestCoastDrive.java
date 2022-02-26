@@ -46,7 +46,7 @@ public class WestCoastDrive extends SubsystemBase {
 		leftSpeed = 0;
 		rightSpeed = 0;
 
-        shiftSolenoid = new DoubleSolenoid(PneumaticsModuleType.CTREPCM,1,2);
+        shiftSolenoid = new DoubleSolenoid(2,PneumaticsModuleType.REVPH,8,9);
 	}
 
 	/************************************************************************
@@ -126,8 +126,8 @@ public class WestCoastDrive extends SubsystemBase {
 	public void Drive(double fb, double rot) { 
 		leftMultiplier = fb + (rot);
 		rightMultiplier = fb - (rot);
-		leftSpeed = leftMultiplier / 1.5;
-		rightSpeed = rightMultiplier / 1.5;
+		leftSpeed = leftMultiplier / 1.0;
+		rightSpeed = rightMultiplier / 1.0;
 
 		leftSpeed *= shiftMultiplier; // Limit speed to ease shifting
 		rightSpeed *= shiftMultiplier;

@@ -35,6 +35,8 @@ import com.ctre.phoenix.motorcontrol.can.*;
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -103,6 +105,8 @@ public class Robot extends TimedRobot {
     public static enum allianceColor{Red,Blue};
 	public static double voltageThreshold = 10.0;
 
+    public static Compressor compressor;
+
     // For use with limelight class
     public static double ThrowerRPM=0;
 
@@ -145,6 +149,9 @@ public class Robot extends TimedRobot {
         // Limit switches on the climbers
         rightClimbLimit = new DigitalInput(0);
         leftClimbLimit = new DigitalInput(1);
+
+        compressor = new Compressor(2, PneumaticsModuleType.REVPH);
+        compressor.enableDigital();
 
         // Initialize the built in gyro
         internalData.initGyro();
