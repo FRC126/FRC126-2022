@@ -27,6 +27,7 @@ public class DriverControl extends CommandBase {
 	static int delay=0;
 	static boolean turnAround=false;
 	static double startAngle;
+	static double shiftDuration = 0;
 	JoystickWrapper driveJoystick;
 	
 	/**********************************************************************************
@@ -65,7 +66,8 @@ public class DriverControl extends CommandBase {
 		    if (delay <= 0 ) {
 				Robot.driveBase.shiftDown();
 				delay=50;
-			}	
+				shiftDuration = 10;
+			}
 		}
 
 		if (driveJoystick.isRShoulderButton()) {
@@ -73,7 +75,16 @@ public class DriverControl extends CommandBase {
 		    if (delay <= 0 ) {
 				Robot.driveBase.shiftUp();
 				delay=50;
+				shiftDuration = 10;
 			}	
+		}
+
+		if(shiftDuration > 0) {
+			Robot.driveBase.limitSpeedForShift();
+			shiftDuration--;
+		} else {
+			Robot.driveBase.delimitSpeed();
+			shiftDuration = 0;
 		}
 
 		if (driveJoystick.isXButton()) {
@@ -88,7 +99,7 @@ public class DriverControl extends CommandBase {
 			// angle and see if we have reached our desired position,
 			// if not, keep turning
 			double currAngle = Robot.internalData.getGyroAngle();
-			if ( currAngle < startAngle + 175) {
+			if(currAngle < startAngle + 175) {
 				LR=0.3;
 			} else {
 				LR=0;
