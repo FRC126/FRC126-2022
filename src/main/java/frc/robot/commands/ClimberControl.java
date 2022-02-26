@@ -56,6 +56,9 @@ public class ClimberControl extends CommandBase {
 		//////////////////////////////////////////////////////////////
 		// Climber Controls
 
+		Robot.verticalClimber.getRightPos();
+		Robot.verticalClimber.getLeftPos();
+		
         if (driveJoystick.isAButton()) {
             // Extend the Climber while the A Button is pressed
 		    Robot.verticalClimber.RaiseClimber();

@@ -82,7 +82,7 @@ public class VerticalClimber extends SubsystemBase {
 	/************************************************************************
      ************************************************************************/
 
-     private double getRightPos() {
+     public double getRightPos() {
         double posRight = Robot.climberMotorRight.getSelectedSensorPosition() * RobotMap.climberMotorRInversion;
         SmartDashboard.putNumber("Arm Pos Right", posRight);
         return(posRight);
@@ -91,7 +91,7 @@ public class VerticalClimber extends SubsystemBase {
    	/************************************************************************
      ************************************************************************/
 
-    private double getLeftPos() {
+    public double getLeftPos() {
         double posLeft = Robot.climberMotorLeft.getSelectedSensorPosition() * RobotMap.climberMotorLInversion;
         SmartDashboard.putNumber("Arm Pos Left", posLeft);
         return(posLeft);
@@ -107,7 +107,7 @@ public class VerticalClimber extends SubsystemBase {
 
         // TODO, need to know what the height limit is on the arm encoders.
         // TODO have position for first bar and second bar
-        double heightLimit = 570000;
+        double heightLimit = 800000;
 
         // Check the current draw before we move the motors
         checkCurrent();   

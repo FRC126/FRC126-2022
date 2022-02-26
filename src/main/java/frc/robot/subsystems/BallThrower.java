@@ -75,7 +75,7 @@ public class BallThrower extends SubsystemBase {
                 throwerSpeed = 1;
             }
 
-            if (targetRPM < rpm + 50 && targetRPM > rpm -50) {
+            if (targetRPM < rpm + 100 && targetRPM > rpm -100) {
                 targetReached=true;
             }
         } else {
