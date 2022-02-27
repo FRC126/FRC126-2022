@@ -200,11 +200,15 @@ public class Robot extends TimedRobot {
         // Position doesn't matter right now.
         if (selectedAutoFunction == 0) {
             autonomous = new AutoOneBall();
+            SmartDashboard.putString("AutoCommand","One Ball");
         } else if (selectedAutoFunction == 1) {
             autonomous = new AutoTwoBall();
+            SmartDashboard.putString("AutoCommand","Two Ball");
         } else if (selectedAutoFunction == 2) {
             autonomous = new AutoOneBallPlusOne();
+            SmartDashboard.putString("AutoCommand","One Ball+");
         }
+        autonomous.schedule();
     }
 
  	  /************************************************************************

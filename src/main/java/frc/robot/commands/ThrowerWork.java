@@ -57,14 +57,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 			targetReachedCount++;
 			targetMissedCount=0;
 		} else {
-            if (targetReachedCount > 10 && targetMissedCount < 10) {
-				 // Allow for bouncing around the rpm range when running feeder
-                 targetMissedCount++;
-		         reachedRPM=true;
-			} else {
+            //if (targetReachedCount > 10 && targetMissedCount < 10) {
+			//	 // Allow for bouncing around the rpm range when running feeder
+            //     targetMissedCount++;
+		    //     reachedRPM=true;
+			//} else {
 				 targetReachedCount=0;
 				 targetMissedCount=0;
-			}
+			//}
 		}
     }
 

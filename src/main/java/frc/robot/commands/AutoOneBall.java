@@ -34,6 +34,9 @@ public class AutoOneBall extends SequentialCommandGroup {
             // Shift the Transmission to Low
             new InstantCommand(Robot.driveBase::shiftDown, Robot.driveBase),
 
+            // Extend the Intake
+            new InstantCommand(Robot.ballIntake::ExtendIntake, Robot.ballIntake),
+
              // Spin up the thrower
             new ThrowerWork(throwRPM, 0),
 
@@ -53,7 +56,7 @@ public class AutoOneBall extends SequentialCommandGroup {
             // new DriveWork(-0.3, 0, 150),
 
             // put the transmission in high gear
-            new InstantCommand(Robot.driveBase::shiftUp, Robot.driveBase),
+            //new InstantCommand(Robot.driveBase::shiftUp, Robot.driveBase),
 
             // Turn 180 degrees, TODO how long to turn and what speed
             //new DriveWork(0,.3,200),

@@ -36,6 +36,7 @@ public class BallIntake extends SubsystemBase {
         CommandScheduler.getInstance().registerSubsystem(this);
         setDefaultCommand(new IntakeControl(this));
 
+        // Map the intake solenoid, Rev Robotics PCM on CANID 2
         intakeSolenoid = new DoubleSolenoid(2,PneumaticsModuleType.REVPH,11,12);
     }
 
@@ -79,15 +80,20 @@ public class BallIntake extends SubsystemBase {
   	/************************************************************************
 	 ************************************************************************/
 
+    public void neutralIntake() {
+        intakeSolenoid.set(DoubleSolenoid.Value.kOff);
+    }
+
+    
      public void ExtendIntake() {      
-        intakeSolenoid.set(DoubleSolenoid.Value.kForward);
+        intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
     }
 
   	/************************************************************************
 	 ************************************************************************/
 
     public void RetractIntake() {      
-        intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
+        intakeSolenoid.set(DoubleSolenoid.Value.kForward);
     }
 }
 

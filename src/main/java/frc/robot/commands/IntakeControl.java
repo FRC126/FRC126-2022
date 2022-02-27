@@ -55,26 +55,33 @@ public class IntakeControl extends CommandBase {
 			return;
 		}
 
+		delay--;
+
 		//////////////////////////////////////////////////////////////
 		// Intake Controls
 
 		// Extend the intake if the operator joystick left shoulder button is pressed
 		if(operatorJoystick.isLShoulderButton()) {
-            if (delay <= 0 && !intakeExtended) {
+            //if (delay <= 0 && !intakeExtended) {
+			if (delay <= 0) {
                 // Extend Ball Intake
                 Robot.ballIntake.ExtendIntake();
                 intakeExtended=true;
-                delay=100;
+                delay=25;
             }    
+			//if (delay < 25) {
+			//	Robot.ballIntake.neutralIntake();
+			//}
         }    
 
 		// Retract the intake if the operator joystick right shoulder button is pressed
 		if (operatorJoystick.isRShoulderButton()) {
-            if (delay <= 0 && intakeExtended) {
+            if (delay <= 0) {
+			//if (delay <= 0 && intakeExtended) {
                 // Retract Ball Intake
                 Robot.ballIntake.RetractIntake();
                 intakeExtended=false;
-                delay=100;
+                delay=25;
             }    
         }
         
@@ -82,7 +89,7 @@ public class IntakeControl extends CommandBase {
 		// and run, when the X button is releasead the intake will stop and retract. 
 		if(operatorJoystick.getLeftTrigger() > 0.1) {
 			if (!autoIntakeExtend) {
-                Robot.ballIntake.ExtendIntake();
+                //Robot.ballIntake.ExtendIntake();
 				autoIntakeExtend = true;
 			} else {
 				Robot.intakeRunning=true;
@@ -90,7 +97,7 @@ public class IntakeControl extends CommandBase {
      		}
 		} else if (operatorJoystick.getRightTrigger() > 0.1) {
 			if (!autoIntakeExtend) {
-                Robot.ballIntake.ExtendIntake();
+                //Robot.ballIntake.ExtendIntake();
 				autoIntakeExtend = true;
 			} else {
 				Robot.intakeRunning=true;
@@ -100,7 +107,7 @@ public class IntakeControl extends CommandBase {
 			if (autoIntakeExtend) {
 				Robot.intakeRunning=false;
 				Robot.ballIntake.IntakeStop();
-                Robot.ballIntake.RetractIntake();
+                //Robot.ballIntake.RetractIntake();
 			}
 
 			// Read the operator right joystick and use the Y axis to run the intake 
@@ -118,7 +125,7 @@ public class IntakeControl extends CommandBase {
 			}
 		}	 
 
-		delay--;	
+			
 	}
 
 	/**********************************************************************************
