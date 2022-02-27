@@ -15,15 +15,14 @@
 package frc.robot.subsystems;
 
 import frc.robot.Robot;
+//import frc.robot.Robot;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.*;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
-/**********************************************************************************
- **********************************************************************************/
 
 public class LimeLight extends SubsystemBase {
 
@@ -31,11 +30,13 @@ public class LimeLight extends SubsystemBase {
     private double llTargetArea;
     private double llTargetX;
     private double llTargetY;
+    private double turretTarget;
     private int validCount;
     private int missedCount;
     private int centeredCount;
     private int iter;
     public static SequentialCommandGroup throwCommand;
+
 
 	/************************************************************************
 	 ************************************************************************/
@@ -49,7 +50,8 @@ public class LimeLight extends SubsystemBase {
         llTargetArea = 0.0;
         llTargetX = 0.0;
         llTargetY = 0.0;
-
+        turretTarget = 0;
+        
         validCount=0;
         missedCount=0;
 
@@ -58,12 +60,30 @@ public class LimeLight extends SubsystemBase {
         iter=0;
 
         Robot.isThrowCommand = false;
+
     }
 
 	/************************************************************************
 	 ************************************************************************/
-
-    public void periodic() {}
+    @Override
+    public void periodic() {
+        //if ( Robot.trackTarget == Robot.targetTypes.throwingTarget ||
+        //Robot.trackTarget == Robot.targetTypes.turretOnly ) {
+            getEntry("pipeline").setNumber(0);
+        //} else {
+        //    getEntry("pipeline").setNumber(1);
+        //}
+        double tv = getEntry("tv").getDouble(0);
+        double tx = getEntry("tx").getDouble(0);
+        double ty = getEntry("ty").getDouble(0);
+        double ta = getEntry("ta").getDouble(0);
+        
+        if (tv < 1.0) {
+            setllTargetData(false, 0, 0, 0);
+        } else {
+            setllTargetData(true, ta, tx, ty);
+        }        
+    }
 
 	/************************************************************************
 	 ************************************************************************/
@@ -96,6 +116,20 @@ public class LimeLight extends SubsystemBase {
 	/************************************************************************
 	 ************************************************************************/
 
+    public double getllTurretTarget() {
+        return turretTarget;
+     }   
+
+	/************************************************************************
+	 ************************************************************************/
+
+    public void setllTurretTarget(double target) {
+        turretTarget = target;
+    }   
+
+	/************************************************************************
+	 ************************************************************************/
+
     public void setllTargetData(boolean isValid,
                                 double targetArea,
                                 double targetX,
@@ -109,7 +143,7 @@ public class LimeLight extends SubsystemBase {
 	/************************************************************************
 	 ************************************************************************/
 
-    public void getCameraData() {
+     public void getCameraData() {
 
         //if ( Robot.trackTarget == Robot.targetTypes.throwingTarget ||
         //Robot.trackTarget == Robot.targetTypes.turretOnly ) {
@@ -129,46 +163,42 @@ public class LimeLight extends SubsystemBase {
         }        
     }
 
-	/************************************************************************
+    /************************************************************************
 	 ************************************************************************/
 
     public void setLED(boolean onOff) {
-        if (onOff) {
-            NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(0);
-        } else {
-            NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1);
-        }    
+        getEntry("ledMode").setNumber(onOff ? 1 : 0);
     }
 
 	/************************************************************************
 	 ************************************************************************/
 
     public void setCameraMode(boolean vision) {
-        if (vision) {
-            NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(0);
-        } else {
-            NetworkTableInstance.getDefault().getTable("limelight").getEntry("camMode").setNumber(1);
-        }    
+        getEntry("camMode").setNumber(vision ? 0 : 1);
     }
 
 	/************************************************************************
 	 ************************************************************************/
 
     public void setPipeline(int pipeline) {
-        NetworkTableInstance.getDefault().getTable("limelight").getEntry("pipeline").setNumber(pipeline);
+        getEntry("pipeline").setNumber(pipeline);
     }
 
 	/************************************************************************
 	 ************************************************************************/
 
     public void setStreamMode(int mode) {
-        NetworkTableInstance.getDefault().getTable("limelight").getEntry("stream").setNumber(mode);
+        getEntry("stream").setNumber(mode);
     }
 
-   	/************************************************************************
+    /************************************************************************
 	 ************************************************************************/
-    
-     private void dashboardData() {
+
+    public NetworkTableEntry getEntry(String entry) {
+        return NetworkTableInstance.getDefault().getTable("limelight").getEntry(entry);   
+    }
+
+    private void dashboardData() {
         SmartDashboard.putBoolean("LL Valid", Robot.limeLight.getllTargetValid());
         SmartDashboard.putNumber("LL Area", getllTargetArea());
         SmartDashboard.putNumber("LL X", getllTargetX());
@@ -306,5 +336,6 @@ public class LimeLight extends SubsystemBase {
 
         dashboardData();
     }          
+
 }
 
