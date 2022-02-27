@@ -46,7 +46,8 @@ public class WestCoastDrive extends SubsystemBase {
 		leftSpeed = 0;
 		rightSpeed = 0;
 
-        shiftSolenoid = new DoubleSolenoid(2,PneumaticsModuleType.REVPH,8,9);
+        // Map the shifter solenoid, Rev Robotics PCM on CANID 2
+		shiftSolenoid = new DoubleSolenoid(2,PneumaticsModuleType.REVPH,8,9);
 	}
 
 	/************************************************************************

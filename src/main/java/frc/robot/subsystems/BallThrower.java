@@ -69,13 +69,14 @@ public class BallThrower extends SubsystemBase {
                 ix = error * 0.02; /** Loop frequency **/
                 throwerSpeed += P * error + I * ix;
             }
+            
             if(throwerSpeed < 0) {
                 throwerSpeed = 0;
             } else if(throwerSpeed > 1) {
                 throwerSpeed = 1;
             }
 
-            if (targetRPM < rpm + 100 && targetRPM > rpm -100) {
+            if (targetRPM < rpm + 125 && targetRPM > rpm -125) {
                 targetReached=true;
             }
         } else {
@@ -85,7 +86,7 @@ public class BallThrower extends SubsystemBase {
             if (targetRPM == 0) {
                 // Short cut to stop the thrower motors
                 throwerSpeed=0;
-            } else if (rpm < targetRPM-50) {
+            } else if (rpm < targetRPM-75) {
                 // If we are below the rpm target
                 if (delay <= 0 ) {
                     if (rpm < targetRPM-500) {
@@ -101,11 +102,11 @@ public class BallThrower extends SubsystemBase {
                     } else {
                         // if we less than 500 RPM awawy, change speed slower
                         delay=2;
-                        throwerSpeed = throwerSpeed + 0.002;
+                        throwerSpeed = throwerSpeed + 0.001;
                     }
                     if (throwerSpeed > 1) { throwerSpeed = 1; }
                 }
-            } else if (rpm > targetRPM+50) {
+            } else if (rpm > targetRPM+75) {
                 // If we are above the rpm target
                 if (delay <= 0 ) {
                     if (rpm > targetRPM+500) {
@@ -121,7 +122,7 @@ public class BallThrower extends SubsystemBase {
                     } else {
                         // if we less than 500 RPM awawy, change speed slower
                         delay=2;
-                        throwerSpeed = throwerSpeed - 0.002;
+                        throwerSpeed = throwerSpeed - 0.001;
                     }
                     if (throwerSpeed < 0) { throwerSpeed = 0; }
                 }

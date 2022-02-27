@@ -135,7 +135,6 @@ public class Robot extends TimedRobot {
         ballThrower = new BallThrower();
         ballIntake = new BallIntake();
         driveBase = new WestCoastDrive();
-        limeLight = new LimeLight();
         verticalClimber = new VerticalClimber();
 
         // create the lidarlite class on DIO 5
@@ -144,10 +143,14 @@ public class Robot extends TimedRobot {
         // Not using the PIXY right now
         //pixyVision = new PixyVision();
 
+        // Not using the limelight right now
+        // limeLight = new LimeLight();
+
         // Limit switches on the climbers
         rightClimbLimit = new DigitalInput(0);
         leftClimbLimit = new DigitalInput(1);
 
+        // Instantiate the compress, CANID 2, Rev Robotics PCM
         compressor = new Compressor(2, PneumaticsModuleType.REVPH);
         compressor.enableDigital();
 
@@ -161,12 +164,13 @@ public class Robot extends TimedRobot {
         driveCam.setConnectionStrategy(VideoSource.ConnectionStrategy.kKeepOpen);
 		server.setSource(driveCam);
 
+        // Dashboard Cooser for the Autonomous mode move
         autoFunction.setDefaultOption("One_Ball_Auto (default)",0);
         autoFunction.addOption("Two_Ball_Auto",1);
         autoFunction.addOption("One_Ball+",2);
         SmartDashboard.putData("Auto Choices",autoFunction);
 
-
+        // Dashboard Cooser for the Autonomous mode position
         autoPosition.setDefaultOption("Right Side (default)",0);
         autoPosition.addOption("Middle",1);
         autoPosition.addOption("Left Side",2);
