@@ -69,14 +69,14 @@ public class BallThrower extends SubsystemBase {
                 ix = error * 0.02; /** Loop frequency **/
                 throwerSpeed += P * error + I * ix;
             }
-            
+
             if(throwerSpeed < 0) {
                 throwerSpeed = 0;
             } else if(throwerSpeed > 1) {
                 throwerSpeed = 1;
             }
 
-            if (targetRPM < rpm + 125 && targetRPM > rpm -125) {
+            if (targetRPM < rpm + 100 && targetRPM > rpm -100) {
                 targetReached=true;
             }
         } else {

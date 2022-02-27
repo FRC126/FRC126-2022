@@ -104,7 +104,8 @@ public class WestCoastDrive extends SubsystemBase {
 	 ************************************************************************/
 
 	public void shiftUp() {
-		shiftSolenoid.set(DoubleSolenoid.Value.kForward);
+		// TODO disable shifting up until we get the transmission sorted out.
+		//shiftSolenoid.set(DoubleSolenoid.Value.kForward);
 	}
 
     /************************************************************************
@@ -113,10 +114,18 @@ public class WestCoastDrive extends SubsystemBase {
 	public void shiftDown() {
 		shiftSolenoid.set(DoubleSolenoid.Value.kReverse);
 	}
+
+    /************************************************************************
+	 ************************************************************************/
+
 	public void limitSpeedForShift() {
 		shiftMultiplier = 0.25;
 	}
-	public void delimitSpeed() {
+
+	/************************************************************************
+	 ************************************************************************/
+
+	 public void delimitSpeed() {
 		shiftMultiplier = 1;
 	}
 

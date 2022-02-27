@@ -78,13 +78,14 @@ public class DriverControl extends CommandBase {
 		    if (delay <= 0 ) {
 				Robot.driveBase.shiftUp();
 				delay=0;
-				//shiftDuration = 10;
+				shiftDuration = 10;
 			}	
 			SmartDashboard.putBoolean("Shift Up",true);
 		} else {
 			SmartDashboard.putBoolean("Shift Up",false);
 		}
 
+		//Disable power drop during shifting for now
 		//if(shiftDuration > 0) {
 		//	Robot.driveBase.limitSpeedForShift();
 		//	shiftDuration--;
