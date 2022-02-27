@@ -17,6 +17,11 @@ package frc.robot.commands;
 import frc.robot.Robot;
 import frc.robot.subsystems.*;
 import frc.robot.JoystickWrapper;
+
+import java.util.Arrays;
+import java.util.List;
+
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**********************************************************************************
@@ -25,6 +30,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class LimeLightWork extends CommandBase {
     public static int iter=0;
     JoystickWrapper driveJoystick;
+    private List<String> limelightParams = Arrays.asList("tv", "tx", "ty", "ta", "ts", "tl", "tshort", "tlong", "thor", "tvert", "getpipe", "camtran");
 
 	/************************************************************************
 	 ************************************************************************/
@@ -46,6 +52,10 @@ public class LimeLightWork extends CommandBase {
 	 ************************************************************************/
 
     public void execute() {
+
+        limelightParams.forEach(e -> {
+            SmartDashboard.putNumber("LL " + e, Robot.limeLight.getEntry(e).getDouble(0));
+        });
 
         if (driveJoystick.getPovUp()) {
             Robot.targetType = Robot.targetTypes.TargetSeek;
