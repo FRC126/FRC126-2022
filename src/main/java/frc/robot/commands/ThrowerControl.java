@@ -117,15 +117,14 @@ public class ThrowerControl extends CommandBase {
 		if (rpmReached) {
 			targetReachedCount++;
 			targetMissedCount=0;
-		} else {
-            if (targetReachedCount > 10 && targetMissedCount < 20) {
-				 // Allow for bouncing around the rpm range when running feeder
-                 targetMissedCount++;
-		         rpmReached=true;
-			} else {
-				 targetReachedCount=0;
-				 targetMissedCount=0;
-			}
+		// else {
+        //    if (targetReachedCount > 10 && targetMissedCount < 20) {
+		//		 // Allow for bouncing around the rpm range when running feeder
+        //         targetMissedCount++;
+		//         rpmReached=true;
+		 } else {
+			targetReachedCount=0;
+			targetMissedCount=0;
 		}
 
 		if (rpmReached && autoThrow) {

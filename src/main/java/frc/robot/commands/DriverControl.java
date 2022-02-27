@@ -98,6 +98,7 @@ public class DriverControl extends CommandBase {
 			// Turn 180 degrees after X Button is pressed
 			if (turnAround == false) {
 				startAngle = Robot.internalData.getGyroAngle();
+			    turnAround=true;
 			}
 		}
 
@@ -106,8 +107,8 @@ public class DriverControl extends CommandBase {
 			// angle and see if we have reached our desired position,
 			// if not, keep turning
 			double currAngle = Robot.internalData.getGyroAngle();
-			if(currAngle < startAngle + 175) {
-				LR=0.3;
+			if(currAngle < startAngle + 160) {
+				LR=-0.3;
 			} else {
 				LR=0;
 				turnAround=false;

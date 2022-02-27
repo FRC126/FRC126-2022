@@ -86,15 +86,15 @@ public class BallThrower extends SubsystemBase {
             if (targetRPM == 0) {
                 // Short cut to stop the thrower motors
                 throwerSpeed=0;
-            } else if (rpm < targetRPM-75) {
+            } else if (rpm < targetRPM-100) {
                 // If we are below the rpm target
                 if (delay <= 0 ) {
                     if (rpm < targetRPM-500) {
                         // If we are more than 500 RPM away, change speed faster
                         if (rpm < targetRPM-1500) {
                             // If we are more than 1500 RPM away, change speed even faster
-                            delay=1;
-                            throwerSpeed = throwerSpeed + 0.03;   
+                            delay=2;
+                            throwerSpeed = throwerSpeed + 0.02;   
                         } else {
                             delay=2;
                             throwerSpeed = throwerSpeed + 0.01;   
@@ -106,15 +106,15 @@ public class BallThrower extends SubsystemBase {
                     }
                     if (throwerSpeed > 1) { throwerSpeed = 1; }
                 }
-            } else if (rpm > targetRPM+75) {
+            } else if (rpm > targetRPM+100) {
                 // If we are above the rpm target
                 if (delay <= 0 ) {
                     if (rpm > targetRPM+500) {
                         // If we are more than 500 RPM away, change speed faster
                         if (rpm > targetRPM+1500) {
                             // If we are more than 1500 RPM away, change speed even faster
-                            delay=1;
-                            throwerSpeed = throwerSpeed - 0.03;   
+                            delay=2;
+                            throwerSpeed = throwerSpeed - 0.02;   
                         } else {
                             delay=2;
                             throwerSpeed = throwerSpeed - 0.01;   
@@ -158,9 +158,9 @@ public class BallThrower extends SubsystemBase {
 
     public void ThrowerIntakeRun() {
         //SmartDashboard.putBoolean("Thrower Intake Run",true);
-        ThrowerIntake(0.4 * RobotMap.feederMotorInversion);
+        ThrowerIntake(0.7 * RobotMap.feederMotorInversion);
         if (!Robot.intakeRunning) {
-            Robot.intakeMotor2.set(0.4);
+            Robot.intakeMotor2.set(0.7);
         }
 
     }

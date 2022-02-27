@@ -52,20 +52,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
         //  Call Thrower RPM to spin up the thrower wheels.
         iters--;
         reachedRPM = Robot.ballThrower.throwerRPM(targetRPM);
-
-		if (reachedRPM) {
-			targetReachedCount++;
-			targetMissedCount=0;
-		} else {
-            //if (targetReachedCount > 10 && targetMissedCount < 10) {
-			//	 // Allow for bouncing around the rpm range when running feeder
-            //     targetMissedCount++;
-		    //     reachedRPM=true;
-			//} else {
-				 targetReachedCount=0;
-				 targetMissedCount=0;
-			//}
-		}
     }
 
 	/**********************************************************************************
@@ -73,7 +59,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 	 **********************************************************************************/
 	
     public boolean isFinished() {
-        if (reachedRPM && targetReachedCount > 25 && iters <= 0) {
+        if (reachedRPM && iters <= 0) {
             // If we reached the target RPM and the number of iterations has expired
             // Finish this command.
             return true;
