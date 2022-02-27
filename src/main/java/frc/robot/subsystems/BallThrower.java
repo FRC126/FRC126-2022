@@ -76,7 +76,7 @@ public class BallThrower extends SubsystemBase {
                 throwerSpeed = 1;
             }
 
-            if (targetRPM < rpm + 100 && targetRPM > rpm -100) {
+            if (targetRPM < rpm + 100 && targetRPM > rpm - 50) {
                 targetReached=true;
             }
         } else {
@@ -86,43 +86,41 @@ public class BallThrower extends SubsystemBase {
             if (targetRPM == 0) {
                 // Short cut to stop the thrower motors
                 throwerSpeed=0;
-            } else if (rpm < targetRPM-100) {
+            } else if (rpm < targetRPM-75) {
                 // If we are below the rpm target
                 if (delay <= 0 ) {
                     if (rpm < targetRPM-500) {
                         // If we are more than 500 RPM away, change speed faster
                         if (rpm < targetRPM-1500) {
                             // If we are more than 1500 RPM away, change speed even faster
-                            delay=2;
-                            throwerSpeed = throwerSpeed + 0.02;   
+                            delay=1;
                         } else {
                             delay=2;
-                            throwerSpeed = throwerSpeed + 0.01;   
                         }
+                        throwerSpeed = throwerSpeed + 0.01;   
                     } else {
                         // if we less than 500 RPM awawy, change speed slower
-                        delay=2;
-                        throwerSpeed = throwerSpeed + 0.001;
+                        delay=3;
+                        throwerSpeed = throwerSpeed + 0.002;
                     }
                     if (throwerSpeed > 1) { throwerSpeed = 1; }
                 }
-            } else if (rpm > targetRPM+100) {
+            } else if (rpm > targetRPM+75) {
                 // If we are above the rpm target
                 if (delay <= 0 ) {
                     if (rpm > targetRPM+500) {
                         // If we are more than 500 RPM away, change speed faster
                         if (rpm > targetRPM+1500) {
                             // If we are more than 1500 RPM away, change speed even faster
-                            delay=2;
-                            throwerSpeed = throwerSpeed - 0.02;   
+                            delay=1;
                         } else {
                             delay=2;
-                            throwerSpeed = throwerSpeed - 0.01;   
                         }
+                        throwerSpeed = throwerSpeed - 0.01;   
                     } else {
                         // if we less than 500 RPM awawy, change speed slower
-                        delay=2;
-                        throwerSpeed = throwerSpeed - 0.001;
+                        delay=3;
+                        throwerSpeed = throwerSpeed - 0.002;
                     }
                     if (throwerSpeed < 0) { throwerSpeed = 0; }
                 }

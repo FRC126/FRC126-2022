@@ -107,13 +107,21 @@ public class DriverControl extends CommandBase {
 			// angle and see if we have reached our desired position,
 			// if not, keep turning
 			double currAngle = Robot.internalData.getGyroAngle();
-			if(currAngle < startAngle + 160) {
+			if(currAngle < startAngle + 155) {
 				LR=-0.3;
 			} else {
 				LR=0;
 				turnAround=false;
 			}
 		}
+
+		if (driveJoystick.isRStickPressButton()) {
+			LR = LR *.5;
+		}
+		if (driveJoystick.isLStickPressButton()) {
+			FB = FB *.5;
+		}
+
 		delay--;
 
 		// Log the Joystick X,Y Axis to the SmartDashboard.

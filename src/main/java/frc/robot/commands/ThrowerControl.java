@@ -30,7 +30,6 @@ public class ThrowerControl extends CommandBase {
 	static boolean autoThrow=false;
 	JoystickWrapper operatorJoystick;
 	static int targetReachedCount=0;
-	static int targetMissedCount=0;
 
 	/**********************************************************************************
 	 **********************************************************************************/
@@ -80,7 +79,8 @@ public class ThrowerControl extends CommandBase {
 				Robot.throwerRunning=false;
 				Robot.ballThrower.ThrowerIntakeStop();
 			}
-     	}	
+			targetReachedCount=0;
+		}	
 
 		// Manually increment the throwing wheel speeds
         if (operatorJoystick.isAButton()) {
@@ -116,31 +116,29 @@ public class ThrowerControl extends CommandBase {
 
 		if (rpmReached) {
 			targetReachedCount++;
-			targetMissedCount=0;
-		// else {
-        //    if (targetReachedCount > 10 && targetMissedCount < 20) {
-		//		 // Allow for bouncing around the rpm range when running feeder
-        //         targetMissedCount++;
-		//         rpmReached=true;
 		 } else {
 			targetReachedCount=0;
-			targetMissedCount=0;
 		}
 
-		if (rpmReached && autoThrow) {
+		if (rpmReached && autoThrow && targetReachedCount > 50) {
 			// If we reached the target RPM, and autoThrow is set, run the thrower intake motor
 			Robot.ballThrower.ThrowerIntakeRun();
 			Robot.throwerRunning=true;
 		} else {
-			// If autoThrow is false or the targetRPM isn't reach, run the thrower intake motor
-			// motor is the X button is pressed, otherwise stop the thrower intake motor
-			if (operatorJoystick.isXButton()) {
+			if (targetReachedCount > 50 && autoThrow ) {
 				Robot.throwerRunning=true;
 				Robot.ballThrower.ThrowerIntakeRun();
-			} else {
-				Robot.throwerRunning=false;
-				Robot.ballThrower.ThrowerIntakeStop();
-			}
+		    } else {
+				// If autoThrow is false or the targetRPM isn't reach, run the thrower intake motor
+				// motor is the X button is pressed, otherwise stop the thrower intake motor
+				if (operatorJoystick.isXButton()) {
+					Robot.throwerRunning=true;
+					Robot.ballThrower.ThrowerIntakeRun();
+				} else {
+					Robot.throwerRunning=false;
+					Robot.ballThrower.ThrowerIntakeStop();
+				}
+			}		
 		}
 
 		delay--;	

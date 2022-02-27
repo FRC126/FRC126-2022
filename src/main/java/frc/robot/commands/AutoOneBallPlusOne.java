@@ -27,68 +27,52 @@ public class AutoOneBallPlusOne extends SequentialCommandGroup {
         // TODO Target RPM for throw after picking up second ball
         int throwRPM=14000;
 
-    /**********************************************************************************
-     **********************************************************************************/
+        /**********************************************************************************
+         **********************************************************************************/
 
-     addCommands(
-        // Shift the Transmission to Low
-       new InstantCommand(Robot.driveBase::shiftDown, Robot.driveBase),
-
-            // Spin up the thrower
-            new ThrowerWork(throwRPM, 0),
-
+        addCommands(
             new ParallelCommandGroup(
-                // TODO ?? How long to throw ball
-                new ThrowerWork(throwRPM, 250),
-                // Run Feeder Motor
-                new InstantCommand(Robot.ballThrower::ThrowerIntakeRun, Robot.ballThrower)
-            ),
- 
-            new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
-            new ThrowerWork(0, 0),
- 
-            // Turn by degrees
-            new TurnDegrees(0.3, 175, 250),
+                // Shift the Transmission to Low
+                new InstantCommand(Robot.driveBase::shiftDown, Robot.driveBase),
 
-            // Extend the Intake
-            new InstantCommand(Robot.ballIntake::ExtendIntake, Robot.ballIntake),
+                // Extend the Intake
+                new InstantCommand(Robot.ballIntake::ExtendIntake, Robot.ballIntake),
+
+                //Backup to throw the ball
+                new DriveWork(-0.3, 0, 75)
+            ),    
+
+            // Throw the Ball
+            new ThrowerWork(throwRPM, 0, true),
+        
+            // Stop the trower
+            new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
+            new ThrowerWork(0, 0, false),
+
+            // Turn by degrees
+            new TurnDegrees(-0.25, 155, 150),
 
             // Start Running the Intake
             new InstantCommand(Robot.ballIntake::IntakeRun, Robot.ballIntake),
 
-            // Backup to the Ball by measuring distance traveled
-            new DriveDistance(0.3, 0, 36, 250),
-            // Backup to the Ball, TODO how long to backup and what speed
-            // new DriveWork(-0.3, 0, 150),
+            // Drive to the Ball
+            new DriveWork(3, 0, 100),
 
             // Keep running intake for a little bit, will stop when done
             new IntakeWork(true, 50),
 
-            // Retract the Intake
-            new InstantCommand(Robot.ballIntake::RetractIntake, Robot.ballIntake),
-
-            // Turn 180 degrees, TODO how long to turn and what speed
-            //new DriveWork(0,.3,200),
             // Turn by degrees
-            new TurnDegrees(0.3, 175, 250),
+            new TurnDegrees(-0.25, 155, 150),
 
-            // Backup to the Ball by measuring distance traveled
-            new DriveDistance(0.3, 0, 36, 250),
-            // Backup to the Ball, TODO how long to backup and what speed
-            // new DriveWork(-0.3, 0, 150),
-            
-            // Spin up the thrower
-            new ThrowerWork(throwRPM, 0),
+            // Drive forward to the target
+            new DriveWork(3, 0, 100),
 
-            new ParallelCommandGroup(
-                // TODO ?? How long to throw both balls.
-                new ThrowerWork(throwRPM, 250),
-                // Run Feeder Motor
-                new InstantCommand(Robot.ballThrower::ThrowerIntakeRun, Robot.ballThrower)
-            ),
+            // Throw the ball
+            new ThrowerWork(throwRPM, 0, true),
 
+            // Stop the trower
             new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
-            new ThrowerWork(0, 0),
+            new ThrowerWork(0, 0, false),
 
             // put the transmission in high gear
             new InstantCommand(Robot.driveBase::shiftUp, Robot.driveBase)

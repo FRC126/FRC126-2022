@@ -17,12 +17,13 @@ package frc.robot.subsystems;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.*;
+import java.util.Arrays;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import java.util.Arrays;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**********************************************************************************
  **********************************************************************************/
@@ -187,16 +188,18 @@ public class WestCoastDrive extends SubsystemBase {
 		double wheelDiameter = 6.45; // 6.4 inches, 20.25" diameter
 		double gearRatio = 3.41;
 		
-		double left1 = Robot.leftDriveMotor1.getSelectedSensorPosition() * RobotMap.left1Inversion;
-		double left2 = Robot.leftDriveMotor2.getSelectedSensorPosition() * RobotMap.left2Inversion;
+		double left1 = Math.abs(Robot.leftDriveMotor1.getSelectedSensorPosition() * RobotMap.left1Inversion);
+		double left2 = Math.abs(Robot.leftDriveMotor2.getSelectedSensorPosition() * RobotMap.left2Inversion);
 
-        double right1 = Robot.rightDriveMotor1.getSelectedSensorPosition() * RobotMap.right1Inversion;
-		double right2 = Robot.rightDriveMotor2.getSelectedSensorPosition() * RobotMap.right2Inversion;
+        double right1 = Math.abs(Robot.rightDriveMotor1.getSelectedSensorPosition() * RobotMap.right1Inversion);
+		double right2 = Math.abs(Robot.rightDriveMotor2.getSelectedSensorPosition() * RobotMap.right2Inversion);
 
 		// Get the absolute value of the average of all the encoders.
-		double avg = Math.abs((left1 + left2 + right1+ right2) / 4);
+		double avg = (left1 + left2 + right1+ right2) / 4;
 
 		double distance = ((avg / ticksPerRotation) / gearRatio) * (wheelDiameter *3.1459);
+
+		SmartDashboard.putNumber("Drive Distance",distance);
 
 		return(distance);
 	}

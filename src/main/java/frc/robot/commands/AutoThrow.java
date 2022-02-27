@@ -29,21 +29,11 @@ public class AutoThrow extends SequentialCommandGroup {
             // Stop Running the Intake
             new InstantCommand(Robot.ballIntake::IntakeStop,Robot.ballIntake),
 
-            // Retract the Intake
-            new InstantCommand(Robot.ballIntake::RetractIntake,Robot.ballIntake),
-
             // Spin up the thrower
-            new ThrowerWork(throwRPM,0),
-
-            new ParallelCommandGroup(
-                // TODO ?? How long to throw both balls.
-                new ThrowerWork(throwRPM,250),
-                // Run Feeder Motor
-                new InstantCommand(Robot.ballThrower::ThrowerIntakeRun,Robot.ballThrower)
-            ),
+            new ThrowerWork(throwRPM,0,true),
 
             new InstantCommand(Robot.ballThrower::ThrowerIntakeStop,Robot.ballThrower),
-            new ThrowerWork(0,0)
+            new ThrowerWork(0,0,false)
         );
     }       
 

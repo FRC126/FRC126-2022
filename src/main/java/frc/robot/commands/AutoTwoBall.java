@@ -25,57 +25,43 @@ import frc.robot.Robot;
 public class AutoTwoBall extends SequentialCommandGroup {
     public AutoTwoBall() {
         // TODO Target RPM for throw after picking up second ball
-        int throwRPM=14000;
+        int throwRPM=16000;
 
     /**********************************************************************************
      **********************************************************************************/
 
      addCommands(
-            // Shift the Transmission to Low
-            new InstantCommand(Robot.driveBase::shiftDown, Robot.driveBase),
-
-            // Extend the Intake
-            new InstantCommand(Robot.ballIntake::ExtendIntake, Robot.ballIntake),
-
-            // Start Running the Intake
-            new InstantCommand(Robot.ballIntake::IntakeRun, Robot.ballIntake),
-
-            // Backup to the Ball by measuring distance traveled
-            new DriveDistance(0.3, 0, 36, 250),
-            // Backup to the Ball, TODO how long to backup and what speed
-            // new DriveWork(-0.3, 0, 150),
-
-            // Keep running intake for a little bit, will stop when done
-            new IntakeWork(true, 20),
-
-            // Retract the Intake
-            new InstantCommand(Robot.ballIntake::RetractIntake, Robot.ballIntake),
-
-            // Turn 180 degrees, TODO how long to turn and what speed
-            //new DriveWork(0,.3,200),
-            // Turn by degrees
-            new TurnDegrees(0.3, 175, 250),
-
-            // Spin up the thrower
-            new ThrowerWork(throwRPM, 0),
-
             new ParallelCommandGroup(
-                // TODO ?? How long to throw both balls.
-                new ThrowerWork(throwRPM, 250),
-                // Run Feeder Motor
-                new InstantCommand(Robot.ballThrower::ThrowerIntakeRun, Robot.ballThrower)
-            ),
+                // Shift the Transmission to Low
+                new InstantCommand(Robot.driveBase::shiftDown, Robot.driveBase),
+
+                // Extend the Intake
+                new InstantCommand(Robot.ballIntake::ExtendIntake, Robot.ballIntake),
+
+                // Start Running the Intake
+                new InstantCommand(Robot.ballIntake::IntakeRun, Robot.ballIntake),
+
+                // Backup to the Ball, TODO how long to backup and what speed
+                 new DriveWork(0.3, 0, 150)
+            ),    
+            
+            // Keep running intake for a little bit, will stop when done
+            new IntakeWork(true, 50),
+
+            // Turn by degrees
+            new TurnDegrees(-0.25, 155, 150),
+
+            new DriveWork(0.3, 0, 75),
+
+            // Throw the Ball
+            new ThrowerWork(throwRPM, 0, true),
+            new ThrowerWork(throwRPM, 0, true),
 
             new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
-            new ThrowerWork(0, 0),
+            new ThrowerWork(0, 0,false),
 
-            // put the transmission in high gear
-            new InstantCommand(Robot.driveBase::shiftUp, Robot.driveBase),
-
-            // Turn 180 degrees, TODO how long to turn and what speed
-            //new DriveWork(0,.3,200),
             // Turn by degrees
-            new TurnDegrees(0.3, 175, 250)
+            new TurnDegrees(-0.25, 155, 150)
         );
     }       
 

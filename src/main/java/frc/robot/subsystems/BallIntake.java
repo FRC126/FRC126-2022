@@ -84,6 +84,8 @@ public class BallIntake extends SubsystemBase {
         intakeSolenoid.set(DoubleSolenoid.Value.kOff);
     }
 
+  	/************************************************************************
+	 ************************************************************************/
     
      public void ExtendIntake() {      
         intakeSolenoid.set(DoubleSolenoid.Value.kReverse);
