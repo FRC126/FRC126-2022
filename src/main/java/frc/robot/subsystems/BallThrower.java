@@ -53,7 +53,7 @@ public class BallThrower extends SubsystemBase {
 
     public boolean throwerRPM(int targetRPM) {
         boolean targetReached=false;
-        boolean usePidLoop=true;
+        boolean usePidLoop=false;
 
         int rpm = (int)Math.abs(Robot.throwerMotor2.getSelectedSensorVelocity());
 
@@ -76,17 +76,14 @@ public class BallThrower extends SubsystemBase {
                 throwerSpeed = 1;
             }
 
-            if (targetRPM < rpm + 100 && targetRPM > rpm - 50) {
+            if (targetRPM < rpm + 100 && targetRPM > rpm - 75) {
                 targetReached=true;
             }
         } else {
             /**********************************************************************
              * Manual Motor Control
              **********************************************************************/
-            if (targetRPM == 0) {
-                // Short cut to stop the thrower motors
-                throwerSpeed=0;
-            } else if (rpm < targetRPM-75) {
+            if (rpm < targetRPM-75) {
                 // If we are below the rpm target
                 if (delay <= 0 ) {
                     if (rpm < targetRPM-500) {
@@ -100,7 +97,7 @@ public class BallThrower extends SubsystemBase {
                         throwerSpeed = throwerSpeed + 0.01;   
                     } else {
                         // if we less than 500 RPM awawy, change speed slower
-                        delay=3;
+                        delay=2;
                         throwerSpeed = throwerSpeed + 0.002;
                     }
                     if (throwerSpeed > 1) { throwerSpeed = 1; }
@@ -119,7 +116,7 @@ public class BallThrower extends SubsystemBase {
                         throwerSpeed = throwerSpeed - 0.01;   
                     } else {
                         // if we less than 500 RPM awawy, change speed slower
-                        delay=3;
+                        delay=2;
                         throwerSpeed = throwerSpeed - 0.002;
                     }
                     if (throwerSpeed < 0) { throwerSpeed = 0; }
@@ -127,7 +124,12 @@ public class BallThrower extends SubsystemBase {
             } else {
                 targetReached=true;
             }
-
+    
+            if (targetRPM == 0) {
+                // Short cut to stop the thrower motors
+                throwerSpeed=0;
+            }
+            
             delay--;
         }
 

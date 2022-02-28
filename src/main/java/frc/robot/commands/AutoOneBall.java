@@ -36,17 +36,17 @@ public class AutoOneBall extends SequentialCommandGroup {
                 // Shift the Transmission to Low
                 new InstantCommand(Robot.driveBase::shiftDown, Robot.driveBase),
 
-                 // Extend the Intake
-                 new InstantCommand(Robot.ballIntake::ExtendIntake, Robot.ballIntake),
+                // Extend the Intake
+                new InstantCommand(Robot.ballIntake::ExtendIntake, Robot.ballIntake),
 
                 //Backup to throw the ball
                 new DriveWork(-0.3, 0, 75)
             ),    
  
-            new ThrowerWork(throwRPM, 250, true),
+            new ThrowerWork(throwRPM, 0, true),
             
             new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
-            new ThrowerWork(0, 0),
+            new ThrowerWork(0, 0, false),
 
             // Backup past the line
             //new DriveDistance(-0.3, 0, 24, 250),

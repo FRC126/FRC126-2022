@@ -135,7 +135,9 @@ public class WestCoastDrive extends SubsystemBase {
 	 ************************************************************************/
 
 	public void Drive(double fb, double rot_in) { 
-    	double rot = rot_in / .5;
+    	// Slow down the turning
+		double rot = rot_in / .5;
+
 		leftMultiplier = fb + (rot);
 		rightMultiplier = fb - (rot);
 		leftSpeed = leftMultiplier / 1.0;
