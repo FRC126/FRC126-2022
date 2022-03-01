@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 /**********************************************************************************
  **********************************************************************************/
 
- public class ThrowerWork extends CommandBase {
+ public class ThrowerWork2 extends CommandBase {
     int targetRPM, 
         iters=0;
     boolean reachedRPM=false;
@@ -31,7 +31,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 	/**********************************************************************************
 	 **********************************************************************************/
 	
-    public ThrowerWork(int targetRPM_in, int iters_in, boolean autoThrow_in) {
+    public ThrowerWork2(int targetRPM_in, int iters_in, boolean autoThrow_in) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         targetRPM = targetRPM_in;

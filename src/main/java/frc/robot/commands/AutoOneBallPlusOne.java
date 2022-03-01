@@ -39,36 +39,44 @@ public class AutoOneBallPlusOne extends SequentialCommandGroup {
                 new InstantCommand(Robot.ballIntake::ExtendIntake, Robot.ballIntake),
 
                 //Backup to throw the ball
-                new DriveWork(-0.3, 0, 75)
+                new DriveWork(-0.3, 0, 75),
+
+                // Throw the Ball
+                new ThrowerWork(throwRPM, 0, true)
             ),    
 
-            // Throw the Ball
-            new ThrowerWork(throwRPM, 0, true),
-        
+      
             // Stop the trower
             new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
             new ThrowerWork(0, 0, false),
+            new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
 
             // Turn by degrees
-            new TurnDegrees(-0.25, 155, 150),
+            new TurnDegrees(-0.5, 145, 150),
 
             // Start Running the Intake
             new InstantCommand(Robot.ballIntake::IntakeRun, Robot.ballIntake),
 
             // Drive to the Ball
-            new DriveWork(3, 0, 100),
+            new DriveWork(.25, 0, 100),
 
             // Keep running intake for a little bit, will stop when done
-            new IntakeWork(true, 50),
+            new IntakeWork(true, 150),
+
+            new InstantCommand(Robot.ballIntake::IntakeStop, Robot.ballThrower),
 
             // Turn by degrees
-            new TurnDegrees(-0.25, 155, 150),
+            new TurnDegrees(-0.5, 145, 150),
 
-            // Drive forward to the target
-            new DriveWork(3, 0, 100),
+            new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
 
-            // Throw the ball
-            new ThrowerWork(throwRPM, 0, true),
+            new ParallelCommandGroup(
+                // Drive forward to the target
+                new DriveWork(.3, 0, 100),
+
+                // Throw the ball
+                new ThrowerWork2(throwRPM, 0, true)
+            ),
 
             // Stop the trower
             new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),

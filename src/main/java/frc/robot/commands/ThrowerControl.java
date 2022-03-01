@@ -117,15 +117,15 @@ public class ThrowerControl extends CommandBase {
 		if (rpmReached) {
 			targetReachedCount++;
 		 } else {
-			targetReachedCount=0;
+			//targetReachedCount=0;
 		}
 
-		if (rpmReached && autoThrow && targetReachedCount > 50) {
+		if (rpmReached && autoThrow && targetReachedCount > 10) {
 			// If we reached the target RPM, and autoThrow is set, run the thrower intake motor
 			Robot.ballThrower.ThrowerIntakeRun();
 			Robot.throwerRunning=true;
 		} else {
-			if (targetReachedCount > 50 && autoThrow ) {
+			if (targetReachedCount > 10 && autoThrow ) {
 				Robot.throwerRunning=true;
 				Robot.ballThrower.ThrowerIntakeRun();
 		    } else {

@@ -53,7 +53,7 @@ public class BallThrower extends SubsystemBase {
 
     public boolean throwerRPM(int targetRPM) {
         boolean targetReached=false;
-        boolean usePidLoop=false;
+        boolean usePidLoop=true;
 
         int rpm = (int)Math.abs(Robot.throwerMotor2.getSelectedSensorVelocity());
 
@@ -76,7 +76,7 @@ public class BallThrower extends SubsystemBase {
                 throwerSpeed = 1;
             }
 
-            if (targetRPM < rpm + 100 && targetRPM > rpm - 75) {
+            if (targetRPM < rpm + 100 && targetRPM > rpm - 100) {
                 targetReached=true;
             }
         } else {

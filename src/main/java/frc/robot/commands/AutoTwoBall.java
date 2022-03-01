@@ -41,7 +41,7 @@ public class AutoTwoBall extends SequentialCommandGroup {
                 // Start Running the Intake
                 new InstantCommand(Robot.ballIntake::IntakeRun, Robot.ballIntake),
 
-                // Backup to the Ball, TODO how long to backup and what speed
+                // Drive to the ball
                  new DriveWork(0.3, 0, 150)
             ),    
             

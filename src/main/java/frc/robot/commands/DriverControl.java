@@ -35,7 +35,7 @@ public class DriverControl extends CommandBase {
 	
     public DriverControl(WestCoastDrive subsystem) {
 		addRequirements(subsystem);
-		driveJoystick = new JoystickWrapper(Robot.oi.driveController, 0.05);
+		driveJoystick = new JoystickWrapper(Robot.oi.driveController, 0.1);
     }
 
 	/**********************************************************************************
@@ -60,6 +60,11 @@ public class DriverControl extends CommandBase {
 		// Get stick inputs
         double FB = driveJoystick.getLeftStickY();
         double LR = driveJoystick.getRightStickX() * -1 ;
+
+		if (driveJoystick.getLeftTrigger() > .1) {
+			LR=LR*.7;
+			FB=FB*.3;
+		}
 
 		if (driveJoystick.isLShoulderButton()) {
 			// Shift Down Drive Train

@@ -48,6 +48,8 @@ public class AutoOneBall extends SequentialCommandGroup {
             new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
             new ThrowerWork(0, 0, false),
 
+            new InstantCommand(Robot.ballIntake::RetractIntake, Robot.ballIntake),
+
             // Backup past the line
             //new DriveDistance(-0.3, 0, 24, 250),
             // Backup past the line
