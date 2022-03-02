@@ -119,7 +119,7 @@ public class VerticalClimber extends SubsystemBase {
                 // Slow down as we get close to the limit
                 Robot.climberMotorLeft.set(ControlMode.PercentOutput, 0.35 * RobotMap.climberMotorLInversion);
             } else {
-                Robot.climberMotorLeft.set(ControlMode.PercentOutput, 0.6 * RobotMap.climberMotorLInversion);
+                Robot.climberMotorLeft.set(ControlMode.PercentOutput, 0.8 * RobotMap.climberMotorLInversion);
             }    
         } else {
             Robot.climberMotorLeft.set(ControlMode.PercentOutput,-0);
@@ -131,7 +131,7 @@ public class VerticalClimber extends SubsystemBase {
                 // Slow down as we get close to the limit
                 Robot.climberMotorRight.set(ControlMode.PercentOutput,0.35 * RobotMap.climberMotorRInversion);
             } else {
-                Robot.climberMotorRight.set(ControlMode.PercentOutput,0.6 * RobotMap.climberMotorRInversion);
+                Robot.climberMotorRight.set(ControlMode.PercentOutput,0.8 * RobotMap.climberMotorRInversion);
             }    
         } else {
             Robot.climberMotorRight.set(ControlMode.PercentOutput,-0);
@@ -175,7 +175,7 @@ public class VerticalClimber extends SubsystemBase {
                     // Slow down as we get close to the bottom
                     Robot.climberMotorLeft.set(ControlMode.PercentOutput, -0.35 * RobotMap.climberMotorLInversion);
                 } else {    
-                    Robot.climberMotorLeft.set(ControlMode.PercentOutput, -0.6 * RobotMap.climberMotorLInversion);
+                    Robot.climberMotorLeft.set(ControlMode.PercentOutput, -0.8 * RobotMap.climberMotorLInversion);
                 }    
                 if (posLeft < 0) {
                     Robot.climberMotorLeft.setSelectedSensorPosition(0);
@@ -210,7 +210,7 @@ public class VerticalClimber extends SubsystemBase {
                     // Slow down as we get close to the bottom
                     Robot.climberMotorRight.set(ControlMode.PercentOutput, -0.35 * RobotMap.climberMotorRInversion);
                 } else {    
-                    Robot.climberMotorRight.set(ControlMode.PercentOutput, -0.6 * RobotMap.climberMotorRInversion);
+                    Robot.climberMotorRight.set(ControlMode.PercentOutput, -0.8 * RobotMap.climberMotorRInversion);
                 }    
                 if (posRight < 0) {
                     Robot.climberMotorRight.setSelectedSensorPosition(0);

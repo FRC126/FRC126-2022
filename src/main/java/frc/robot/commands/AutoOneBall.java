@@ -43,21 +43,19 @@ public class AutoOneBall extends SequentialCommandGroup {
                 new DriveWork(-0.3, 0, 75)
             ),    
  
-            new ThrowerWork(throwRPM, 0, true),
+            new ThrowerWork(throwRPM, 0, true, true),
             
             new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
-            new ThrowerWork(0, 0, false),
+            new ThrowerWork(0, 0, false, true),
 
             new InstantCommand(Robot.ballIntake::RetractIntake, Robot.ballIntake),
 
             // Backup past the line
-            //new DriveDistance(-0.3, 0, 24, 250),
-            // Backup past the line
-            new DriveWork(-0.3, 0, 75),
+            new DriveWork(-0.3, 0, 25)
 
             // Turn by degrees
-            new TurnDegrees(-0.25, 155, 150)
-        );
+            // new TurnDegrees(-0.5, 140, 150)
+            );
     }       
 
     /******************************************************************************************

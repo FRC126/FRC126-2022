@@ -26,12 +26,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
     boolean reachedRPM=false;
     static int targetReachedCount=0;
     boolean autoThrow=false;
+    boolean stopSpinning=true;
     int throwCount=0;
 
 	/**********************************************************************************
 	 **********************************************************************************/
 	
-    public ThrowerWork(int targetRPM_in, int iters_in, boolean autoThrow_in) {
+    public ThrowerWork(int targetRPM_in, int iters_in, boolean autoThrow_in, boolean stopSpinning_in) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         targetRPM = targetRPM_in;
@@ -39,6 +40,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
         reachedRPM=false;
         targetReachedCount=0;
         autoThrow=autoThrow_in;
+        stopSpinning=stopSpinning_in;
+        throwCount=0;
     }
 
 	/**********************************************************************************
@@ -46,6 +49,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 	 **********************************************************************************/
 	
     public void initialize() {
+        reachedRPM=false;
+        targetReachedCount=0;
+        throwCount=0;
     }
 
 	/**********************************************************************************
@@ -67,7 +73,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
             targetReachedCount++;
         }
 
-        if (targetReachedCount>50 && autoThrow) {
+        if (targetReachedCount>10 && autoThrow) {
             Robot.ballThrower.ThrowerIntakeRun();
             throwCount++;
         }
@@ -79,7 +85,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 	 **********************************************************************************/
 	
     public boolean isFinished() {
-        if (reachedRPM && targetReachedCount > 50 && (!autoThrow || throwCount > 100) && iters <= 0) {
+        if (reachedRPM && targetReachedCount > 10 && (!autoThrow || throwCount > 100) && iters <= 0) {
             // If we reached the target RPM and the number of iterations has expired
             // Finish this command.
             return true;
@@ -92,7 +98,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 	 **********************************************************************************/
 	
     public void end(boolean isInteruppted) {
-        Robot.ballThrower.throwerRPM(0);
+        if (stopSpinning == true) {
+            Robot.ballThrower.throwerRPM(0);
+        }    
         Robot.ballThrower.ThrowerIntakeStop();
     }
 

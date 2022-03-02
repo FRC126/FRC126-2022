@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**********************************************************************************
@@ -49,6 +50,13 @@ public class WestCoastDrive extends SubsystemBase {
 
         // Map the shifter solenoid, Rev Robotics PCM on CANID 2
 		shiftSolenoid = new DoubleSolenoid(2,PneumaticsModuleType.REVPH,8,9);
+
+		// Do we want brake mode on for the drive motors?
+		//Robot.leftDriveMotor1.setNeutralMode(NeutralMode.Brake);
+		//Robot.leftDriveMotor2.setNeutralMode(NeutralMode.Brake);
+		//Robot.rightDriveMotor1.setNeutralMode(NeutralMode.Brake);
+		//Robot.rightDriveMotor2.setNeutralMode(NeutralMode.Brake);
+
 	}
 
 	/************************************************************************
@@ -138,7 +146,7 @@ public class WestCoastDrive extends SubsystemBase {
 
 		double rot = rot_in;
 		if (Robot.internalData.isTeleop()) {
-    	// Slow down the turning
+    		// Slow down the turning
 		    rot = rot_in *.6;
 		}
 

@@ -165,15 +165,16 @@ public class Robot extends TimedRobot {
 		server.setSource(driveCam);
 
         // Dashboard Cooser for the Autonomous mode move
-        autoFunction.setDefaultOption("One_Ball_Auto (default)",0);
-        autoFunction.addOption("Two_Ball_Auto",1);
-        autoFunction.addOption("One_Ball+",2);
+        autoFunction.setDefaultOption("One_Ball (default)",0);
+        autoFunction.addOption("Two Ball Position",1);
+        autoFunction.addOption("Two Ball Stragiht",2);
         SmartDashboard.putData("Auto Choices",autoFunction);
 
         // Dashboard Cooser for the Autonomous mode position
-        autoPosition.setDefaultOption("Right Side (default)",0);
-        autoPosition.addOption("Middle",1);
-        autoPosition.addOption("Left Side",2);
+        autoPosition.setDefaultOption("Left 1 (default)",0);
+        autoPosition.addOption("Left 2",1);
+        autoPosition.addOption("Right 1",2);
+        autoPosition.addOption("Right 2",3);
         SmartDashboard.putData("Auto Position",autoPosition);
 
         Log.print(0, "Robot", "Robot Init Complete");
@@ -185,6 +186,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         Log.print(0, "Robot", "Robot Autonomous Init");
+        boolean newAutos=true;
 
         try {
 			selectedAutoPosition = (int) autoPosition.getSelected();
@@ -197,17 +199,54 @@ public class Robot extends TimedRobot {
 			selectedAutoFunction = 0;
 		}
 
-        // Position doesn't matter right now.
-        if (selectedAutoFunction == 0) {
-            autonomous = new AutoOneBall();
-            SmartDashboard.putString("AutoCommand","One Ball");
-        } else if (selectedAutoFunction == 1) {
-            autonomous = new AutoTwoBall();
-            SmartDashboard.putString("AutoCommand","Two Ball");
-        } else if (selectedAutoFunction == 2) {
-            autonomous = new AutoOneBallPlusOne();
-            SmartDashboard.putString("AutoCommand","One Ball+");
-        }
+        if (newAutos) {
+            switch (selectedAutoPosition) {
+                case 0:
+                    if (selectedAutoFunction == 0) {
+                        autonomous = new AutoOneBall();
+                        SmartDashboard.putString("AutoCommand","One Ball");
+                    } else if (selectedAutoFunction == 1) {
+                        autonomous = new AutoTwoBallLeft();
+                        SmartDashboard.putString("AutoCommand","Two Ball");
+                    } else if (selectedAutoFunction == 2) {
+                        autonomous = new AutoTwoBallStraight();
+                        SmartDashboard.putString("AutoCommand","Two Ball");
+                    }
+                break;
+                case 1:
+                    // Far Left Position, always do one ball Auto
+                    autonomous = new AutoOneBall();    
+                    SmartDashboard.putString("AutoCommand","One Ball");
+                break;
+                case 2:
+                    if (selectedAutoFunction == 0) {
+                        autonomous = new AutoOneBall();
+                        SmartDashboard.putString("AutoCommand","One Ball");
+                    } else if (selectedAutoFunction == 1) {
+                        autonomous = new AutoTwoBallRight();
+                        SmartDashboard.putString("AutoCommand","Two Ball");
+                    } else if (selectedAutoFunction == 2) {
+                        autonomous = new AutoTwoBallStraight();
+                        SmartDashboard.putString("AutoCommand","Two Ball");
+                    }
+                    break;
+                case 3:
+                    // Far Right Position, always do one ball Auto
+                    autonomous = new AutoOneBall();    
+                    break;
+
+            }
+        } else {
+            // Position doesn't matter right now.
+            if (selectedAutoFunction == 0) {
+                autonomous = new AutoOneBall();
+                SmartDashboard.putString("AutoCommand","One Ball");
+            } else if (selectedAutoFunction == 1) {
+                autonomous = new AutoTwoBallStraight();
+                SmartDashboard.putString("AutoCommand","One Ball+");
+            }
+        }    
+
         autonomous.schedule();
     }
 

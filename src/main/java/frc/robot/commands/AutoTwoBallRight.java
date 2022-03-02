@@ -22,8 +22,8 @@ import frc.robot.Robot;
 /**********************************************************************************
  **********************************************************************************/
 
-public class AutoOneBallPlusOne extends SequentialCommandGroup {
-    public AutoOneBallPlusOne() {
+public class AutoTwoBallRight extends SequentialCommandGroup {
+    public AutoTwoBallRight() {
         // TODO Target RPM for throw after picking up second ball
         int throwRPM=14000;
 
@@ -39,51 +39,52 @@ public class AutoOneBallPlusOne extends SequentialCommandGroup {
                 new InstantCommand(Robot.ballIntake::ExtendIntake, Robot.ballIntake),
 
                 //Backup to throw the ball
-                new DriveWork(-0.3, 0, 75),
+                new DriveWork(-0.4, 0, 60),
 
                 // Throw the Ball
-                new ThrowerWork(throwRPM, 0, true)
+                new ThrowerWork(throwRPM, 0, true, false)
             ),    
 
       
-            // Stop the trower
-            new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
-            new ThrowerWork(0, 0, false),
-            new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
+            new ParallelCommandGroup(
+                // Stop the trower
+                new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
 
-            // Turn by degrees
-            new TurnDegrees(-0.5, 145, 150),
-
-            // Start Running the Intake
-            new InstantCommand(Robot.ballIntake::IntakeRun, Robot.ballIntake),
-
-            // Drive to the Ball
-            new DriveWork(.25, 0, 100),
-
-            // Keep running intake for a little bit, will stop when done
-            new IntakeWork(true, 150),
-
-            new InstantCommand(Robot.ballIntake::IntakeStop, Robot.ballThrower),
-
-            // Turn by degrees
-            new TurnDegrees(-0.5, 145, 150),
-
-            new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
+                // Turn by degrees
+                new TurnDegrees(-0.45, 160, 150)
+                ),    
 
             new ParallelCommandGroup(
-                // Drive forward to the target
-                new DriveWork(.3, 0, 100),
+                // Start Running the Intake
+                new InstantCommand(Robot.ballIntake::IntakeRun, Robot.ballIntake),
 
-                // Throw the ball
-                new ThrowerWork2(throwRPM, 0, true)
+                // Drive to the Ball
+                new DriveWork(.40, 0, 50)
+            ),    
+
+            new IntakeWork(true, 50),
+
+            new ParallelCommandGroup(
+                // Keep running intake for a little bit, will stop when done
+                new IntakeWork(true, 150),
+
+                // Turn by degrees
+                new TurnDegrees(-0.45, 120, 150)
             ),
+
+            new ParallelCommandGroup(
+                new IntakeWork(true, 50),
+
+                // Drive forward to the target
+                new DriveWork(.45, 0, 40)
+            ),
+
+            // Throw the ball
+            new ThrowerWorkStop(throwRPM, 0, true),
 
             // Stop the trower
             new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
-            new ThrowerWork(0, 0, false),
-
-            // put the transmission in high gear
-            new InstantCommand(Robot.driveBase::shiftUp, Robot.driveBase)
+            new ThrowerWork(0, 0, false, true)
         );
     }       
 

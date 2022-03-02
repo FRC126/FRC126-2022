@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 /**********************************************************************************
  **********************************************************************************/
 
- public class ThrowerWork2 extends CommandBase {
+ public class ThrowerWorkStop extends CommandBase {
     int targetRPM, 
         iters=0;
     boolean reachedRPM=false;
@@ -31,7 +31,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 	/**********************************************************************************
 	 **********************************************************************************/
 	
-    public ThrowerWork2(int targetRPM_in, int iters_in, boolean autoThrow_in) {
+    public ThrowerWorkStop(int targetRPM_in, int iters_in, boolean autoThrow_in) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
         targetRPM = targetRPM_in;
@@ -67,7 +67,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
             targetReachedCount++;
         }
 
-        if (targetReachedCount>50 && autoThrow) {
+        if (targetReachedCount>10 && autoThrow) {
             Robot.ballThrower.ThrowerIntakeRun();
             throwCount++;
         }
@@ -79,7 +79,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 	 **********************************************************************************/
 	
     public boolean isFinished() {
-        if (reachedRPM && targetReachedCount > 50 && (!autoThrow || throwCount > 100) && iters <= 0) {
+        if (reachedRPM && targetReachedCount > 10 && (!autoThrow || throwCount > 100) && iters <= 0) {
             // If we reached the target RPM and the number of iterations has expired
             // Finish this command.
             return true;

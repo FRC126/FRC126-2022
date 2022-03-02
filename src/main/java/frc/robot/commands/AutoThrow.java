@@ -29,10 +29,10 @@ public class AutoThrow extends SequentialCommandGroup {
             new InstantCommand(Robot.ballIntake::IntakeStop,Robot.ballIntake),
 
             // Spin up the thrower
-            new ThrowerWork(throwRPM,0,true),
+            new ThrowerWork(throwRPM,0,true,true),
 
             new InstantCommand(Robot.ballThrower::ThrowerIntakeStop,Robot.ballThrower),
-            new ThrowerWork(0,0,false)
+            new ThrowerWork(0,0,false,true)
         );
     }       
 
