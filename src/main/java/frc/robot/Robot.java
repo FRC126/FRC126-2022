@@ -171,10 +171,10 @@ public class Robot extends TimedRobot {
         SmartDashboard.putData("Auto Choices",autoFunction);
 
         // Dashboard Cooser for the Autonomous mode position
-        autoPosition.setDefaultOption("Left 1 (default)",0);
-        autoPosition.addOption("Left 2",1);
-        autoPosition.addOption("Right 1",2);
-        autoPosition.addOption("Right 2",3);
+        autoPosition.setDefaultOption("Far Left (default)",0);
+        autoPosition.addOption("Middle Left",1);
+        autoPosition.addOption("Middle Right",2);
+        autoPosition.addOption("Far Right",3);
         SmartDashboard.putData("Auto Position",autoPosition);
 
         Log.print(0, "Robot", "Robot Init Complete");
