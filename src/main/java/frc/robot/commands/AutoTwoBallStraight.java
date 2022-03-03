@@ -39,7 +39,7 @@ public class AutoTwoBallStraight extends SequentialCommandGroup {
                 new InstantCommand(Robot.ballIntake::ExtendIntake, Robot.ballIntake),
 
                 //Backup to throw the ball
-                new DriveWork(-0.4, 0, 60),
+                new DriveWork(-0.4, 0, 55),
 
                 // Throw the Ball
                 new ThrowerWork(throwRPM, 0, true, false)
@@ -78,7 +78,7 @@ public class AutoTwoBallStraight extends SequentialCommandGroup {
                 new IntakeWork(true, 50),
 
                 // Drive forward to the target
-                new DriveWork(.45, 0, 40)
+                new DriveWork(.45, 0, 43)
             ),
 
             // Throw the ball

@@ -40,7 +40,7 @@ public class AutoOneBall extends SequentialCommandGroup {
                 new InstantCommand(Robot.ballIntake::ExtendIntake, Robot.ballIntake),
 
                 //Backup to throw the ball
-                new DriveWork(-0.3, 0, 75)
+                new DriveWork(-0.3, 0, 85)
             ),    
  
             new ThrowerWork(throwRPM, 0, true, true),

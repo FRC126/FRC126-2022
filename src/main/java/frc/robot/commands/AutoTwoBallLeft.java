@@ -39,7 +39,7 @@ public class AutoTwoBallLeft extends SequentialCommandGroup {
                 new InstantCommand(Robot.ballIntake::ExtendIntake, Robot.ballIntake),
 
                 //Backup to throw the ball
-                new DriveWork(-0.4, 0, 60),
+                new DriveWork(-0.4, 0, 65),
 
                 // Throw the Ball
                 new ThrowerWork(throwRPM, 0, true, false)
@@ -51,7 +51,7 @@ public class AutoTwoBallLeft extends SequentialCommandGroup {
                 new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
 
                 // Turn by degrees
-                new TurnDegrees(-0.45, 95, 150)
+                new TurnDegrees(-0.45, 90, 200)
                 ),    
 
             new ParallelCommandGroup(
@@ -59,24 +59,22 @@ public class AutoTwoBallLeft extends SequentialCommandGroup {
                 new InstantCommand(Robot.ballIntake::IntakeRun, Robot.ballIntake),
 
                 // Drive to the Ball
-                new DriveWork(.40, 0, 50)
+                new DriveWork(.40, 0, 70)
             ),    
-
-            new IntakeWork(true, 50),
 
             new ParallelCommandGroup(
                 // Keep running intake for a little bit, will stop when done
                 new IntakeWork(true, 150),
 
                 // Turn by degrees
-                new TurnDegrees(-0.45, 195, 200)
+                new TurnDegrees(-0.45, 185, 200)
             ),
 
             new ParallelCommandGroup(
                 new IntakeWork(true, 50),
 
                 // Drive forward to the target
-                new DriveWork(.40, 0, 50)
+                new DriveWork(.40, 0, 25)
             ),
 
             // Throw the ball

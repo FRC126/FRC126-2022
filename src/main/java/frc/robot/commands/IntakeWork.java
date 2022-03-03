@@ -49,9 +49,9 @@ public class IntakeWork extends CommandBase {
     public void execute() {
         count--;
         if(forward) {
-            Robot.ballIntake.IntakeSpeed(0.3);
+            Robot.ballIntake.IntakeRun();
         } else {    
-            Robot.ballIntake.IntakeSpeed(-0.3);
+            Robot.ballIntake.IntakeSpeed(-0.7);
         }    
      }
 
