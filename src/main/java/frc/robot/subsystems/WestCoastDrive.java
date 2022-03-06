@@ -200,7 +200,7 @@ public class WestCoastDrive extends SubsystemBase {
 	public double getDistanceInches() {
 		double ticksPerRotation=2048;
 		double wheelDiameter = 6.45; // 6.4 inches, 20.25" diameter
-		double gearRatio = 3.41;
+		double gearRatio = 4;
 		
 		double left1 = Math.abs(Robot.leftDriveMotor1.getSelectedSensorPosition() * RobotMap.left1Inversion);
 		double left2 = Math.abs(Robot.leftDriveMotor2.getSelectedSensorPosition() * RobotMap.left2Inversion);

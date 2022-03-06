@@ -25,7 +25,6 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
  **********************************************************************************/
 
 public class BallIntake extends SubsystemBase {
-    int delay=0;
 	private DoubleSolenoid intakeSolenoid;
 	
 	/************************************************************************
@@ -66,7 +65,7 @@ public class BallIntake extends SubsystemBase {
   	/************************************************************************
 	 ************************************************************************/
 
-     public void IntakeReverse() {
+    public void IntakeReverse() {
         IntakeSpeed(0.7);
     }
 
@@ -80,7 +79,7 @@ public class BallIntake extends SubsystemBase {
   	/************************************************************************
 	 ************************************************************************/
 
-    public void neutralIntake() {
+    public void IdleIntake() {
         intakeSolenoid.set(DoubleSolenoid.Value.kOff);
     }
 

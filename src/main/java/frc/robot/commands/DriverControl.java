@@ -27,7 +27,6 @@ public class DriverControl extends CommandBase {
 	static int delay=0;
 	static boolean turnAround=false;
 	static double startAngle;
-	static double shiftDuration = 0;
 	JoystickWrapper driveJoystick;
 	
 	/**********************************************************************************
@@ -70,8 +69,7 @@ public class DriverControl extends CommandBase {
 			// Shift Down Drive Train
 		    if (delay <= 0 ) {
 				Robot.driveBase.shiftDown();
-				delay=0;
-				shiftDuration = 10;
+				delay=1;
 			}
 			SmartDashboard.putBoolean("Shift Down",true);
 		} else {
@@ -82,22 +80,12 @@ public class DriverControl extends CommandBase {
 			// Shift Up Drive Train
 		    if (delay <= 0 ) {
 				Robot.driveBase.shiftUp();
-				delay=0;
-				shiftDuration = 10;
+				delay=1;
 			}	
 			SmartDashboard.putBoolean("Shift Up",true);
 		} else {
 			SmartDashboard.putBoolean("Shift Up",false);
 		}
-
-		//Disable power drop during shifting for now
-		//if(shiftDuration > 0) {
-		//	Robot.driveBase.limitSpeedForShift();
-		//	shiftDuration--;
-		//} else {
-		//	Robot.driveBase.delimitSpeed();
-		//	shiftDuration = 0;
-		//}
 
 		if (driveJoystick.isXButton()) {
 			// Turn 180 degrees after X Button is pressed
