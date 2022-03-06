@@ -28,8 +28,14 @@ public class ThrowerControl extends CommandBase {
 	static int throwCount=0;
     static int throwerRPM=0;
 	static boolean autoThrow=false;
+	static boolean idleMotor=true;
 	JoystickWrapper operatorJoystick;
-	static int targetReachedCount=0;
+
+	static int shortThrow=7500;
+	static int tarmacThrow=14000;
+	static int longThrow=14000;
+	static int safteyThrow=20750;
+	static int idleThrow=4000;
 
 	/**********************************************************************************
 	 **********************************************************************************/
@@ -57,89 +63,77 @@ public class ThrowerControl extends CommandBase {
 			return;
 		}
 
-		// Use the POV pad to set 4 different throwing distances.  Button needs to be
-		// held down for length of throwing action
-		if (operatorJoystick.getPovDown()) {
-            throwerRPM=11000;
-			autoThrow=true;
-		} else if (operatorJoystick.getPovLeft()) {
-			throwerRPM=14000;
-			autoThrow=true;
-		} else if (operatorJoystick.getPovUp()) {
-			throwerRPM=17000;
-			autoThrow=true;
-		} else if (operatorJoystick.getPovRight()) {
-			throwerRPM=20000;
-			autoThrow=true;
+		double originalRPM = throwerRPM;
+
+		if (operatorJoystick.isAButton()) {
+			if ( throwerRPM > 0 ) {
+				// Set autoThrow if the A button is pressed and the target RPM > 0
+				autoThrow=true;
+			}
 		} else {
 			if ( autoThrow == true ) {
 				// IF autoThrow was true, cancel it.
-				throwerRPM=0;
 				autoThrow=false;
 				Robot.throwerRunning=false;
 				Robot.ballThrower.ThrowerIntakeStop();
 			}
-			targetReachedCount=0;
+			autoThrow=false;
+		}
+
+		// Use the POV pad to set 4 different throwing distances.  Button needs to be
+		// held down for length of throwing action
+		if (operatorJoystick.getPovDown()) {
+            throwerRPM=longThrow;
+		} else if (operatorJoystick.getPovUp()) {
+            throwerRPM=safteyThrow;
+		} else if (operatorJoystick.getPovLeft()) {
+            throwerRPM=tarmacThrow-1000;
+		} else if (operatorJoystick.getPovRight()) {
+            throwerRPM=tarmacThrow+1000;
+	    } else if (operatorJoystick.getLeftStickY() < -.5) {
+			throwerRPM=shortThrow;
+	    } else if (operatorJoystick.getLeftStickY() > .5) {
+			throwerRPM=tarmacThrow;
+		} else {
+			if ( autoThrow == true ) {
+				// IF autoThrow was true, cancel it.
+				autoThrow=false;
+				Robot.throwerRunning=false;
+				Robot.ballThrower.ThrowerIntakeStop();
+			}
+
+			if (idleMotor) {
+				// idle the throwing wheels, so spin up time is less.
+			    throwerRPM=idleThrow;
+			} else {
+				// operator has cancelled the idling
+				throwerRPM=0;
+			}
 		}	
 
-		// Manually increment the throwing wheel speeds
-        if (operatorJoystick.isAButton()) {
-            // Run Ball Intake
-		    if (delay <= 0) {
-				throwerRPM+=500;
-				delay=5;
-			}	
-        } 
+		if (throwerRPM != originalRPM) {
+			// Reset the target reached count if the target rpm changed.
+			Robot.ballThrower.resetReachedCount();
+		}
 
-		// Manually decrement the throwing wheel speeds
-		if (operatorJoystick.isBButton()) {
-            // Run Ball Intake
-		    if (delay <= 0) {
-				throwerRPM-=500;
-				delay=5;
-			}	
-        } 
-
-		// Stop the throwing wheels
 		if (operatorJoystick.isYButton()) {
-            // Run Ball Intake
+   		    // Stop idling the throwing wheels
 		    throwerRPM=0;
+			idleMotor=false;
         } 
 
-        // Range check the RPM
-		if (throwerRPM > 20500) { throwerRPM = 20500; }
-		if (throwerRPM < 0) { throwerRPM = 0; }
+		if (operatorJoystick.isXButton()) {
+            // Idle the throwing wheels
+		    throwerRPM=idleThrow;
+			idleMotor=true;
+        } 
 
-		// Call throwerRPM to set the target RPM for the thrower motors and check if 
-		// the target RPM has been reached
-		boolean rpmReached = Robot.ballThrower.throwerRPM(throwerRPM);
-
-		if (rpmReached) {
-			targetReachedCount++;
-		 } else {
-			//targetReachedCount=0;
-		}
-
-		if (rpmReached && autoThrow && targetReachedCount > 10) {
-			// If we reached the target RPM, and autoThrow is set, run the thrower intake motor
-			Robot.ballThrower.ThrowerIntakeRun();
-			Robot.throwerRunning=true;
+		// Call throwerRPM to set the target RPM, and auto throw if called for.
+		if (autoThrow) {
+		    Robot.ballThrower.throwerRPM(throwerRPM);
 		} else {
-			if (targetReachedCount > 10 && autoThrow ) {
-				Robot.throwerRunning=true;
-				Robot.ballThrower.ThrowerIntakeRun();
-		    } else {
-				// If autoThrow is false or the targetRPM isn't reach, run the thrower intake motor
-				// motor is the X button is pressed, otherwise stop the thrower intake motor
-				if (operatorJoystick.isXButton()) {
-					Robot.throwerRunning=true;
-					Robot.ballThrower.ThrowerIntakeRun();
-				} else {
-					Robot.throwerRunning=false;
-					Robot.ballThrower.ThrowerIntakeStop();
-				}
-			}		
-		}
+		    Robot.ballThrower.autoThrowerRPM(throwerRPM);
+		}			
 
 		delay--;	
 	}

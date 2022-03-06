@@ -26,17 +26,19 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
     double targetAngle;
     double distance;
     int iters;
+    int reachedCount=0;
 
 	/**********************************************************************************
 	 **********************************************************************************/
 	
-    public DriveDistance(double fb, double lr, double distance_in, int iters_in ) {
+    public DriveDistance(double distance_in, int iters_in ) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-        driveFb = fb;
-        driveLr = lr;
+        driveFb = 0;
+        driveLr = 0;
         distance = distance_in;
         iters = iters_in;
+        reachedCount=0;
     }
 
 	/**********************************************************************************
@@ -46,6 +48,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
     public void initialize() {
         targetAngle = Robot.internalData.getGyroAngle();
         Robot.driveBase.resetEncoders();
+        Robot.driveBase.driveBrakeMode();
     }
 
 	/**********************************************************************************
@@ -53,24 +56,39 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 	 **********************************************************************************/
 	
     public void execute() {
-        boolean useGyro=true;
+        double inversion=1;
 
-        if(driveLr == 0 && useGyro == true) {
-            if(Robot.internalData.getGyroAngle() - targetAngle > 1) {
-                // We are drifiting to the left, correct
-                Robot.driveBase.Drive(driveFb, -0.1);
-            }
-            else if(Robot.internalData.getGyroAngle() - targetAngle < -1) {
-                // We are drifiting to the right, correct
-                Robot.driveBase.Drive(driveFb, 0.1);
+        double currentDistance = Robot.driveBase.getDistanceInches();
+        double diff =  distance - currentDistance;
+        double tmp = Math.abs(diff) / 20;
+        if ( tmp > .6) { tmp=.6; }
+        if ( tmp < .1) { tmp=.1; }
+
+
+        if (distance < 0) {
+            if ( diff < -1.0 ) {
+                driveFb = tmp * inversion * -1;
             } else {
-                // Drive straight
-                Robot.driveBase.Drive(driveFb, 0);
+                driveFb=0;
             }
         } else {
-            // ignore the gyro
-            Robot.driveBase.Drive(driveFb, driveLr);
-            
+            if ( diff > 1 ) {
+                driveFb = tmp * inversion;
+            } else {
+                driveFb=0;
+            }
+        }
+
+        if(Robot.internalData.getGyroAngle() - targetAngle > 1) {
+            // We are drifiting to the left, correct
+            Robot.driveBase.Drive(driveFb, -0.05);
+        }
+        else if(Robot.internalData.getGyroAngle() - targetAngle < -1) {
+            // We are drifiting to the right, correct
+            Robot.driveBase.Drive(driveFb, 0.05);
+        } else {
+            // Drive straight
+            Robot.driveBase.Drive(driveFb, 0);
         }
      }
 
@@ -81,11 +99,17 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
     public boolean isFinished() {
         iters--;
         double currentDistance = Robot.driveBase.getDistanceInches();
-        if (currentDistance >= distance || iters <= 0) {
+        if ((currentDistance >= distance - 1 && currentDistance <= distance + 1)|| iters <= 0) {
             // if we have reached the target distance, or run out of time to do so, 
             // stop driving and end the command.
+
             Robot.driveBase.Drive(0, 0);
-            return true;
+
+            if (reachedCount > 10 || iters <= 0) {
+                Robot.driveBase.driveCoastMode();
+                return true;
+            }
+            reachedCount++;    
         }
         return false;
     }
@@ -96,7 +120,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 	
     public void end(boolean isInteruppted) {
         Robot.driveBase.Drive(0, 0);
+        Robot.driveBase.driveCoastMode();
     }
-
 }
 

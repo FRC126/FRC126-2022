@@ -32,6 +32,7 @@ public class BallThrower extends SubsystemBase {
     static double P = 0.000008;
     static double I = -0.0003;
     static double ix, error = 0.0;
+    static int targetReachedCount=0;
 
 	/************************************************************************
 	 ************************************************************************/
@@ -40,6 +41,7 @@ public class BallThrower extends SubsystemBase {
         // Register this subsystem with command scheduler and set the default command
         CommandScheduler.getInstance().registerSubsystem(this);
         setDefaultCommand(new ThrowerControl(this));
+        targetReachedCount=0;
     }
 
 	/************************************************************************
@@ -54,6 +56,10 @@ public class BallThrower extends SubsystemBase {
     public boolean throwerRPM(int targetRPM) {
         boolean targetReached=false;
         boolean usePidLoop=true;
+
+        // Range check the RPM
+		if (targetRPM > 20800) { targetRPM = 20800; }
+		if (targetRPM < 0) { targetRPM = 0; }
 
         int rpm = (int)Math.abs(Robot.throwerMotor2.getSelectedSensorVelocity());
 
@@ -144,7 +150,40 @@ public class BallThrower extends SubsystemBase {
 
         return(targetReached);
     }
-    
+
+   	/************************************************************************
+	 ************************************************************************/
+
+     public void resetReachedCount() {
+        targetReachedCount=0;
+     }
+
+   	/************************************************************************
+	 ************************************************************************/
+
+     public void autoThrowerRPM(int targetRPM) {
+        boolean rpmReached = throwerRPM(targetRPM);
+
+		if (rpmReached) {
+            if ( targetReachedCount++ > 10) {
+    			// If we reached the target RPM, and autoThrow is set, run the thrower intake motor
+			    Robot.ballThrower.ThrowerIntakeRun();
+			    Robot.throwerRunning=true;
+            }    
+		} else {
+			if (targetReachedCount > 10 ) {
+				// If we hit the RPM target 10 times, just keep throwing till they let go of the
+				// button.
+				Robot.throwerRunning=true;
+				Robot.ballThrower.ThrowerIntakeRun();
+		    } else {
+				// Stop trying to throw a ball.
+				Robot.throwerRunning=false;
+				Robot.ballThrower.ThrowerIntakeStop();
+			}		
+		}
+     }
+
   	/************************************************************************
     * Run Thrower Intake Wheels
 	 ************************************************************************/
@@ -175,4 +214,17 @@ public class BallThrower extends SubsystemBase {
             Robot.intakeMotor2.set(0.0);
         }
     }
+
+      	/************************************************************************
+	 ************************************************************************/
+
+    public void ThrowerAllStop() {
+        //SmartDashboard.putBoolean("Thrower Intake Run",false);
+        throwerRPM(0);
+        ThrowerIntake(0.0);
+        if (!Robot.intakeRunning) {
+            Robot.intakeMotor2.set(0.0);
+        }
+    }
+
 }

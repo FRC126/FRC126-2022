@@ -20,28 +20,22 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 /**********************************************************************************
  **********************************************************************************/
 
- public class ThrowerWork extends CommandBase {
-    int targetRPM, 
-        iters=0;
-    boolean reachedRPM=false;
-    static int targetReachedCount=0;
-    boolean autoThrow=false;
-    boolean stopSpinning=true;
-    int throwCount=0;
+ public class TurnDegreesBetter extends CommandBase {
+    double startAngle;
+    double degrees;
+    int iters;
+    static private double driftAllowance=4;
+    int targetReached=0;
 
 	/**********************************************************************************
 	 **********************************************************************************/
 	
-    public ThrowerWork(int targetRPM_in, int iters_in, boolean autoThrow_in, boolean stopSpinning_in) {
+    public TurnDegreesBetter(double degrees_in, int iters_in ) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-        targetRPM = targetRPM_in;
+        degrees = degrees_in;
         iters = iters_in;
-        reachedRPM=false;
-        targetReachedCount=0;
-        autoThrow=autoThrow_in;
-        stopSpinning=stopSpinning_in;
-        throwCount=0;
+        targetReached=0;
     }
 
 	/**********************************************************************************
@@ -49,9 +43,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 	 **********************************************************************************/
 	
     public void initialize() {
-        reachedRPM=false;
-        targetReachedCount=0;
-        throwCount=0;
+        // Save the starting angle for the turn
+        Robot.internalData.resetGyro();
+        startAngle = Robot.internalData.getGyroAngle();
+        Robot.driveBase.driveBrakeMode();
     }
 
 	/**********************************************************************************
@@ -59,25 +54,31 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 	 **********************************************************************************/
 	
     public void execute() {
-        //  Call Thrower RPM to spin up the thrower wheels.
-        iters--;
-        reachedRPM = Robot.ballThrower.throwerRPM(targetRPM);
+        // get the current angle from the gyro
+        double currentDegrees = Robot.internalData.getGyroAngle();
+        double target = startAngle+degrees;
+        double diff = currentDegrees - target;
+        double lrInvert=1;
+        double driveLr=0;
 
-        if (targetRPM == 0) {
-            // Short Circuit the stop
-            reachedRPM=true;
-            targetReachedCount=50;
+        double tmp = Math.abs(diff) / 100;
+        if ( tmp > .6) { tmp=.6; }
+        if ( tmp < .1) { tmp=.1; }
+
+        if ( (currentDegrees >= target - driftAllowance) &&
+             (currentDegrees <= target + driftAllowance) ) {
+             // We are at the right angle
+        } else if (currentDegrees < target) {
+            if (diff > 3) {
+                driveLr=tmp * lrInvert;;
+            }
+        } else {
+            if (diff < -3) {
+                driveLr=-tmp * lrInvert * -1;
+            }    
         }
 
-        if(reachedRPM) {
-            targetReachedCount++;
-        }
-
-        if (targetReachedCount>10 && autoThrow) {
-            Robot.ballThrower.ThrowerIntakeRun();
-            throwCount++;
-        }
-
+        Robot.driveBase.Drive(0, driveLr);
     }
 
 	/**********************************************************************************
@@ -85,12 +86,23 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 	 **********************************************************************************/
 	
     public boolean isFinished() {
-        if (reachedRPM && targetReachedCount > 10 && (!autoThrow || throwCount > 100) && iters <= 0) {
-            // If we reached the target RPM and the number of iterations has expired
-            // Finish this command.
-            Robot.ballThrower.ThrowerIntakeStop();
-            return true;
+        iters--;
+        double currentDegrees = Robot.internalData.getGyroAngle();
+
+        if (((currentDegrees >= startAngle + degrees - driftAllowance) &&
+             (currentDegrees <= startAngle + degrees + driftAllowance)) ||
+             iters <= 0 ) {
+            if (targetReached>=10 || iters <= 0) {
+                // We have reached our target angle or run out of time to do so.
+                Robot.driveBase.driveCoastMode();
+                Robot.driveBase.Drive(0, 0);
+                return true;
+            }
+            targetReached++;
+        } else {
+            targetReached=0;
         }
+
         return false;
     }
 
@@ -99,11 +111,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 	 **********************************************************************************/
 	
     public void end(boolean isInteruppted) {
-        if (stopSpinning == true) {
-            Robot.ballThrower.throwerRPM(0);
-        }    
-        Robot.ballThrower.ThrowerIntakeStop();
+        Robot.driveBase.driveCoastMode();
+        Robot.driveBase.Drive(0, 0);
     }
-
 }
-

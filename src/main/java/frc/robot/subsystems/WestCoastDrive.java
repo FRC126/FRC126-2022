@@ -217,4 +217,25 @@ public class WestCoastDrive extends SubsystemBase {
 
 		return(distance);
 	}
+
+    /************************************************************************
+	 ************************************************************************/
+
+	public void driveBrakeMode() {
+		Robot.leftDriveMotor1.setNeutralMode(NeutralMode.Brake);
+		Robot.leftDriveMotor2.setNeutralMode(NeutralMode.Brake);
+		Robot.rightDriveMotor1.setNeutralMode(NeutralMode.Brake);
+		Robot.rightDriveMotor2.setNeutralMode(NeutralMode.Brake);
+	}
+
+    /************************************************************************
+	 ************************************************************************/
+
+	public void driveCoastMode() {
+		Robot.leftDriveMotor1.setNeutralMode(NeutralMode.Coast);
+		Robot.leftDriveMotor2.setNeutralMode(NeutralMode.Coast);
+		Robot.rightDriveMotor1.setNeutralMode(NeutralMode.Coast);
+		Robot.rightDriveMotor2.setNeutralMode(NeutralMode.Coast);
+	}
+
 }
