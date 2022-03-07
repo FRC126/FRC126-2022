@@ -63,19 +63,18 @@ public class IntakeControl extends CommandBase {
 			Robot.ballIntake.ExtendIntake();
 			intakeExtended=true;
         } else {
-            if (intakeExtended == true) {
+			// Retract the intake if the operator joystick right shoulder button is pressed
+			if (operatorJoystick.isRShoulderButton()) {
+				if (delay <= 0) {
+					Robot.ballIntake.RetractIntake();
+					intakeExtended=false;
+				}    
+			} else if (intakeExtended == true) {
 				// Remove Pressure once the release the button, so the intkae will move more freely.
 				Robot.ballIntake.IdleIntake();
 			}
 		}
 
-		// Retract the intake if the operator joystick right shoulder button is pressed
-		if (operatorJoystick.isRShoulderButton()) {
-            if (delay <= 0) {
-                Robot.ballIntake.RetractIntake();
-                intakeExtended=false;
-            }    
-        }
 
 		if(operatorJoystick.getLeftTrigger() > 0.1) {
 			Robot.intakeRunning=true;

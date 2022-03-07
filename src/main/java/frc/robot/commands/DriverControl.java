@@ -108,13 +108,6 @@ public class DriverControl extends CommandBase {
 			}
 		}
 
-		if (driveJoystick.isRStickPressButton()) {
-			LR = LR *.5;
-		}
-		if (driveJoystick.isLStickPressButton()) {
-			FB = FB *.5;
-		}
-
 		delay--;
 
 		// Log the Joystick X,Y Axis to the SmartDashboard.
