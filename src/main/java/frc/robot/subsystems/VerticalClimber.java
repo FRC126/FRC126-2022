@@ -164,7 +164,7 @@ public class VerticalClimber extends SubsystemBase {
 
         // Need to use encoder to track retraction.
         double posLeft = getLeftPos();
-       if (Robot.leftClimbLimit.get() == true && useLimitSwitch) {
+        if (Robot.leftClimbLimit.get() == true && useLimitSwitch) {
             // Stop lowering left arm
             // zero encoder
             Robot.climberMotorLeft.set(ControlMode.PercentOutput,0);
