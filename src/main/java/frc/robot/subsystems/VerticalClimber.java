@@ -62,7 +62,7 @@ public class VerticalClimber extends SubsystemBase {
         double currentLeft=Robot.climberMotorLeft.getStatorCurrent();
         double currentRight=Robot.climberMotorRight.getStatorCurrent();
 
-        double currentLimit = 25;
+        double currentLimit = 50;
 
         if ( currentLeft > currentLimit ) {
             Robot.climberMotorLeft.set(ControlMode.PercentOutput,0);
@@ -119,7 +119,7 @@ public class VerticalClimber extends SubsystemBase {
                 // Slow down as we get close to the limit
                 Robot.climberMotorLeft.set(ControlMode.PercentOutput, 0.35 * RobotMap.climberMotorLInversion);
             } else {
-                Robot.climberMotorLeft.set(ControlMode.PercentOutput, 0.8 * RobotMap.climberMotorLInversion);
+                Robot.climberMotorLeft.set(ControlMode.PercentOutput, 1 * RobotMap.climberMotorLInversion);
             }    
         } else {
             Robot.climberMotorLeft.set(ControlMode.PercentOutput,-0);
@@ -131,7 +131,7 @@ public class VerticalClimber extends SubsystemBase {
                 // Slow down as we get close to the limit
                 Robot.climberMotorRight.set(ControlMode.PercentOutput,0.35 * RobotMap.climberMotorRInversion);
             } else {
-                Robot.climberMotorRight.set(ControlMode.PercentOutput,0.8 * RobotMap.climberMotorRInversion);
+                Robot.climberMotorRight.set(ControlMode.PercentOutput,1 * RobotMap.climberMotorRInversion);
             }    
         } else {
             Robot.climberMotorRight.set(ControlMode.PercentOutput,-0);
@@ -171,11 +171,11 @@ public class VerticalClimber extends SubsystemBase {
             Robot.climberMotorLeft.setSelectedSensorPosition(0);
         } else {
             if ( limitCountLeft <= 0 && ( !stopAtZero || posLeft > 0)) {
-                if (posLeft<25000) {
+                if (posLeft<10000) {
                     // Slow down as we get close to the bottom
-                    Robot.climberMotorLeft.set(ControlMode.PercentOutput, -0.35 * RobotMap.climberMotorLInversion);
+                    Robot.climberMotorLeft.set(ControlMode.PercentOutput, -0.5 * RobotMap.climberMotorLInversion);
                 } else {    
-                    Robot.climberMotorLeft.set(ControlMode.PercentOutput, -0.8 * RobotMap.climberMotorLInversion);
+                    Robot.climberMotorLeft.set(ControlMode.PercentOutput, -1 * RobotMap.climberMotorLInversion);
                 }    
                 if (posLeft < 0) {
                     Robot.climberMotorLeft.setSelectedSensorPosition(0);
@@ -206,11 +206,11 @@ public class VerticalClimber extends SubsystemBase {
             Robot.climberMotorRight.setSelectedSensorPosition(0);
         } else {
             if ( limitCountRight <= 0 && ( !stopAtZero || posRight > 0)) {
-                if (posRight<25000) {
+                if (posRight<10000) {
                     // Slow down as we get close to the bottom
-                    Robot.climberMotorRight.set(ControlMode.PercentOutput, -0.35 * RobotMap.climberMotorRInversion);
+                    Robot.climberMotorRight.set(ControlMode.PercentOutput, -0.5 * RobotMap.climberMotorRInversion);
                 } else {    
-                    Robot.climberMotorRight.set(ControlMode.PercentOutput, -0.8 * RobotMap.climberMotorRInversion);
+                    Robot.climberMotorRight.set(ControlMode.PercentOutput, -1 * RobotMap.climberMotorRInversion);
                 }    
                 if (posRight < 0) {
                     Robot.climberMotorRight.setSelectedSensorPosition(0);

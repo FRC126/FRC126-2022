@@ -79,8 +79,8 @@ public class AutoTwoBallRight extends SequentialCommandGroup {
             ),
 
             // Throw the ball
-            new ThrowerWorkStop(throwRPM, 0, true),
-
+            new ThrowerWorkStop(throwRPM+200, 0, true),
+            
             // Stop the trower
             new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
             new ThrowerWork(0, 0, false, true)
