@@ -33,7 +33,7 @@ public class ThrowerControl extends CommandBase {
 
 	static int shortThrow=7500;
 	static int tarmacThrow=14000;
-	static int longThrow=14000;
+	static int longThrow=18000;
 	static int safteyThrow=20750;
 	static int idleThrow=4000;
 
@@ -65,7 +65,7 @@ public class ThrowerControl extends CommandBase {
 
 		double originalRPM = throwerRPM;
 
-		if (operatorJoystick.isAButton()) {
+		if (operatorJoystick.isXButton()) {
 			if ( throwerRPM > 0 ) {
 				// Set autoThrow if the A button is pressed and the target RPM > 0
 				autoThrow=true;
@@ -90,10 +90,10 @@ public class ThrowerControl extends CommandBase {
             throwerRPM=tarmacThrow-1000;
 		} else if (operatorJoystick.getPovRight()) {
             throwerRPM=tarmacThrow+1000;
-	    } else if (operatorJoystick.getLeftStickY() < -.5) {
-			throwerRPM=shortThrow;
-	    } else if (operatorJoystick.getLeftStickY() > .5) {
+	    } else if (operatorJoystick.getLeftStickY() < -.3) {
 			throwerRPM=tarmacThrow;
+	    } else if (operatorJoystick.getLeftStickY() > .3) {
+			throwerRPM=shortThrow;
 		} else {
 			if ( autoThrow == true ) {
 				// IF autoThrow was true, cancel it.
@@ -116,13 +116,13 @@ public class ThrowerControl extends CommandBase {
 			Robot.ballThrower.resetReachedCount();
 		}
 
-		if (operatorJoystick.isYButton()) {
+		if (operatorJoystick.isAButton()) {
    		    // Stop idling the throwing wheels
 		    throwerRPM=0;
 			idleMotor=false;
         } 
 
-		if (operatorJoystick.isXButton()) {
+		if (operatorJoystick.isBButton()) {
             // Idle the throwing wheels
 		    throwerRPM=idleThrow;
 			idleMotor=true;

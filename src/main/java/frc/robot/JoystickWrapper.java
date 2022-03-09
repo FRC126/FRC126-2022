@@ -153,8 +153,7 @@ public class JoystickWrapper {
  *     Drive Base Controls
  *         Left Joystick Y-Axis: Robot drive forward and back
  *         Right Joystick X-Axis: Robot drive left and right
- *         Left Shoulder Button - Shift Down
- *         Right Shoulder Button - Shift Up
+ *         Left Trigger: Slow Mode
  *         X Button - Turn around 180 degrees
  * 
  *     Climber Controls
@@ -164,29 +163,23 @@ public class JoystickWrapper {
  *         POV Left - Lower Left Climber
  *         POV Right - Lower Right Climber
  * 
- *     Lime Light Controls
- *         POV Up - Turn to lock onto target and then auto throw
- *                  Button must be held the whole time
- * 
  * Operators Joystick
  *     Intake Controls
  *         Left Shoulder Button - Extend Ball Intake
  *         Right Shoulder Button - Retract Ball Inake
- *         Right Joystick Y-Axis - Run Intake Forwards or Backwards
- *         Left Trigger - While held, extend intake and run intake, when 
- *                        released stop intake and retract intake
- *         Right Trigger - While held, extend intake and run intake backwards, when 
- *                        released stop intake and retract intake
+ *         Left Trigger - While held, run intake in intake direction
+ *         Right Trigger - While held, run intake in reverse direction
  * 
  *     Thrower Control
- *         Spins up thrower and automatically throws ball while button is held
- *             POV Down - Hold to throw short distance
- *             POV Left - Hold to throw middle short distance
- *             POV Up - Hold to throw middle long distance
- *             POV Right - Hold to throw long distance
- *         A Button - Increase Intake Speed 500RPM
- *         B Button - Decrease Intake sPeed 500RPM
- *         Y Button - Set Thrower Speed to 0
- *         X Button - Throw the Ball if using A and B buttons
+ *         Spins up thrower while button is held
+ *             Left Joystick Up - Soin Thrower for Tarmac Throw  (14,000)
+ *             Left Joystick Down - Soin Thrower for Lower Throw (7,500)
+ *             POV Up -Spin Thrower for Saftey Throw (20,500)
+ *             POV Down - Spin Thrower for Long Throw (18,000)
+ *             POV Left - Spin Thrower for Tarmac Throw - 1000 (13,000)
+ *             POV Right - Spin Thrower for Tarmac Throw + 1000 (15,000)
+ *         X Button - Hold to throw while throwing wheels are spun up
+ *         A Button - Disable throw wheel idling
+ *         B Button - Enable throw wheel idling
  * 
  */
