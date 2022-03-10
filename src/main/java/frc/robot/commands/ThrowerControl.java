@@ -18,6 +18,7 @@ import frc.robot.JoystickWrapper;
 import frc.robot.Robot;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**********************************************************************************
  **********************************************************************************/
@@ -91,9 +92,9 @@ public class ThrowerControl extends CommandBase {
 		} else if (operatorJoystick.getPovRight()) {
             throwerRPM=tarmacThrow+1000;
 	    } else if (operatorJoystick.getLeftStickY() < -.3) {
-			throwerRPM=tarmacThrow;
-	    } else if (operatorJoystick.getLeftStickY() > .3) {
 			throwerRPM=shortThrow;
+	    } else if (operatorJoystick.getLeftStickY() > .3) {
+			throwerRPM=tarmacThrow;
 		} else {
 			if ( autoThrow == true ) {
 				// IF autoThrow was true, cancel it.
@@ -128,11 +129,13 @@ public class ThrowerControl extends CommandBase {
 			idleMotor=true;
         } 
 
+        SmartDashboard.putBoolean("AutoThrow", autoThrow);
+
 		// Call throwerRPM to set the target RPM, and auto throw if called for.
 		if (autoThrow) {
-		    Robot.ballThrower.throwerRPM(throwerRPM);
-		} else {
 		    Robot.ballThrower.autoThrowerRPM(throwerRPM);
+		} else {
+		    Robot.ballThrower.throwerRPM(throwerRPM);
 		}			
 
 		delay--;	
