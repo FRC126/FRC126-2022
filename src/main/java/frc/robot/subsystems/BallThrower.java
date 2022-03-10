@@ -33,6 +33,7 @@ public class BallThrower extends SubsystemBase {
     static double I = -0.0003;
     static double ix, error = 0.0;
     static int targetReachedCount=0;
+    static double intakeSpeed=1.0;
 
 	/************************************************************************
 	 ************************************************************************/
@@ -199,7 +200,7 @@ public class BallThrower extends SubsystemBase {
         //SmartDashboard.putBoolean("Thrower Intake Run",true);
         ThrowerIntake(0.7 * RobotMap.feederMotorInversion);
         if (!Robot.intakeRunning) {
-            Robot.intakeMotor2.set(0.7);
+            Robot.intakeMotor2.set(intakeSpeed);
         }
 
     }
