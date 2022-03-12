@@ -211,9 +211,14 @@ public class WestCoastDrive extends SubsystemBase {
 		// Get the absolute value of the average of all the encoders.
 		double avg = (left1 + left2 + right1+ right2) / 4;
 
-		double distance = ((avg / ticksPerRotation) / gearRatio) * (wheelDiameter *3.1459);
+		double distance = ((avg / ticksPerRotation) / 6 / gearRatio) * (wheelDiameter * 3.1459);
 
 		SmartDashboard.putNumber("Drive Distance",distance);
+		SmartDashboard.putNumber("Drive Encoder",avg);
+		SmartDashboard.putNumber("Drive Encoder L!",left1);
+		SmartDashboard.putNumber("Drive Encoder L2",left2);
+		SmartDashboard.putNumber("Drive Encoder R!",right1);
+		SmartDashboard.putNumber("Drive Encoder R2",right2);
 
 		return(distance);
 	}

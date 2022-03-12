@@ -194,6 +194,8 @@ public class Robot extends TimedRobot {
     public void autonomousInit() {
         Log.print(0, "Robot", "Robot Autonomous Init");
 
+        Robot.driveBase.driveCoastMode();
+
         try {
 			selectedAutoPosition = (int) autoPosition.getSelected();
 		} catch(NullPointerException e) {
@@ -291,6 +293,8 @@ public class Robot extends TimedRobot {
             // Cancel the auto command if it was created
 	          autonomous.cancel();
         }
+
+        Robot.driveBase.driveCoastMode();
 
         try {
 			if (idleChooser.getSelected() == 1) {

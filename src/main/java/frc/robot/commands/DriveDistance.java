@@ -16,6 +16,7 @@ package frc.robot.commands;
 
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**********************************************************************************
  **********************************************************************************/
@@ -46,9 +47,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 	 **********************************************************************************/
 	
     public void initialize() {
+        Robot.internalData.resetGyro();
         targetAngle = Robot.internalData.getGyroAngle();
         Robot.driveBase.resetEncoders();
-        Robot.driveBase.driveBrakeMode();
+        //Robot.driveBase.driveBrakeMode();
     }
 
 	/**********************************************************************************
@@ -59,14 +61,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
         double inversion=1;
 
         double currentDistance = Robot.driveBase.getDistanceInches();
-        double diff =  distance - currentDistance;
+        double diff =  Math.abs(distance) - currentDistance;
         double tmp = Math.abs(diff) / 20;
-        if ( tmp > .6) { tmp=.6; }
-        if ( tmp < .1) { tmp=.1; }
+        if ( tmp > .45) { tmp=.45; }
+        if ( tmp < .15) { tmp=.15; }
 
 
         if (distance < 0) {
-            if ( diff < -1.0 ) {
+            if ( diff > 1 ) {
                 driveFb = tmp * inversion * -1;
             } else {
                 driveFb=0;
@@ -79,17 +81,19 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
             }
         }
 
-        if(Robot.internalData.getGyroAngle() - targetAngle > 1) {
-            // We are drifiting to the left, correct
-            Robot.driveBase.Drive(driveFb, -0.05);
-        }
-        else if(Robot.internalData.getGyroAngle() - targetAngle < -1) {
-            // We are drifiting to the right, correct
-            Robot.driveBase.Drive(driveFb, 0.05);
-        } else {
-            // Drive straight
-            Robot.driveBase.Drive(driveFb, 0);
-        }
+        SmartDashboard.putNumber("Drv Dist Spd",driveFb);
+
+        // if(Robot.internalData.getGyroAngle() - targetAngle > 1) {
+        //     // We are drifiting to the left, correct
+        //     Robot.driveBase.Drive(driveFb, 0.05);
+        // }
+        // else if(Robot.internalData.getGyroAngle() - targetAngle < -1) {
+        //     // We are drifiting to the right, correct
+        //     Robot.driveBase.Drive(driveFb, -0.05);
+        // } else {
+        //     // Drive straight
+             Robot.driveBase.Drive(driveFb, 0);
+        //}
      }
 
 	/**********************************************************************************

@@ -28,9 +28,9 @@ public class AutoDriveDistance extends SequentialCommandGroup {
 
      addCommands(
 
-            new DriveDistance(12,250),
+            new DriveDistance(24,250),
             new DriveWork(0,0,150), // Just Pause for 3 seconds
-            new DriveDistance(-12,250)
+            new DriveDistance(-24,250)
         );           
     }       
 

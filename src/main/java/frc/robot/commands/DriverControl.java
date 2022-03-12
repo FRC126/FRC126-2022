@@ -64,6 +64,15 @@ public class DriverControl extends CommandBase {
 			LR=LR*.7;
 			FB=FB*.3;
 		}
+		if (driveJoystick.getRightTrigger() > .1) {
+			LR=0;
+			FB=0;
+			Robot.driveBase.driveBrakeMode();
+		} else {
+			Robot.driveBase.driveCoastMode();
+		}
+
+		
 
 		if (driveJoystick.isLShoulderButton()) {
 			// Shift Down Drive Train
