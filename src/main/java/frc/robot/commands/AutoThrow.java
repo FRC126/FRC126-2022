@@ -17,6 +17,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Robot;
+import frc.robot.RobotMap;
  
 /**********************************************************************************
  **********************************************************************************/
@@ -32,7 +33,7 @@ public class AutoThrow extends SequentialCommandGroup {
             new ThrowerWork(throwRPM,0,true,true),
 
             new InstantCommand(Robot.ballThrower::ThrowerIntakeStop,Robot.ballThrower),
-            new ThrowerWork(0,0,false,true)
+            new ThrowerWork(RobotMap.idleThrow,0,false,false)
         );
     }       
 
@@ -43,6 +44,6 @@ public class AutoThrow extends SequentialCommandGroup {
      @Override
 	public void end(boolean isInterrupted) {
         Robot.ballThrower.ThrowerIntakeStop();
-        Robot.ballThrower.throwerRPM(0);
+        Robot.ballThrower.throwerRPM(RobotMap.idleThrow);
     }  
 }

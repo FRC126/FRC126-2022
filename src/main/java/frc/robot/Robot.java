@@ -170,6 +170,8 @@ public class Robot extends TimedRobot {
         autoFunction.setDefaultOption("One_Ball (default)",0);
         autoFunction.addOption("Two Ball Position",1);
         autoFunction.addOption("Two Ball Stragiht",2);
+        autoFunction.addOption("Three Ball Auto",5);
+        autoFunction.addOption("Two Ball Position New",6);
         autoFunction.addOption("Auto Better Turn",3);
         autoFunction.addOption("Auto Drive Distance",4);
         SmartDashboard.putData("Auto Choices",autoFunction);
@@ -220,10 +222,6 @@ public class Robot extends TimedRobot {
         switch (selectedAutoPosition) {
             case 0:
                 switch (selectedAutoFunction) {
-                    case 0:
-                        autonomous = new AutoOneBall();
-                        SmartDashboard.putString("AutoCommand","One Ball");
-                        break;
                     case 1: 
                         autonomous = new AutoTwoBallLeft();
                         SmartDashboard.putString("AutoCommand","Two Ball Left");
@@ -240,6 +238,14 @@ public class Robot extends TimedRobot {
                         autonomous = new AutoDriveDistance();
                         SmartDashboard.putString("AutoCommand","Drive Distance");
                         break;
+                    case 6: 
+                        autonomous = new AutoTwoBallLeftNew();
+                        SmartDashboard.putString("AutoCommand","Two Ball Left New");
+                        break;
+                    default:
+                        autonomous = new AutoOneBall();
+                        SmartDashboard.putString("AutoCommand","One Ball");
+                        break;
                 }
                 break;
             case 1:
@@ -249,10 +255,6 @@ public class Robot extends TimedRobot {
                 break;
             case 2:
                 switch (selectedAutoFunction) {
-                    case 0:
-                        autonomous = new AutoOneBall();
-                        SmartDashboard.putString("AutoCommand","One Ball");
-                        break;
                     case 1: 
                         autonomous = new AutoTwoBallRight();
                         SmartDashboard.putString("AutoCommand","Two Ball Right");
@@ -261,12 +263,27 @@ public class Robot extends TimedRobot {
                         autonomous = new AutoTwoBallStraight();
                         SmartDashboard.putString("AutoCommand","Two Ball Straigt");
                         break;
+                    case 6: 
+                        autonomous = new AutoTwoBallRightNew();
+                        SmartDashboard.putString("AutoCommand","Two Ball Right New");
+                        break;
+                    default:
+                        autonomous = new AutoOneBall();
+                        SmartDashboard.putString("AutoCommand","One Ball");
+                        break;
                 }        
                 break;
             case 3:
                 // Far Right Position, always do one ball Auto
-                autonomous = new AutoOneBall();    
-                SmartDashboard.putString("AutoCommand","One Ball");
+                switch (selectedAutoFunction) {
+                    case 5:
+                        autonomous = new AutoThreeBall();    
+                        SmartDashboard.putString("AutoCommand","Three Ball");                  
+                    default:
+                        autonomous = new AutoOneBall();    
+                        SmartDashboard.putString("AutoCommand","One Ball");
+                        break;
+                }        
                 break;
 
         }

@@ -15,10 +15,9 @@
 package frc.robot.subsystems;
 
 import frc.robot.Robot;
-//import frc.robot.Robot;
+import frc.robot.RobotMap;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-//import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -330,7 +329,7 @@ public class LimeLight extends SubsystemBase {
             // an autoThrow command to throw the balls.
 
             // TODO Need to set RPM based on targetArea.
-            throwCommand = new AutoThrow(14000);
+            throwCommand = new AutoThrow(RobotMap.tarmacThrow);
             Robot.isThrowCommand = true;
         }
 

@@ -19,12 +19,12 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
- 
+
 /**********************************************************************************
  **********************************************************************************/
 
-public class AutoTwoBallStraight extends SequentialCommandGroup {
-    public AutoTwoBallStraight() {
+public class AutoThreeBall extends SequentialCommandGroup {
+    public AutoThreeBall() {
 
         /**********************************************************************************
          **********************************************************************************/
@@ -38,47 +38,44 @@ public class AutoTwoBallStraight extends SequentialCommandGroup {
                 new InstantCommand(Robot.ballIntake::ExtendIntake, Robot.ballIntake),
 
                 //Backup to throw the ball
-                new DriveWork(-0.4, 0, 55),
-
-                // Throw the Ball
-                new ThrowerWork(RobotMap.tarmacThrow, 0, true, false)
-            ),    
-
-      
-            new ParallelCommandGroup(
-                // Stop the trower
-                new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
-
-                // Turn by degrees
-                // New TurnDegrees(-0.45, 195, 150)
-                new TurnDegrees(-0.45, 140, 150)
-                ),    
-
-            new ParallelCommandGroup(
-                // Start Running the Intake
-                new InstantCommand(Robot.ballIntake::IntakeRun, Robot.ballIntake),
-
-                // Drive to the Ball
-                new DriveWork(.40, 0, 60)
-            ),    
-
-            new IntakeWork(true, 50),
-
-            new ParallelCommandGroup(
-                // Keep running intake for a little bit, will stop when done
-                new IntakeWork(true, 150),
-
-                // Turn by degrees
-                //new TurnDegrees(-0.45, 110, 150)
-                new TurnDegrees(-0.45, 140, 150)
+                new DriveDistance(-24,100)
             ),
 
-            new ParallelCommandGroup(
-                new IntakeWork(true, 50),
+            // Turn to aim 
+            new TurnDegreesBetter(15,50),
+            
+            // Throw the Ball
+            new ThrowerWork(RobotMap.tarmacThrow, 0, true, false),
+   
+            // Stop the trower
+            new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
 
-                // Drive forward to the target
-                new DriveWork(.45, 0, 43)
-            ),
+            // Start the ball intake
+            new InstantCommand(Robot.ballIntake::IntakeRun, Robot.ballIntake),
+                
+            // Turn by degrees to pickup the second ball
+            new TurnDegreesBetter(165, 200),
+
+            // Drive to pickup the second ball
+            new DriveDistance(18,150),
+
+            // backup after picking up the second ball
+            new DriveDistance(-18,150),
+
+            // Turn to pickup the Third ball
+            new TurnDegreesBetter(120, 200),
+
+            // Drive to pickup the thrid ball 
+            new DriveDistance(72, 200),
+
+            // Turn to aim
+            new TurnDegreesBetter(70, 100),
+
+            // Stop the ball intake
+            new InstantCommand(Robot.ballIntake::IntakeStop, Robot.ballIntake),
+
+            // Drive to pickup the thrid ball 
+            new DriveDistance(24, 150),
 
             // Throw the ball
             new ThrowerWorkStop(RobotMap.tarmacThrow, 0, true),
@@ -86,7 +83,10 @@ public class AutoTwoBallStraight extends SequentialCommandGroup {
             // Stop the trower
             new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
             new ThrowerWork(0, 0, false, true),
-            new InstantCommand(Robot.ballIntake::RetractIntake, Robot.ballIntake)
+
+            // Turn towards human player station
+            new TurnDegreesBetter(-150, 150)
+
         );
     }       
 
@@ -104,3 +104,4 @@ public class AutoTwoBallStraight extends SequentialCommandGroup {
     }  
     
 }
+

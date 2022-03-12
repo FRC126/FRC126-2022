@@ -118,8 +118,8 @@ public class DriverControl extends CommandBase {
 			// angle and see if we have reached our desired position,
 			// if not, keep turning
 			double currAngle = Robot.internalData.getGyroAngle();
-			if(currAngle < startAngle + 155) {
-				LR=-0.3;
+			if(currAngle < startAngle + 140) {
+				LR=-0.45;
 			} else {
 				LR=0;
 				turnAround=false;

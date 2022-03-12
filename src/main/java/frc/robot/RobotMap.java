@@ -66,6 +66,12 @@ public class RobotMap {
 	public static int climberMotorLInversion;
 	public static int climberMotorRInversion;
 
+	public static int shortThrow=7500;
+	public static int tarmacThrow=14000;
+	public static int longThrow=18000;
+	public static int safteyThrow=20750;
+	public static int idleThrow=5500;
+
 	//Position Calibrations
 	public static void setRobot(double robotID){
 		if(robotID == 0) { 

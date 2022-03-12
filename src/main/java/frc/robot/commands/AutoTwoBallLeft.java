@@ -18,14 +18,13 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Robot;
- 
+import frc.robot.RobotMap;
+
 /**********************************************************************************
  **********************************************************************************/
 
 public class AutoTwoBallLeft extends SequentialCommandGroup {
     public AutoTwoBallLeft() {
-        // TODO Target RPM for throw after picking up second ball
-        int throwRPM=14000;
 
         /**********************************************************************************
          **********************************************************************************/
@@ -42,7 +41,7 @@ public class AutoTwoBallLeft extends SequentialCommandGroup {
                 new DriveWork(-0.4, 0, 65),
 
                 // Throw the Ball
-                new ThrowerWork(throwRPM, 0, true, false)
+                new ThrowerWork(RobotMap.tarmacThrow, 0, true, false)
             ),    
 
       
@@ -79,7 +78,7 @@ public class AutoTwoBallLeft extends SequentialCommandGroup {
             ),
 
             // Throw the ball
-            new ThrowerWorkStop(throwRPM+1000, 0, true),
+            new ThrowerWorkStop(RobotMap.tarmacThrow+1000, 0, true),
 
             // Stop the trower
             new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
@@ -94,7 +93,7 @@ public class AutoTwoBallLeft extends SequentialCommandGroup {
      @Override
     public void end(boolean isInterrupted) {
         Robot.ballIntake.IntakeStop();
-        Robot.ballIntake.RetractIntake();
+        //Robot.ballIntake.RetractIntake();
         Robot.driveBase.Drive(0,0);
         Robot.ballThrower.ThrowerIntakeStop();
         Robot.ballThrower.throwerRPM(0);
