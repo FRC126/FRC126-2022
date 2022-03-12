@@ -62,6 +62,9 @@ public class ClimberControl extends CommandBase {
         if (driveJoystick.isAButton()) {
             // Extend the Climber while the A Button is pressed
 		    Robot.verticalClimber.RaiseClimber();
+        }  else if (driveJoystick.isYButton()) {
+            // Retact the Climber while the B Button is pressed
+		    Robot.verticalClimber.LowerClimberNoLimit();
         }  else if (driveJoystick.isBButton()) {
             // Retact the Climber while the B Button is pressed
 		    Robot.verticalClimber.LowerClimber();

@@ -27,9 +27,9 @@ public class AutoBetterTurn extends SequentialCommandGroup {
      **********************************************************************************/
 
      addCommands(
-            new TurnDegreesBetter(90,250),
-            new DriveWork(0,0,150),  // Just do nothing for 3 seconds
-            new TurnDegreesBetter(-90,250)
+            new TurnDegreesBetter(90,150),
+            new DriveWork(0,0,300),  // Just do nothing for 3 seconds
+            new TurnDegreesBetter(-90,150)
         );           
     }       
 

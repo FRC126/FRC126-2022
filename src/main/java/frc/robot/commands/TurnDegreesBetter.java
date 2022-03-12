@@ -16,6 +16,7 @@ package frc.robot.commands;
 
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**********************************************************************************
  **********************************************************************************/
@@ -62,7 +63,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
         double driveLr=0;
 
         double tmp = Math.abs(diff) / 100;
-        if ( tmp > .6) { tmp=.6; }
+        if ( tmp > .45) { tmp=.45; }
         if ( tmp < .1) { tmp=.1; }
 
         if ( (currentDegrees >= target - driftAllowance) &&
@@ -77,6 +78,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
                 driveLr=-tmp * lrInvert * -1;
             }    
         }
+
+        SmartDashboard.putNumber("Current Degrees",currentDegrees);
+        SmartDashboard.putNumber("Target Degrees",target);
+        SmartDashboard.putNumber("DriveLR",driveLr);
+
+
 
         Robot.driveBase.Drive(0, driveLr);
     }
