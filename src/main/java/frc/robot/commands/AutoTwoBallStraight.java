@@ -85,7 +85,7 @@ public class AutoTwoBallStraight extends SequentialCommandGroup {
 
             // Stop the trower
             new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
-            new ThrowerWork(0, 0, false, true),
+            new ThrowerWork(RobotMap.idleThrow, 0, false, false),
             new InstantCommand(Robot.ballIntake::RetractIntake, Robot.ballIntake)
         );
     }       
@@ -97,10 +97,9 @@ public class AutoTwoBallStraight extends SequentialCommandGroup {
      @Override
     public void end(boolean isInterrupted) {
         Robot.ballIntake.IntakeStop();
-        //Robot.ballIntake.RetractIntake();
         Robot.driveBase.Drive(0,0);
         Robot.ballThrower.ThrowerIntakeStop();
-        Robot.ballThrower.throwerRPM(0);
+        Robot.ballThrower.throwerRPM(RobotMap.idleThrow);
     }  
     
 }

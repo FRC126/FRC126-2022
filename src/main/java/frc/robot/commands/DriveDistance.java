@@ -83,19 +83,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
         SmartDashboard.putNumber("Drv Dist Spd",driveFb);
 
         // Try to keep the robot straight using the gyro
-        // Disabled for now.
-        //
-        // if(Robot.internalData.getGyroAngle() - targetAngle > 1) {
-        //     // We are drifiting to the left, correct
-        //     Robot.driveBase.Drive(driveFb, 0.05);
-        // }
-        // else if(Robot.internalData.getGyroAngle() - targetAngle < -1) {
-        //     // We are drifiting to the right, correct
-        //     Robot.driveBase.Drive(driveFb, -0.05);
-        // } else {
-        //     // Drive straight
-        //     Robot.driveBase.Drive(driveFb, 0);
-        //}
+        if (driveFb != 0) {       
+            if(Robot.internalData.getGyroAngle() - targetAngle > 2) {
+                // We are drifiting to the left, correct
+                Robot.driveBase.Drive(driveFb, -0.05);
+            }
+            else if(Robot.internalData.getGyroAngle() - targetAngle < -2) {
+                // We are drifiting to the right, correct
+                Robot.driveBase.Drive(driveFb, 0.05);
+            } else {
+                // Drive straight
+                Robot.driveBase.Drive(driveFb, 0);
+            }
+        } else {
+            Robot.driveBase.Drive(driveFb, 0);
+        }    
      }
 
 	/**********************************************************************************
