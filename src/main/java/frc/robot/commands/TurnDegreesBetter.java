@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
  public class TurnDegreesBetter extends CommandBase {
     double startAngle;
-    double degrees;
+    double targetDegrees;
     int iters;
     static private double driftAllowance=4;
     int targetReached=0;
@@ -34,7 +34,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
     public TurnDegreesBetter(double degrees_in, int iters_in ) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-        degrees = degrees_in;
+        targetDegrees = degrees_in;
         iters = iters_in;
         targetReached=0;
     }
@@ -55,35 +55,43 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 	 **********************************************************************************/
 	
     public void execute() {
-        // get the current angle from the gyro
-        double currentDegrees = Robot.internalData.getGyroAngle();
-        double target = startAngle+degrees;
-        double diff = currentDegrees - target;
-        double lrInvert=1;
-        double driveLr=0;
+        double targetInvert, 
+               driveLr=0;
 
-        double tmp = Math.abs(diff) / 100;
+        // get the current angle from the gyro
+        double currentDegrees = Robot.internalData.getGyroAngle();        
+        double target = startAngle + targetDegrees;
+        double diff = Math.abs(target) - Math.abs(currentDegrees);
+
+        double tmp = diff / 100;
         if ( tmp > .45) { tmp=.45; }
         if ( tmp < .1) { tmp=.1; }
 
-        if ( (currentDegrees >= target - driftAllowance) &&
-             (currentDegrees <= target + driftAllowance) ) {
-             // We are at the right angle
-        } else if (currentDegrees < target) {
-            if (diff > 3) {
-                driveLr=tmp * lrInvert;;
-            }
+        if (target < 0) {
+            // Target is Negative
+            targetInvert=-1;
         } else {
-            if (diff < -3) {
-                driveLr=-tmp * lrInvert * -1;
-            }    
+            // Target is Positive
+            targetInvert=1;
+        }
+
+        if ((currentDegrees >= target + (driftAllowance * targetInvert)) &&
+            (currentDegrees <= target - (driftAllowance * targetInvert))) {
+            // We are at the right angle
+            targetReached++;
+            driveLr=0;
+        } else if (currentDegrees < target) {
+            driveLr=tmp;
+            targetReached=0;
+        } else {
+            driveLr=-tmp * -1;
+            targetReached=0;
         }
 
         SmartDashboard.putNumber("Current Degrees",currentDegrees);
         SmartDashboard.putNumber("Target Degrees",target);
+        SmartDashboard.putNumber("Turn diff",diff);
         SmartDashboard.putNumber("DriveLR",driveLr);
-
-
 
         Robot.driveBase.Drive(0, driveLr);
     }
@@ -94,20 +102,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 	
     public boolean isFinished() {
         iters--;
-        double currentDegrees = Robot.internalData.getGyroAngle();
 
-        if (((currentDegrees >= startAngle + degrees - driftAllowance) &&
-             (currentDegrees <= startAngle + degrees + driftAllowance)) ||
-             iters <= 0 ) {
-            if (targetReached>=10 || iters <= 0) {
-                // We have reached our target angle or run out of time to do so.
-                Robot.driveBase.driveCoastMode();
-                Robot.driveBase.Drive(0, 0);
-                return true;
-            }
-            targetReached++;
-        } else {
-            targetReached=0;
+        if (targetReached > 5 || iters <= 0) {
+            // We have reached our target angle or run out of time to do so.
+            Robot.driveBase.driveCoastMode();
+            Robot.driveBase.Drive(0, 0);
+            return true;
         }
 
         return false;

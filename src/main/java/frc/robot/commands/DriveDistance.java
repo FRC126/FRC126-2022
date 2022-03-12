@@ -50,7 +50,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
         Robot.internalData.resetGyro();
         targetAngle = Robot.internalData.getGyroAngle();
         Robot.driveBase.resetEncoders();
-        //Robot.driveBase.driveBrakeMode();
+        Robot.driveBase.driveBrakeMode();
     }
 
 	/**********************************************************************************
@@ -58,31 +58,33 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 	 **********************************************************************************/
 	
     public void execute() {
-        double inversion=1;
+        double distanceInversion=1;
 
         double currentDistance = Robot.driveBase.getDistanceInches();
         double diff =  Math.abs(distance) - currentDistance;
         double tmp = Math.abs(diff) / 20;
-        if ( tmp > .45) { tmp=.45; }
+        if ( tmp > .5) { tmp=.5; }
         if ( tmp < .15) { tmp=.15; }
 
-
         if (distance < 0) {
-            if ( diff > 1 ) {
-                driveFb = tmp * inversion * -1;
-            } else {
-                driveFb=0;
-            }
+            distanceInversion=-1;
+        }    
+
+        if ( diff > 1 ) {
+            driveFb = tmp * distanceInversion;
+            reachedCount=0;
         } else {
-            if ( diff > 1 ) {
-                driveFb = tmp * inversion;
-            } else {
-                driveFb=0;
-            }
+            driveFb=0;
+            reachedCount++;
         }
+
+        Robot.driveBase.Drive(driveFb, 0);
 
         SmartDashboard.putNumber("Drv Dist Spd",driveFb);
 
+        // Try to keep the robot straight using the gyro
+        // Disabled for now.
+        //
         // if(Robot.internalData.getGyroAngle() - targetAngle > 1) {
         //     // We are drifiting to the left, correct
         //     Robot.driveBase.Drive(driveFb, 0.05);
@@ -92,7 +94,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
         //     Robot.driveBase.Drive(driveFb, -0.05);
         // } else {
         //     // Drive straight
-             Robot.driveBase.Drive(driveFb, 0);
+        //     Robot.driveBase.Drive(driveFb, 0);
         //}
      }
 
@@ -102,18 +104,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 	
     public boolean isFinished() {
         iters--;
-        double currentDistance = Robot.driveBase.getDistanceInches();
-        if ((currentDistance >= distance - 1 && currentDistance <= distance + 1)|| iters <= 0) {
-            // if we have reached the target distance, or run out of time to do so, 
-            // stop driving and end the command.
 
+        if (reachedCount > 5 || iters <= 0) {
             Robot.driveBase.Drive(0, 0);
-
-            if (reachedCount > 10 || iters <= 0) {
-                Robot.driveBase.driveCoastMode();
-                return true;
-            }
-            reachedCount++;    
+            Robot.driveBase.driveCoastMode();
+            return true;
         }
         return false;
     }

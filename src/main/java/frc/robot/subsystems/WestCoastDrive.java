@@ -215,10 +215,6 @@ public class WestCoastDrive extends SubsystemBase {
 
 		SmartDashboard.putNumber("Drive Distance",distance);
 		SmartDashboard.putNumber("Drive Encoder",avg);
-		SmartDashboard.putNumber("Drive Encoder L!",left1);
-		SmartDashboard.putNumber("Drive Encoder L2",left2);
-		SmartDashboard.putNumber("Drive Encoder R!",right1);
-		SmartDashboard.putNumber("Drive Encoder R2",right2);
 
 		return(distance);
 	}
