@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class DriverControl extends CommandBase {
 	static int delay=0;
 	static boolean turnAround=false;
+	static boolean brakeMode=false;
 	static double startAngle;
 	JoystickWrapper driveJoystick;
 	
@@ -60,19 +61,27 @@ public class DriverControl extends CommandBase {
         double FB = driveJoystick.getLeftStickY();
         double LR = driveJoystick.getRightStickX() * -1 ;
 
-		if (driveJoystick.getLeftTrigger() > .1) {
+	    // Left trigger enables slow mode
+		if (driveJoystick.getLeftTrigger() > .25) {
 			LR=LR*.7;
 			FB=FB*.3;
 		}
-		if (driveJoystick.getRightTrigger() > .1) {
+		
+
+		// Right trigger enable brake mode.
+		if (driveJoystick.getRightTrigger() > .25) {
 			LR=0;
 			FB=0;
-			Robot.driveBase.driveBrakeMode();
+			if ( !brakeMode ) {
+			    Robot.driveBase.driveBrakeMode();
+				brakeMode=true;
+			}	
 		} else {
-			Robot.driveBase.driveCoastMode();
+			if (brakeMode) {
+				Robot.driveBase.driveCoastMode();
+				brakeMode=false;
+			}		
 		}
-
-		
 
 		if (driveJoystick.isLShoulderButton()) {
 			// Shift Down Drive Train
