@@ -25,7 +25,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
     double startAngle;
     double targetDegrees;
     int iters;
-    static private double driftAllowance=5;
+    static private double driftAllowance=3;
     int targetReached=0;
 
 	/**********************************************************************************
@@ -75,8 +75,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
             targetInvert=1;
         }
 
-        if ((currentDegrees >= target + (driftAllowance * targetInvert)) &&
-            (currentDegrees <= target - (driftAllowance * targetInvert))) {
+        double Upside=target + (driftAllowance * targetInvert);
+        double Downside= target - (driftAllowance * targetInvert);
+
+        if (Math.abs(diff) < driftAllowance) {
             // We are at the right angle
             targetReached++;
             driveLr=0;
@@ -92,6 +94,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
         SmartDashboard.putNumber("Target Degrees",target);
         SmartDashboard.putNumber("Turn diff",diff);
         SmartDashboard.putNumber("DriveLR",driveLr);
+        SmartDashboard.putNumber("Upside",Upside);
+        SmartDashboard.putNumber("Downside",Downside);
+        SmartDashboard.putNumber("TargetReached",targetReached);
 
         Robot.driveBase.Drive(0, driveLr);
     }
