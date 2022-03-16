@@ -25,7 +25,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
     double startAngle;
     double targetDegrees;
     int iters;
-    static private double driftAllowance=4;
+    static private double driftAllowance=5;
     int targetReached=0;
 
 	/**********************************************************************************
@@ -64,7 +64,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
         double diff = Math.abs(target) - Math.abs(currentDegrees);
 
         double tmp = diff / 100;
-        if ( tmp > .45) { tmp=.45; }
+        if ( tmp > .40) { tmp=.40; }
         if ( tmp < .1) { tmp=.1; }
 
         if (target < 0) {
@@ -81,10 +81,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
             targetReached++;
             driveLr=0;
         } else if (currentDegrees < target) {
-            driveLr=tmp;
+            driveLr=tmp * -1;
             targetReached=0;
         } else {
-            driveLr=-tmp * -1;
+            driveLr=tmp;
             targetReached=0;
         }
 
