@@ -50,7 +50,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
         Robot.internalData.resetGyro();
         targetAngle = Robot.internalData.getGyroAngle();
         Robot.driveBase.resetEncoders();
-        Robot.driveBase.driveBrakeMode();
+        Robot.driveBase.driveCoastMode();
     }
 
 	/**********************************************************************************
@@ -73,9 +73,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
         if ( diff > 1 ) {
             driveFb = tmp * distanceInversion;
             reachedCount=0;
+            Robot.driveBase.driveCoastMode();
         } else {
             driveFb=0;
             reachedCount++;
+            Robot.driveBase.driveBrakeMode();
         }
 
         Robot.driveBase.Drive(driveFb, 0);
@@ -84,11 +86,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
         // Try to keep the robot straight using the gyro
         if (driveFb != 0) {       
-            if(Robot.internalData.getGyroAngle() - targetAngle > 2) {
+            if(Robot.internalData.getGyroAngle() - targetAngle > 1.5) {
                 // We are drifiting to the left, correct
                 Robot.driveBase.Drive(driveFb, -0.05);
-            }
-            else if(Robot.internalData.getGyroAngle() - targetAngle < -2) {
+            } else if (Robot.internalData.getGyroAngle() - targetAngle < -1.5) {
                 // We are drifiting to the right, correct
                 Robot.driveBase.Drive(driveFb, 0.05);
             } else {

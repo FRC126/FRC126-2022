@@ -47,7 +47,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
         // Save the starting angle for the turn
         Robot.internalData.resetGyro();
         startAngle = Robot.internalData.getGyroAngle();
-        Robot.driveBase.driveBrakeMode();
+        Robot.driveBase.driveCoastMode();
     }
 
 	/**********************************************************************************
@@ -55,8 +55,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 	 **********************************************************************************/
 	
     public void execute() {
-        double targetInvert, 
-               driveLr=0;
+        double driveLr=0;
 
         // get the current angle from the gyro
         double currentDegrees = Robot.internalData.getGyroAngle();        
@@ -65,37 +64,27 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
         double tmp = diff / 100;
         if ( tmp > .40) { tmp=.40; }
-        if ( tmp < .1) { tmp=.1; }
-
-        if (target < 0) {
-            // Target is Negative
-            targetInvert=-1;
-        } else {
-            // Target is Positive
-            targetInvert=1;
-        }
-
-        double Upside=target + (driftAllowance * targetInvert);
-        double Downside= target - (driftAllowance * targetInvert);
+        if ( tmp < .15) { tmp=.15; }
 
         if (Math.abs(diff) < driftAllowance) {
             // We are at the right angle
             targetReached++;
             driveLr=0;
+            Robot.driveBase.driveBrakeMode();
         } else if (currentDegrees < target) {
             driveLr=tmp * -1;
             targetReached=0;
+            Robot.driveBase.driveCoastMode();
         } else {
             driveLr=tmp;
             targetReached=0;
+            Robot.driveBase.driveCoastMode();
         }
 
         SmartDashboard.putNumber("Current Degrees",currentDegrees);
         SmartDashboard.putNumber("Target Degrees",target);
         SmartDashboard.putNumber("Turn diff",diff);
         SmartDashboard.putNumber("DriveLR",driveLr);
-        SmartDashboard.putNumber("Upside",Upside);
-        SmartDashboard.putNumber("Downside",Downside);
         SmartDashboard.putNumber("TargetReached",targetReached);
 
         Robot.driveBase.Drive(0, driveLr);

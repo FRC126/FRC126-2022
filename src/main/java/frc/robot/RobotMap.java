@@ -70,7 +70,7 @@ public class RobotMap {
 	public static int tarmacThrow=14000;
 	public static int longThrow=18000;
 	public static int safteyThrow=20750;
-	public static int idleThrow=5500;
+	public static int idleThrow=7500;
 
 	//Position Calibrations
 	public static void setRobot(double robotID){
