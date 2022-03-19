@@ -36,7 +36,7 @@ public class ThrowerControl extends CommandBase {
 	static int tarmacThrow=14000;
 	static int longThrow=18000;
 	static int safteyThrow=20750;
-	static int idleThrow=4000;
+	static int idleThrow=7500;
 
 	/**********************************************************************************
 	 **********************************************************************************/

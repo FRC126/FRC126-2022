@@ -38,7 +38,9 @@ public class AutoThreeBall extends SequentialCommandGroup {
                 new InstantCommand(Robot.ballIntake::ExtendIntake, Robot.ballIntake),
 
                 //Backup to throw the ball
-                new DriveDistance(-24,100)
+                new DriveDistance(-30,100),
+
+                new ThrowerWork(RobotMap.tarmacThrow, 100, false, false)
             ),
 
             // Turn to aim 

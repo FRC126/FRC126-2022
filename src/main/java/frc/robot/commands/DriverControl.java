@@ -105,7 +105,7 @@ public class DriverControl extends CommandBase {
 			SmartDashboard.putBoolean("Shift Up",false);
 		}
 
-		if (driveJoystick.isXButton()) {
+		if (driveJoystick.isXButton() && false ) {
 			// Turn 180 degrees after X Button is pressed
 			if (turnAround == false) {
 				startAngle = Robot.internalData.getGyroAngle();

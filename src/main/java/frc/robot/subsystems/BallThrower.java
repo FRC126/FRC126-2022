@@ -29,6 +29,8 @@ public class BallThrower extends SubsystemBase {
     static double targetRPM;
     static double throwerSpeed;
     static int delay;
+//    static double P = 0.000008;
+//    static double I = -0.0003;
     static double P = 0.000008;
     static double I = -0.0003;
     static double ix, error = 0.0;
@@ -71,10 +73,15 @@ public class BallThrower extends SubsystemBase {
 
             if (targetRPM == 0) { /** Spindown **/
                 throwerSpeed=0;
-            } else { /** Normal operation **/
+            } else { /** Normal operation **/                SmartDashboard.putNumber("ix",ix);
+
                 error = targetRPM - rpm;
                 ix = error * 0.02; /** Loop frequency **/
                 throwerSpeed += P * error + I * ix;
+
+                SmartDashboard.putNumber("err0r",error);
+                SmartDashboard.putNumber("ix",ix);
+                SmartDashboard.putNumber("throwerSpeed",throwerSpeed);
             }
 
             if(throwerSpeed < 0) {
