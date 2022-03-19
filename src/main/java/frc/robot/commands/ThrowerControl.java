@@ -16,6 +16,7 @@ package frc.robot.commands;
 
 import frc.robot.JoystickWrapper;
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -31,12 +32,6 @@ public class ThrowerControl extends CommandBase {
 	static boolean autoThrow=false;
 	static boolean idleMotor=true;
 	JoystickWrapper operatorJoystick;
-
-	static int shortThrow=7500;
-	static int tarmacThrow=14000;
-	static int longThrow=18000;
-	static int safteyThrow=20750;
-	static int idleThrow=7500;
 
 	/**********************************************************************************
 	 **********************************************************************************/
@@ -84,17 +79,17 @@ public class ThrowerControl extends CommandBase {
 		// Use the POV pad to set 4 different throwing distances.  Button needs to be
 		// held down for length of throwing action
 		if (operatorJoystick.getPovDown()) {
-            throwerRPM=longThrow;
+            throwerRPM=RobotMap.longThrow;
 		} else if (operatorJoystick.getPovUp()) {
-            throwerRPM=safteyThrow;
+            throwerRPM=RobotMap.safteyThrow;
 		} else if (operatorJoystick.getPovLeft()) {
-            throwerRPM=tarmacThrow-1000;
+            throwerRPM=RobotMap.tarmacThrow-1000;
 		} else if (operatorJoystick.getPovRight()) {
-            throwerRPM=tarmacThrow+1000;
+            throwerRPM=RobotMap.tarmacThrow+1000;
 	    } else if (operatorJoystick.getLeftStickY() < -.3) {
-			throwerRPM=shortThrow;
+			throwerRPM=RobotMap.shortThrow;
 	    } else if (operatorJoystick.getLeftStickY() > .3) {
-			throwerRPM=tarmacThrow;
+			throwerRPM=RobotMap.tarmacThrow;
 		} else {
 			if ( autoThrow == true ) {
 				// IF autoThrow was true, cancel it.
@@ -105,7 +100,7 @@ public class ThrowerControl extends CommandBase {
 
 			if (idleMotor) {
 				// idle the throwing wheels, so spin up time is less.
-			    throwerRPM=idleThrow;
+			    throwerRPM=RobotMap.idleThrow;
 			} else {
 				// operator has cancelled the idling
 				throwerRPM=0;
@@ -125,7 +120,7 @@ public class ThrowerControl extends CommandBase {
 
 		if (operatorJoystick.isBButton()) {
             // Idle the throwing wheels
-		    throwerRPM=idleThrow;
+		    throwerRPM=RobotMap.idleThrow;
 			idleMotor=true;
         } 
 

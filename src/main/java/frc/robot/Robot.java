@@ -118,6 +118,21 @@ public class Robot extends TimedRobot {
     private final SendableChooser<Integer> autoPosition = new SendableChooser<>();
     private final SendableChooser<Integer> idleChooser = new SendableChooser<>();
 
+    // Auto Positions
+    public final int FarLeft=0;
+    public final int MiddleLeft=1;
+    public final int MiddleRight=2;
+    public final int FarRight=3;
+
+    // Auto Choices
+    public final int AutoOneBall=0;
+    public final int AutoTwvoBallPosition=1;
+    public final int AutoTwoBallStriaght=2;
+    public final int AutoThreeBall=3;
+    public final int AutoTwoBallNew=4;
+    public final int AutoBetterTurn=5;
+    public final int AutoDriveDistance=6;
+
  	  /************************************************************************
      * This function is run when the robot is first started up and should be used for any
      * initialization code.
@@ -167,20 +182,20 @@ public class Robot extends TimedRobot {
 		server.setSource(driveCam);
 
         // Dashboard Cooser for the Autonomous mode move
-        autoFunction.setDefaultOption("One_Ball (default)",0);
-        autoFunction.addOption("Two Ball Position",1);
-        autoFunction.addOption("Two Ball Stragiht",2);
-        autoFunction.addOption("Three Ball Auto",5);
-        autoFunction.addOption("Two Ball Position New",6);
-        autoFunction.addOption("Auto Better Turn",3);
-        autoFunction.addOption("Auto Drive Distance",4);
+        autoFunction.setDefaultOption("One_Ball (default)",AutoOneBall);
+        autoFunction.addOption("Two Ball Position",AutoTwvoBallPosition);
+        autoFunction.addOption("Two Ball Stragiht",AutoTwoBallStriaght);
+        autoFunction.addOption("Three Ball Auto",AutoThreeBall);
+        autoFunction.addOption("Two Ball Position New",AutoTwoBallNew);
+        autoFunction.addOption("Auto Better Turn",AutoBetterTurn);
+        autoFunction.addOption("Auto Drive Distance",AutoDriveDistance);
         SmartDashboard.putData("Auto Choices",autoFunction);
 
         // Dashboard Cooser for the Autonomous mode position
-        autoPosition.setDefaultOption("Far Left (default)",0);
-        autoPosition.addOption("Middle Left",1);
-        autoPosition.addOption("Middle Right",2);
-        autoPosition.addOption("Far Right",3);
+        autoPosition.setDefaultOption("Far Left (default)",FarLeft);
+        autoPosition.addOption("Middle Left",MiddleLeft);
+        autoPosition.addOption("Middle Right",MiddleRight);
+        autoPosition.addOption("Far Right",FarRight);
         SmartDashboard.putData("Auto Position",autoPosition);
 
         idleChooser.setDefaultOption("Idle Thrower (default)",1);
@@ -201,12 +216,12 @@ public class Robot extends TimedRobot {
         try {
 			selectedAutoPosition = (int) autoPosition.getSelected();
 		} catch(NullPointerException e) {
-			selectedAutoPosition = 0;
+			selectedAutoPosition = FarLeft;
 		}
 		try {
 			selectedAutoFunction = (int)autoFunction.getSelected();
 		} catch(NullPointerException e) {
-			selectedAutoFunction = 0;
+			selectedAutoFunction = AutoOneBall;
 		}
 
         try {
@@ -220,25 +235,26 @@ public class Robot extends TimedRobot {
 		}
 
         switch (selectedAutoPosition) {
-            case 0:
+            case FarLeft:
+                // Far Left Position
                 switch (selectedAutoFunction) {
-                    case 1: 
+                    case AutoTwvoBallPosition: 
                         autonomous = new AutoTwoBallLeft();
                         SmartDashboard.putString("AutoCommand","Two Ball Left");
                         break;
-                    case 2:
+                    case AutoTwoBallStriaght:
                         autonomous = new AutoTwoBallStraight();
                         SmartDashboard.putString("AutoCommand","Two Ball Straight");
                         break;
-                    case 3:
+                    case AutoBetterTurn:
                         autonomous = new AutoBetterTurn();
                         SmartDashboard.putString("AutoCommand","Better Turn");
                         break;
-                    case 4:
+                    case AutoDriveDistance:
                         autonomous = new AutoDriveDistance();
                         SmartDashboard.putString("AutoCommand","Drive Distance");
                         break;
-                    case 6: 
+                    case AutoTwoBallNew: 
                         autonomous = new AutoTwoBallLeftNew();
                         SmartDashboard.putString("AutoCommand","Two Ball Left New");
                         break;
@@ -248,22 +264,23 @@ public class Robot extends TimedRobot {
                         break;
                 }
                 break;
-            case 1:
-                // Far Left Position, always do one ball Auto
+            case MiddleLeft:
+                // Middle  Left Position, always do one ball Auto
                 autonomous = new AutoOneBall();    
                 SmartDashboard.putString("AutoCommand","One Ball");
                 break;
-            case 2:
+            case MiddleRight:
+                // Middle Right
                 switch (selectedAutoFunction) {
-                    case 1: 
+                    case AutoTwvoBallPosition: 
                         autonomous = new AutoTwoBallRight();
                         SmartDashboard.putString("AutoCommand","Two Ball Right");
                         break;
-                    case 2:
+                    case AutoTwoBallStriaght:
                         autonomous = new AutoTwoBallStraight();
                         SmartDashboard.putString("AutoCommand","Two Ball Straigt");
                         break;
-                    case 6: 
+                    case AutoTwoBallNew: 
                         autonomous = new AutoTwoBallRightNew();
                         SmartDashboard.putString("AutoCommand","Two Ball Right New");
                         break;
@@ -273,10 +290,10 @@ public class Robot extends TimedRobot {
                         break;
                 }        
                 break;
-            case 3:
-                // Far Right Position, always do one ball Auto
+            case FarRight:
+                // Far Right Position
                 switch (selectedAutoFunction) {
-                    case 5:
+                    case AutoThreeBall:
                         autonomous = new AutoThreeBall();    
                         SmartDashboard.putString("AutoCommand","Three Ball");                  
                     default:
