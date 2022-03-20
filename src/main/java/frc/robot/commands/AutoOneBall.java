@@ -15,8 +15,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
  
@@ -26,35 +24,20 @@ import frc.robot.RobotMap;
 public class AutoOneBall extends SequentialCommandGroup {
     public AutoOneBall() {
 
-    /**********************************************************************************
-     **********************************************************************************/
+        addCommands(
 
-     addCommands(
+            /////////////////////////////////////////////////////////////////////////
+            // Throw the first Ball
+            /////////////////////////////////////////////////////////////////////////
 
-            new ParallelCommandGroup(
-                // Shift the Transmission to Low
-                new InstantCommand(Robot.driveBase::shiftDown, Robot.driveBase),
+            new AutoOneBallThrow(),
 
-                // Extend the Intake
-                new InstantCommand(Robot.ballIntake::ExtendIntake, Robot.ballIntake),
-
-                //Backup to throw the ball
-                new DriveWork(-0.3, 0, 85)
-            ),    
- 
-            new ThrowerWork(RobotMap.tarmacThrow, 0, true, true),
-            
-            new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
-            new ThrowerWork(0, 0, false, true),
-
-            new InstantCommand(Robot.ballIntake::RetractIntake, Robot.ballIntake),
+            // Idle the thrower
+            new ThrowerWork(RobotMap.idleThrow, 0, false, false),
 
             // Backup past the line
-            new DriveWork(-0.3, 0, 25)
-
-            // Turn by degrees
-            // new TurnDegrees(-0.5, 140, 150)
-            );
+            new DriveDistance(-24,100)
+        );
     }       
 
     /******************************************************************************************
@@ -64,11 +47,8 @@ public class AutoOneBall extends SequentialCommandGroup {
      @Override
     public void end(boolean isInterrupted) {
         Robot.ballIntake.IntakeStop();
-        //Robot.ballIntake.RetractIntake();
         Robot.driveBase.Drive(0,0);
         Robot.ballThrower.ThrowerIntakeStop();
-        Robot.ballThrower.throwerRPM(0);
-    }  
-    
+    }     
 }
 

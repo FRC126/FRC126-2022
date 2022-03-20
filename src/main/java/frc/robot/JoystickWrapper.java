@@ -154,14 +154,18 @@ public class JoystickWrapper {
  *         Left Joystick Y-Axis: Robot drive forward and back
  *         Right Joystick X-Axis: Robot drive left and right
  *         Left Trigger: Slow Mode
+ *         Right Trigger: Brake Mode
  *         X Button - Turn around 180 degrees
  * 
  *     Climber Controls
  *         A Button - Raise Climber Arms - only moves while held
  *         B Button - Lower Climber Arms - only moves while held
+ *         X Button - Lower Climber Arms - only moves while held, ignores encoders
  *         Start Button - Reset Encoders
  *         POV Left - Lower Left Climber
  *         POV Right - Lower Right Climber
+ *         POV Up - Tilt climber arms
+ *         POV Down - Un-Tilt Climber
  * 
  * Operators Joystick
  *     Intake Controls

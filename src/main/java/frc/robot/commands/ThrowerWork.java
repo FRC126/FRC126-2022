@@ -15,6 +15,7 @@
 package frc.robot.commands;
 
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**********************************************************************************
@@ -100,7 +101,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 	
     public void end(boolean isInteruppted) {
         if (stopSpinning == true) {
-            Robot.ballThrower.throwerRPM(0);
+            Robot.ballThrower.throwerRPM(RobotMap.idleThrow);
         }    
         Robot.ballThrower.ThrowerIntakeStop();
     }

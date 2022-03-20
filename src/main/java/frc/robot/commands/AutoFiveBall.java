@@ -22,50 +22,41 @@ import frc.robot.RobotMap;
 /**********************************************************************************
  **********************************************************************************/
 
-public class AutoTwoBallLeftNew extends SequentialCommandGroup {
-    public AutoTwoBallLeftNew() {
+public class AutoFiveBall extends SequentialCommandGroup {
+    public AutoFiveBall() {
 
         addCommands(
+           
+            new AutoThreeBall(),          
 
             /////////////////////////////////////////////////////////////////////////
-            // Throw the first ball
+            // Go towards the human player station
             /////////////////////////////////////////////////////////////////////////
 
-            new AutoOneBallThrow(),
+            // Stop the trower Intake Motor
+            new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
 
-            /////////////////////////////////////////////////////////////////////////
-            // Pickup the Second Ball
-            /////////////////////////////////////////////////////////////////////////
-            
-            // Start the ball intake
+            // Turn towards human player station
+            new TurnDegreesBetter(-150, 150),
+
+            // Drive to throw spot for the 2 balls 
+            new DriveDistance(96, 250),
+
+            // Stop the ball intake
             new InstantCommand(Robot.ballIntake::IntakeRun, Robot.ballIntake),
-                
-            // Turn by degrees
-            new TurnDegreesBetter(125, 200),
 
-            // Drive to the Ball
-            new DriveDistance(24, 150),
+            // Turn towards human player station
+            new TurnDegreesBetter(180, 150),
 
-            // Turn by degrees
-            new TurnDegreesBetter(-145, 200),
-
-            // Stop the intake
+            // Stop the ball intake
             new InstantCommand(Robot.ballIntake::IntakeStop, Robot.ballIntake),
 
-            /////////////////////////////////////////////////////////////////////////
-            // Throw the second ball
-            /////////////////////////////////////////////////////////////////////////
-
-            // Drive forward to the target
-            new DriveDistance(18, 130),
+            // Drive to throw spot for the 2 balls 
+            new DriveDistance(96, 250),
 
             // Throw the ball
-            new ThrowerWork(RobotMap.tarmacThrow, 0, true, false),
-
-            // Idle the thrower
-            new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
-            new ThrowerWork(RobotMap.idleThrow, 0, false, false)
-        );
+            new ThrowerWork(RobotMap.tarmacThrow, 0, true, false)
+            );
     }       
 
     /******************************************************************************************
@@ -81,4 +72,3 @@ public class AutoTwoBallLeftNew extends SequentialCommandGroup {
     }  
     
 }
-

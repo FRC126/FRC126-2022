@@ -25,9 +25,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriverControl extends CommandBase {
 	static int delay=0;
-	static boolean turnAround=false;
 	static boolean brakeMode=false;
-	static double startAngle;
 	JoystickWrapper driveJoystick;
 	
 	/**********************************************************************************
@@ -103,27 +101,6 @@ public class DriverControl extends CommandBase {
 			SmartDashboard.putBoolean("Shift Up",true);
 		} else {
 			SmartDashboard.putBoolean("Shift Up",false);
-		}
-
-		// if (driveJoystick.isXButton()) {
-		// 	// Turn 180 degrees after X Button is pressed
-		// 	if (turnAround == false) {
-		// 		startAngle = Robot.internalData.getGyroAngle();
-		// 	    turnAround=true;
-		// 	}
-		// }
-
-		if (turnAround == true) {
-			// If we are supposed to turn around, check the current gyro
-			// angle and see if we have reached our desired position,
-			// if not, keep turning
-			double currAngle = Robot.internalData.getGyroAngle();
-			if(currAngle < startAngle + 140) {
-				LR=-0.45;
-			} else {
-				LR=0;
-				turnAround=false;
-			}
 		}
 
 		delay--;

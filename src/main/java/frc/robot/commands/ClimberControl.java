@@ -63,7 +63,7 @@ public class ClimberControl extends CommandBase {
             // Extend the Climber while the A Button is pressed
 		    Robot.verticalClimber.RaiseClimber();
         }  else if (driveJoystick.isYButton()) {
-            // Retact the Climber while the B Button is pressed
+            // Retact the Climber while the Y Button is pressed
 		    Robot.verticalClimber.LowerClimberNoLimit();
         }  else if (driveJoystick.isBButton()) {
             // Retact the Climber while the B Button is pressed
@@ -74,6 +74,12 @@ public class ClimberControl extends CommandBase {
         } else if (driveJoystick.getPovRight()) {
 			// Lower just the right climber, don't stop at 0
 		    Robot.verticalClimber.LowerRightClimber(false);
+        } else if (driveJoystick.getPovUp()) {
+		    Robot.verticalClimber.StopClimber();
+		    Robot.verticalClimber.ExtendArms();
+        } else if (driveJoystick.getPovUp()) {
+		    Robot.verticalClimber.StopClimber();
+		    Robot.verticalClimber.RetractArms();
 		} else {
 			// If none of the climber buttons are pressed, stop moving the climber
 		    Robot.verticalClimber.StopClimber();

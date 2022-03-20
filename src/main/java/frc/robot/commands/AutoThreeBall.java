@@ -15,7 +15,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
@@ -26,32 +25,18 @@ import frc.robot.RobotMap;
 public class AutoThreeBall extends SequentialCommandGroup {
     public AutoThreeBall() {
 
-        /**********************************************************************************
-         **********************************************************************************/
-
         addCommands(
-            new ParallelCommandGroup(
-                // Shift the Transmission to Low
-                new InstantCommand(Robot.driveBase::shiftDown, Robot.driveBase),
+           
+            /////////////////////////////////////////////////////////////////////////
+            // Throw the first Ball
+            /////////////////////////////////////////////////////////////////////////
 
-                // Extend the Intake
-                new InstantCommand(Robot.ballIntake::ExtendIntake, Robot.ballIntake),
+            new AutoOneBallThrow(),
 
-                //Backup to throw the ball
-                new DriveDistance(-24,100),
-
-                new ThrowerWork(RobotMap.tarmacThrow, 100, false, false)
-            ),
-
-            // Turn to aim 
-            new TurnDegreesBetter(15,50),
+            /////////////////////////////////////////////////////////////////////////
+            // Pickup the Second Ball
+            /////////////////////////////////////////////////////////////////////////
             
-            // Throw the Ball
-            new ThrowerWork(RobotMap.tarmacThrow, 0, true, false),
-   
-            // Stop the trower
-            new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
-
             // Start the ball intake
             new InstantCommand(Robot.ballIntake::IntakeRun, Robot.ballIntake),
                 
@@ -60,6 +45,10 @@ public class AutoThreeBall extends SequentialCommandGroup {
 
             // Drive to pickup the second ball
             new DriveDistance(18,150),
+
+            /////////////////////////////////////////////////////////////////////////
+            // Pickup the Third Ball
+            /////////////////////////////////////////////////////////////////////////
 
             // backup after picking up the second ball
             new DriveDistance(-18,150),
@@ -70,24 +59,27 @@ public class AutoThreeBall extends SequentialCommandGroup {
             // Drive to pickup the thrid ball 
             new DriveDistance(72, 200),
 
+            /////////////////////////////////////////////////////////////////////////
+            // Throw the second and third balls
+            /////////////////////////////////////////////////////////////////////////
+
             // Turn to aim
             new TurnDegreesBetter(70, 100),
 
             // Stop the ball intake
             new InstantCommand(Robot.ballIntake::IntakeStop, Robot.ballIntake),
 
-            // Drive to pickup the thrid ball 
+            // Drive to throw spot for the 2 balls 
             new DriveDistance(24, 150),
 
             // Throw the ball
-            new ThrowerWorkStop(RobotMap.tarmacThrow, 0, true),
+            new ThrowerWork(RobotMap.tarmacThrow, 0, true, false),
 
-            // Stop the trower
-            new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
-            new ThrowerWork(RobotMap.idleThrow, 0, false, false),
+            // Stop the trower Intake
+            new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),           
 
-            // Turn towards human player station
-            new TurnDegreesBetter(-150, 150)
+            // Throw the ball
+            new ThrowerWork(RobotMap.idleThrow, 0, true, false)
 
         );
     }       
