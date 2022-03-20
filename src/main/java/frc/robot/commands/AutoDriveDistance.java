@@ -15,6 +15,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Robot;
  
 /**********************************************************************************
@@ -29,15 +30,15 @@ public class AutoDriveDistance extends SequentialCommandGroup {
      addCommands(
 
             new DriveDistance(24,250),
-            new DriveWork(0,0,50),
+            new WaitCommand(1), // do nothing for 1 second
             new TurnDegreesBetter(180,900),
-            new DriveWork(0,0,50),
+            new WaitCommand(1), // do nothing for 1 second
             new DriveDistance(24,250),
-            new DriveWork(0,0,50),
+            new WaitCommand(1), // do nothing for 1 second
             new TurnDegreesBetter(180,900),
-            new DriveWork(0,0,50),
+            new WaitCommand(1), // do nothing for 1 second
             new DriveDistance(24,250),
-            new DriveWork(0,0,50),
+            new WaitCommand(1), // do nothing for 1 second
             new DriveDistance(-24,250)
         );           
     }       
