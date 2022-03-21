@@ -57,10 +57,6 @@ public class RobotMap {
 	public static int intakeMotor2Inversion;
 	public static int feederMotorInversion;
 
-	public static int left1Inversion;
-	public static int left2Inversion;
-	public static int right1Inversion;
-	public static int right2Inversion;
 	public static int throwerMotor1Inversion;
 	public static int throwerMotor2Inversion;
 	public static int climberMotorLInversion;
@@ -86,10 +82,6 @@ public class RobotMap {
 			feederMotorInversion = -1;
 			climberMotorLInversion = 1;
 			climberMotorRInversion = -1;
-			left1Inversion     = 1;
-			left2Inversion     = 1;
-			right1Inversion    = -1;
-			right2Inversion    = -1;
 			throwerMotor1Inversion = -1;
 			throwerMotor2Inversion = 1;
 		} else { 
@@ -99,10 +91,6 @@ public class RobotMap {
 			feederMotorInversion = 1;
 			climberMotorLInversion = 1;
 			climberMotorRInversion = 1;
-			left1Inversion     = 1;
-			left2Inversion     = 1;
-			right1Inversion    = 1;
-			right2Inversion    = 1;
 			throwerMotor1Inversion = -1;
 			throwerMotor2Inversion = 1;
 		}

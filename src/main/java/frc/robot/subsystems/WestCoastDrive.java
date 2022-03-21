@@ -14,22 +14,30 @@
 
 package frc.robot.subsystems;
 
-import frc.robot.Robot;
-import frc.robot.RobotMap;
-import frc.robot.commands.*;
-import java.util.Arrays;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
+import frc.robot.RobotMap;
+import frc.robot.commands.DriverControl;
+
+import java.util.Arrays;
 
 /**********************************************************************************
  **********************************************************************************/
 
 public class WestCoastDrive extends SubsystemBase {
+
+	// Driver Base Motors
+	TalonFX leftDriveMotorMaster = new TalonFX(RobotMap.leftDriveMotorCanID1);
+	TalonFX leftDriveMotorSlave = new TalonFX(RobotMap.leftDriveMotorCanID2);
+	TalonFX rightDriveMotorMaster = new TalonFX(RobotMap.rightDriveMotorCanID1);
+	TalonFX rightDriveMotorSlave = new TalonFX(RobotMap.rightDriveMotorCanID2);
 
 	double leftMultiplier, rightMultiplier, leftSpeed, rightSpeed, fbSlowDown, rotSlowDown, limiter, left1RPM, left2RPM, right1RPM, right2RPM;
 	double previousLimiter = 1;
@@ -44,6 +52,10 @@ public class WestCoastDrive extends SubsystemBase {
 		// Register this subsystem with command scheduler and set the default command
 		CommandScheduler.getInstance().registerSubsystem(this);
 		setDefaultCommand(new DriverControl(this));
+		leftDriveMotorSlave.follow(leftDriveMotorMaster);
+		rightDriveMotorSlave.follow(rightDriveMotorMaster);
+		leftDriveMotorMaster.setInverted(false); // may need to swap
+		rightDriveMotorMaster.setInverted(true);
 
 		leftSpeed = 0;
 		rightSpeed = 0;
@@ -68,10 +80,10 @@ public class WestCoastDrive extends SubsystemBase {
 	 ************************************************************************/
 
 	 public double getMeanRPM() {
-		left1RPM = Math.abs(Robot.leftDriveMotor1.getSelectedSensorVelocity() / 3.41);
-		left2RPM = Math.abs(Robot.leftDriveMotor2.getSelectedSensorVelocity() / 3.41);
-		right1RPM = Math.abs(Robot.rightDriveMotor1.getSelectedSensorVelocity() / 3.41);
-		right2RPM = Math.abs(Robot.rightDriveMotor2.getSelectedSensorVelocity() / 3.41);
+		left1RPM = Math.abs(leftDriveMotorMaster.getSelectedSensorVelocity() / 3.41);
+		left2RPM = Math.abs(leftDriveMotorSlave.getSelectedSensorVelocity() / 3.41);
+		right1RPM = Math.abs(rightDriveMotorMaster.getSelectedSensorVelocity() / 3.41);
+		right2RPM = Math.abs(rightDriveMotorSlave.getSelectedSensorVelocity() / 3.41);
 		return((left1RPM + left2RPM + right1RPM + right2RPM) / 4);
 	}
 
@@ -80,10 +92,10 @@ public class WestCoastDrive extends SubsystemBase {
 
 	 public double getStallRPM() {
 		double[] stallrpms = {0,0,0,0};
-		left1RPM = Math.abs(Robot.leftDriveMotor1.getSelectedSensorVelocity() / 3.41);
-		left2RPM = Math.abs(Robot.leftDriveMotor2.getSelectedSensorVelocity() / 3.41);
-		right1RPM = Math.abs(Robot.rightDriveMotor1.getSelectedSensorVelocity() / 3.41);
-		right2RPM = Math.abs(Robot.rightDriveMotor2.getSelectedSensorVelocity() / 3.41);
+		left1RPM = Math.abs(leftDriveMotorMaster.getSelectedSensorVelocity() / 3.41);
+		left2RPM = Math.abs(leftDriveMotorSlave.getSelectedSensorVelocity() / 3.41);
+		right1RPM = Math.abs(rightDriveMotorMaster.getSelectedSensorVelocity() / 3.41);
+		right2RPM = Math.abs(rightDriveMotorSlave.getSelectedSensorVelocity() / 3.41);
 		stallrpms[0] = left1RPM;
 		stallrpms[1] = left2RPM;
 		stallrpms[2] = right1RPM;
@@ -97,10 +109,10 @@ public class WestCoastDrive extends SubsystemBase {
 
 	 public double getPeakRPM() {
 		double[] peakrpms = {0,0,0,0};
-		left1RPM = Math.abs(Robot.leftDriveMotor1.getSelectedSensorVelocity() / 3.41);
-		left2RPM = Math.abs(Robot.leftDriveMotor2.getSelectedSensorVelocity() / 3.41);
-		right1RPM = Math.abs(Robot.rightDriveMotor1.getSelectedSensorVelocity() / 3.41);
-		right2RPM = Math.abs(Robot.rightDriveMotor2.getSelectedSensorVelocity() / 3.41);
+		left1RPM = Math.abs(leftDriveMotorMaster.getSelectedSensorVelocity() / 3.41);
+		left2RPM = Math.abs(leftDriveMotorSlave.getSelectedSensorVelocity() / 3.41);
+		right1RPM = Math.abs(rightDriveMotorMaster.getSelectedSensorVelocity() / 3.41);
+		right2RPM = Math.abs(rightDriveMotorSlave.getSelectedSensorVelocity() / 3.41);
 		peakrpms[0] = left1RPM;
 		peakrpms[1] = left2RPM;
 		peakrpms[2] = right1RPM;
@@ -176,22 +188,20 @@ public class WestCoastDrive extends SubsystemBase {
 		//SmartDashboard.putNumber("Left Speed", leftSpeed);
         //SmartDashboard.putNumber("Right Speed", rightSpeed);
 
-		Robot.leftDriveMotor1.set(ControlMode.PercentOutput, leftSpeed * RobotMap.left1Inversion);
-		Robot.leftDriveMotor2.set(ControlMode.PercentOutput, leftSpeed * RobotMap.left2Inversion);
+		leftDriveMotorMaster.set(ControlMode.PercentOutput, leftSpeed);
 
-        Robot.rightDriveMotor1.set(ControlMode.PercentOutput, rightSpeed * RobotMap.right1Inversion);
-		Robot.rightDriveMotor2.set(ControlMode.PercentOutput, rightSpeed * RobotMap.right2Inversion);
+        rightDriveMotorMaster.set(ControlMode.PercentOutput, rightSpeed);
 	}
 
     /************************************************************************
 	 ************************************************************************/
 
 	public void resetEncoders() {
-		Robot.leftDriveMotor1.setSelectedSensorPosition(0);
-		Robot.leftDriveMotor2.setSelectedSensorPosition(0);
+		leftDriveMotorMaster.setSelectedSensorPosition(0);
+		leftDriveMotorSlave.setSelectedSensorPosition(0);
 
-        Robot.rightDriveMotor1.setSelectedSensorPosition(0);
-		Robot.rightDriveMotor2.setSelectedSensorPosition(0);
+		rightDriveMotorMaster.setSelectedSensorPosition(0);
+		rightDriveMotorSlave.setSelectedSensorPosition(0);
 	}
 
     /************************************************************************
@@ -202,11 +212,11 @@ public class WestCoastDrive extends SubsystemBase {
 		double wheelDiameter = 6.45; // 6.4 inches, 20.25" diameter
 		double gearRatio = 4;
 		
-		double left1 = Math.abs(Robot.leftDriveMotor1.getSelectedSensorPosition() * RobotMap.left1Inversion);
-		double left2 = Math.abs(Robot.leftDriveMotor2.getSelectedSensorPosition() * RobotMap.left2Inversion);
+		double left1 = Math.abs(leftDriveMotorMaster.getSelectedSensorPosition());
+		double left2 = Math.abs(leftDriveMotorSlave.getSelectedSensorPosition());
 
-        double right1 = Math.abs(Robot.rightDriveMotor1.getSelectedSensorPosition() * RobotMap.right1Inversion);
-		double right2 = Math.abs(Robot.rightDriveMotor2.getSelectedSensorPosition() * RobotMap.right2Inversion);
+        double right1 = Math.abs(rightDriveMotorMaster.getSelectedSensorPosition());
+		double right2 = Math.abs(rightDriveMotorSlave.getSelectedSensorPosition());
 
 		// Get the absolute value of the average of all the encoders.
 		double avg = (left1 + left2 + right1+ right2) / 4;
@@ -223,20 +233,16 @@ public class WestCoastDrive extends SubsystemBase {
 	 ************************************************************************/
 
 	public void driveBrakeMode() {
-		Robot.leftDriveMotor1.setNeutralMode(NeutralMode.Brake);
-		Robot.leftDriveMotor2.setNeutralMode(NeutralMode.Brake);
-		Robot.rightDriveMotor1.setNeutralMode(NeutralMode.Brake);
-		Robot.rightDriveMotor2.setNeutralMode(NeutralMode.Brake);
+		leftDriveMotorMaster.setNeutralMode(NeutralMode.Brake);
+		rightDriveMotorMaster.setNeutralMode(NeutralMode.Brake);
 	}
 
     /************************************************************************
 	 ************************************************************************/
 
 	public void driveCoastMode() {
-		Robot.leftDriveMotor1.setNeutralMode(NeutralMode.Coast);
-		Robot.leftDriveMotor2.setNeutralMode(NeutralMode.Coast);
-		Robot.rightDriveMotor1.setNeutralMode(NeutralMode.Coast);
-		Robot.rightDriveMotor2.setNeutralMode(NeutralMode.Coast);
+		leftDriveMotorMaster.setNeutralMode(NeutralMode.Coast);
+		rightDriveMotorMaster.setNeutralMode(NeutralMode.Coast);
 	}
 
 }
