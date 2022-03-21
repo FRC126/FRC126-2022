@@ -14,6 +14,7 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 import frc.robot.commands.*;
@@ -142,7 +143,7 @@ public class WestCoastDrive extends SubsystemBase {
 	 * Send power to the drive motors
 	 ************************************************************************/
 
-	public void Drive(double fb, double rot_in) { 
+	public void Drive(double fb, double rot_in) {
 
 		double rot = rot_in;
 		if (Robot.internalData.isTeleop()) {
@@ -171,16 +172,23 @@ public class WestCoastDrive extends SubsystemBase {
 			rightSpeed *= previousLimiter;
 		}
 
-		//SmartDashboard.putNumber("drive fb", fb);
-		//SmartDashboard.putNumber("drive rot", rot);
-		//SmartDashboard.putNumber("Left Speed", leftSpeed);
-        //SmartDashboard.putNumber("Right Speed", rightSpeed);
+		SmartDashboard.putNumber("drive fb", fb);
+		SmartDashboard.putNumber("drive rot", rot);
+		SmartDashboard.putNumber("Left Speed", leftSpeed);
+        SmartDashboard.putNumber("Right Speed", rightSpeed);
 
 		Robot.leftDriveMotor1.set(ControlMode.PercentOutput, leftSpeed * RobotMap.left1Inversion);
 		Robot.leftDriveMotor2.set(ControlMode.PercentOutput, leftSpeed * RobotMap.left2Inversion);
 
         Robot.rightDriveMotor1.set(ControlMode.PercentOutput, rightSpeed * RobotMap.right1Inversion);
 		Robot.rightDriveMotor2.set(ControlMode.PercentOutput, rightSpeed * RobotMap.right2Inversion);
+
+		SmartDashboard.putNumber("leftDriveMotor", leftSpeed * RobotMap.left1Inversion);
+		SmartDashboard.putNumber("rightDriveMotor", rightSpeed * RobotMap.right1Inversion);
+
+		Rotation2d rotation = Rotation2d.fromDegrees(rot_in);
+		SmartDashboard.putNumber("Robot odometry Invoke", SmartDashboard.getNumber("Robot odometry Invoke", 0)==0?1:SmartDashboard.getNumber("Robot odometry Invoke", 0)+1);
+		Robot.odometry.update(rotation, leftSpeed * RobotMap.left1Inversion, rightSpeed * RobotMap.right1Inversion);
 	}
 
     /************************************************************************

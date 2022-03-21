@@ -18,25 +18,31 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.TalonFXSimCollection;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.cscore.VideoSink;
 import edu.wpi.first.cscore.VideoSource;
 
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel;
+import com.revrobotics.REVPhysicsSim;
 import com.ctre.phoenix.motorcontrol.can.*;
+
 import frc.robot.subsystems.*;
 import frc.robot.commands.*;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -54,18 +60,49 @@ public class Robot extends TimedRobot {
     public static CANSparkMax feederMotor = new CANSparkMax(RobotMap.feederMotorCanID, CANSparkMaxLowLevel.MotorType.kBrushless);
 
     // Climber Motors
-    public static TalonFX climberMotorLeft = new TalonFX(RobotMap.climberMotorLCanID);
-    public static TalonFX climberMotorRight = new TalonFX(RobotMap.climberMotorRCanID);
+    public static WPI_TalonFX climberMotorLeft = new WPI_TalonFX(RobotMap.climberMotorLCanID);
+    public static WPI_TalonFX climberMotorRight = new WPI_TalonFX(RobotMap.climberMotorRCanID);
 
     // Thrower Motors
-    public static TalonFX throwerMotor1 = new TalonFX(RobotMap.throwerMotorCanID1);
-    public static TalonFX throwerMotor2 = new TalonFX(RobotMap.throwerMotorCanID2);
+    public static WPI_TalonFX throwerMotor1 = new WPI_TalonFX(RobotMap.throwerMotorCanID1);
+    public static WPI_TalonFX throwerMotor2 = new WPI_TalonFX(RobotMap.throwerMotorCanID2);
 
     // Driver Base Motors
-    public static TalonFX leftDriveMotor1 = new TalonFX(RobotMap.leftDriveMotorCanID1);
-    public static TalonFX leftDriveMotor2 = new TalonFX(RobotMap.leftDriveMotorCanID2);
-    public static TalonFX rightDriveMotor1 = new TalonFX(RobotMap.rightDriveMotorCanID1);
-    public static TalonFX rightDriveMotor2 = new TalonFX(RobotMap.rightDriveMotorCanID2); 
+    public static WPI_TalonFX leftDriveMotor1 = new WPI_TalonFX(RobotMap.leftDriveMotorCanID1);
+    public static WPI_TalonFX leftDriveMotor2 = new WPI_TalonFX(RobotMap.leftDriveMotorCanID2);
+    public static WPI_TalonFX rightDriveMotor1 = new WPI_TalonFX(RobotMap.rightDriveMotorCanID1);
+    public static WPI_TalonFX rightDriveMotor2 = new WPI_TalonFX(RobotMap.rightDriveMotorCanID2);
+
+    // Simulator stuff
+    private Field2d field2d = new Field2d();
+    private TalonFXSimCollection m_leftDriveSim = leftDriveMotor1.getSimCollection();
+    private TalonFXSimCollection m_rightDriveSim = rightDriveMotor1.getSimCollection();
+
+    private final int kCountsPerRev = 4096;  //Encoder counts per revolution of the motor shaft.
+    private final double kSensorGearRatio = 1; //Gear ratio is the ratio between the *encoder* and the wheels.  On the AndyMark drivetrain, encoders mount 1:1 with the gearbox shaft.
+    private final double kGearRatio = 10.71; //Switch kSensorGearRatio to this gear ratio if encoder is on the motor instead of on the gearbox.
+    private final double kWheelRadiusInches = 3;
+    private final int k100msPerSecond = 10;
+
+    /* Simulation model of the drivetrain */
+    private DifferentialDrivetrainSim m_driveSim = new DifferentialDrivetrainSim(
+            DCMotor.getCIM(2),        //2 CIMS on each side of the drivetrain.
+            kGearRatio,               //Standard AndyMark Gearing reduction.
+            2.1,                      //MOI of 2.1 kg m^2 (from CAD model).
+            26.5,                     //Mass of the robot is 26.5 kg.
+            Units.inchesToMeters(kWheelRadiusInches),  //Robot uses 3" radius (6" diameter) wheels.
+            0.546,                    //Distance between wheels is _ meters.
+
+            /*
+             * The standard deviations for measurement noise:
+             * x and y:          0.001 m
+             * heading:          0.001 rad
+             * l and r velocity: 0.1   m/s
+             * l and r position: 0.005 m
+             */
+            null //VecBuilder.fill(0.001, 0.001, 0.001, 0.1, 0.1, 0.005, 0.005) //Uncomment this line to add measurement noise.
+    );
+    public static DifferentialDriveOdometry odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(90));
 
     // Lidar Light Distance Measure
     public static LidarLite distance;
@@ -203,6 +240,9 @@ public class Robot extends TimedRobot {
         idleChooser.setDefaultOption("Idle Thrower (default)",1);
         idleChooser.addOption("No Idle",0);
 
+        // Simulator
+        SmartDashboard.putData("Field", field2d);
+
         Log.print(0, "Robot", "Robot Init Complete");
     }
 
@@ -319,6 +359,7 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousPeriodic() {
         CommandScheduler.getInstance().run();
+        field2d.setRobotPose(odometry.getPoseMeters());
     }
 
  	  /************************************************************************
@@ -352,6 +393,10 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         CommandScheduler.getInstance().run();
+        field2d.setRobotPose(odometry.getPoseMeters());
+        SmartDashboard.putNumber("Pose Degrees", odometry.getPoseMeters().getRotation().getDegrees());
+        SmartDashboard.putNumber("Pose X", odometry.getPoseMeters().getTranslation().getX());
+        SmartDashboard.putNumber("Pose Y", odometry.getPoseMeters().getTranslation().getY());
     }
 
  	  /************************************************************************
@@ -369,4 +414,21 @@ public class Robot extends TimedRobot {
     public void testPeriodic() {
         CommandScheduler.getInstance().run();
     }
+
+    @Override
+    public void simulationInit() {
+        REVPhysicsSim.getInstance().addSparkMax(intakeMotor1, DCMotor.getNEO(1));
+        REVPhysicsSim.getInstance().addSparkMax(intakeMotor2, DCMotor.getNEO(1));
+    }
+
+    @Override
+    public void simulationPeriodic() {
+        m_leftDriveSim.setBusVoltage(RobotController.getBatteryVoltage());
+        m_rightDriveSim.setBusVoltage(RobotController.getBatteryVoltage());
+
+        m_driveSim.setInputs(m_leftDriveSim.getMotorOutputLeadVoltage(),
+                -m_rightDriveSim.getMotorOutputLeadVoltage());
+
+        m_driveSim.update(0.02);
+   }
 }
