@@ -176,10 +176,10 @@ public class WestCoastDrive extends SubsystemBase {
 		//SmartDashboard.putNumber("Left Speed", leftSpeed);
         //SmartDashboard.putNumber("Right Speed", rightSpeed);
 
-		Robot.leftDriveMotor1.set(ControlMode.PercentOutput, leftSpeed * RobotMap.left1Inversion);
+		//Robot.leftDriveMotor1.set(ControlMode.PercentOutput, leftSpeed * RobotMap.left1Inversion);
 		Robot.leftDriveMotor2.set(ControlMode.PercentOutput, leftSpeed * RobotMap.left2Inversion);
 
-        Robot.rightDriveMotor1.set(ControlMode.PercentOutput, rightSpeed * RobotMap.right1Inversion);
+        //Robot.rightDriveMotor1.set(ControlMode.PercentOutput, rightSpeed * RobotMap.right1Inversion);
 		Robot.rightDriveMotor2.set(ControlMode.PercentOutput, rightSpeed * RobotMap.right2Inversion);
 	}
 
