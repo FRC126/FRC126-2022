@@ -51,7 +51,7 @@ public class AutoTwoBallRight extends SequentialCommandGroup {
 
                 // Turn by degrees
                 new TurnDegrees(-0.45, 160, 150)
-                ),    
+            ),    
 
             new ParallelCommandGroup(
                 // Start Running the Intake

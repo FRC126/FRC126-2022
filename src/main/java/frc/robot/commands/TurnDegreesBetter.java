@@ -25,7 +25,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
     double startAngle;
     double targetDegrees;
     int iters;
-    static private double driftAllowance=3;
+    static private double driftAllowance=2;
     int targetReached=0;
 
 	/**********************************************************************************
@@ -63,8 +63,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
         double diff = Math.abs(target) - Math.abs(currentDegrees);
 
         double tmp = diff / 100;
-        if ( tmp > .40) { tmp=.40; }
-        if ( tmp < .15) { tmp=.15; }
+        if ( tmp > .50) { tmp=.50; }
+        if ( tmp < .10) { tmp=.10; }
 
         if (Math.abs(diff) < driftAllowance) {
             // We are at the right angle

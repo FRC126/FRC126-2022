@@ -22,6 +22,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 /**********************************************************************************
  **********************************************************************************/
@@ -30,6 +32,7 @@ public class VerticalClimber extends SubsystemBase {
 
     int limitCountLeft=0;
     int limitCountRight=0;
+	private DoubleSolenoid climberSolenoid;
 
 	/************************************************************************
 	 ************************************************************************/
@@ -40,6 +43,8 @@ public class VerticalClimber extends SubsystemBase {
         setDefaultCommand(new ClimberControl(this));
         Robot.climberMotorLeft.setNeutralMode(NeutralMode.Brake);
         Robot.climberMotorRight.setNeutralMode(NeutralMode.Brake);
+
+        climberSolenoid = new DoubleSolenoid(2,PneumaticsModuleType.REVPH,3,4);
     }
 
 	/************************************************************************
@@ -229,8 +234,6 @@ public class VerticalClimber extends SubsystemBase {
         checkCurrent();
     }
 
-
-
   	/************************************************************************
      ************************************************************************/
 
@@ -238,4 +241,19 @@ public class VerticalClimber extends SubsystemBase {
         Robot.climberMotorLeft.setSelectedSensorPosition(0);
         Robot.climberMotorRight.setSelectedSensorPosition(0); 
      }
+
+  	/************************************************************************
+     ************************************************************************/
+
+    public void ExtendArms() {
+		climberSolenoid.set(DoubleSolenoid.Value.kForward);
+	}
+
+    /************************************************************************
+	 ************************************************************************/
+
+	public void RetractArms() {
+		climberSolenoid.set(DoubleSolenoid.Value.kReverse);
+	}
+
 }

@@ -53,7 +53,7 @@ public class AutoTwoBallLeft extends SequentialCommandGroup {
                 new InstantCommand(Robot.ballIntake::IntakeRun, Robot.ballIntake),
                 
                 new TurnDegrees(-0.45, 90, 200)
-                ),    
+            ),    
 
             new ParallelCommandGroup(
                 // Start Running the Intake

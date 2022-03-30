@@ -15,7 +15,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
@@ -26,30 +25,16 @@ import frc.robot.RobotMap;
 public class AutoTwoBallRightNew extends SequentialCommandGroup {
     public AutoTwoBallRightNew() {
 
-        /**********************************************************************************
-         **********************************************************************************/
-
         addCommands(
-            new ParallelCommandGroup(
-                // Shift the Transmission to Low
-                new InstantCommand(Robot.driveBase::shiftDown, Robot.driveBase),
+            /////////////////////////////////////////////////////////////////////////
+            // Throw the first ball
+            /////////////////////////////////////////////////////////////////////////
 
-                // Extend the Intake
-                new InstantCommand(Robot.ballIntake::ExtendIntake, Robot.ballIntake),
+            new AutoOneBallThrow(),
 
-                //Backup to throw the ball
-                new DriveDistance(-24, 100),
-
-                // Throw the Ball
-                new ThrowerWork(RobotMap.tarmacThrow, 100, false, false)
-            ),    
-
-            new TurnDegreesBetter(10,50),
-
-            new ThrowerWork(RobotMap.tarmacThrow, 0, true, false),
-
-            // Stop the trower
-            new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
+            /////////////////////////////////////////////////////////////////////////
+            // Pickup the second ball
+            /////////////////////////////////////////////////////////////////////////
 
             // Turn by degrees
             new TurnDegreesBetter(-150, 150),
@@ -59,6 +44,10 @@ public class AutoTwoBallRightNew extends SequentialCommandGroup {
 
             // Drive to the Ball
             new DriveDistance(36,150),
+
+            /////////////////////////////////////////////////////////////////////////
+            // Throw the Second Ball
+            /////////////////////////////////////////////////////////////////////////
 
             // Turn by degrees
             new TurnDegreesBetter(90, 150),

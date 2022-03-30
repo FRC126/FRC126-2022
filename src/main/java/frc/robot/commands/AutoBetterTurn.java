@@ -15,6 +15,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Robot;
  
 /**********************************************************************************
@@ -28,9 +29,9 @@ public class AutoBetterTurn extends SequentialCommandGroup {
 
      addCommands(
             new TurnDegreesBetter(90,900),
-            new DriveWork(0,0,150),  // Just do nothing for 3 seconds
+            new WaitCommand(3),  // Just do nothing for 3 seconds
             //new TurnDegreesBetter(90,150),
-            //new DriveWork(0,0,150),  // Just do nothing for 3 seconds
+            //new WaitCommand(3),  // Just do nothing for 3 seconds
             new TurnDegreesBetter(-90,150)
         );           
     }       
