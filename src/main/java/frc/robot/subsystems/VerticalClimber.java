@@ -44,7 +44,7 @@ public class VerticalClimber extends SubsystemBase {
         Robot.climberMotorLeft.setNeutralMode(NeutralMode.Brake);
         Robot.climberMotorRight.setNeutralMode(NeutralMode.Brake);
 
-        climberSolenoid = new DoubleSolenoid(2,PneumaticsModuleType.REVPH,3,4);
+        climberSolenoid = new DoubleSolenoid(2,PneumaticsModuleType.REVPH,0,1);
     }
 
 	/************************************************************************
@@ -113,7 +113,7 @@ public class VerticalClimber extends SubsystemBase {
         // TODO, need to know what the height limit is on the arm encoders.
         // TODO have position for first bar and second bar
         //double heightLimit = 800000;
-        double heightLimit = 425000;
+        double heightLimit = 550000;
 
         // Check the current draw before we move the motors
         checkCurrent();   

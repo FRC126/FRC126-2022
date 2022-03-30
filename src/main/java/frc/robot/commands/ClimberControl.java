@@ -74,10 +74,10 @@ public class ClimberControl extends CommandBase {
         } else if (driveJoystick.getPovRight()) {
 			// Lower just the right climber, don't stop at 0
 		    Robot.verticalClimber.LowerRightClimber(false);
-        } else if (driveJoystick.getPovUp()) {
+        } else if (driveJoystick.isLShoulderButton()) {
 		    Robot.verticalClimber.StopClimber();
 		    Robot.verticalClimber.ExtendArms();
-        } else if (driveJoystick.getPovUp()) {
+        } else if (driveJoystick.isRShoulderButton()) {
 		    Robot.verticalClimber.StopClimber();
 		    Robot.verticalClimber.RetractArms();
 		} else {
