@@ -133,6 +133,7 @@ public class Robot extends TimedRobot {
     public final int AutoBetterTurn=5;
     public final int AutoDriveDistance=6;
     public final int AutoFiveBall=7;
+    public final int AutoThreeBallNew=8;
 
  	  /************************************************************************
      * This function is run when the robot is first started up and should be used for any
@@ -187,6 +188,7 @@ public class Robot extends TimedRobot {
         autoFunction.addOption("Two Ball Position",AutoTwvoBallPosition);
         autoFunction.addOption("Two Ball Stragiht",AutoTwoBallStriaght);
         autoFunction.addOption("Three Ball Auto",AutoThreeBall);
+        autoFunction.addOption("Three Ball Auto New",AutoThreeBallNew);
         autoFunction.addOption("Five Ball Auto",AutoFiveBall);
         autoFunction.addOption("Two Ball Position New",AutoTwoBallNew);
         autoFunction.addOption("Auto Better Turn",AutoBetterTurn);
@@ -297,6 +299,10 @@ public class Robot extends TimedRobot {
                 switch (selectedAutoFunction) {
                     case AutoThreeBall:
                         autonomous = new AutoThreeBall();    
+                        SmartDashboard.putString("AutoCommand","Three Ball");    
+                        break;              
+                    case AutoThreeBallNew:
+                        autonomous = new AutoThreeBallNew();    
                         SmartDashboard.putString("AutoCommand","Three Ball");    
                         break;              
                     case AutoFiveBall:

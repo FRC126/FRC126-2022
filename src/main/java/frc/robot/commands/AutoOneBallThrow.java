@@ -45,7 +45,7 @@ public class AutoOneBallThrow extends SequentialCommandGroup {
                     new DriveDistance(RobotMap.FirstBallBackup,250),
 
                     // Turn towards the target
-                    new TurnDegreesBetter(RobotMap.FirstBallTurn * direction, 250)
+                    new TurnDegreesBetter(3 * direction, 250)
                 )    
             ),
 

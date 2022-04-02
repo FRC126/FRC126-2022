@@ -16,19 +16,20 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 
 /**********************************************************************************
  **********************************************************************************/
 
-public class AutoTwoBallLeftNew extends SequentialCommandGroup {
-    public AutoTwoBallLeftNew() {
+public class AutoThreeBallNew extends SequentialCommandGroup {
+    public AutoThreeBallNew() {
 
         addCommands(
-
+           
             /////////////////////////////////////////////////////////////////////////
-            // Throw the first ball
+            // Throw the first Ball
             /////////////////////////////////////////////////////////////////////////
 
             new AutoOneBallThrow(1),
@@ -40,31 +41,50 @@ public class AutoTwoBallLeftNew extends SequentialCommandGroup {
             // Start the ball intake
             new InstantCommand(Robot.ballIntake::IntakeRun, Robot.ballIntake),
                 
-            // Turn by degrees
-            new TurnDegreesBetter(115, 200),
+            // Turn by degrees to pickup the second ball
+            new TurnDegreesBetter(-125, 200),
 
-            // Drive to the Ball
-            new DriveDistance(24, 150),
-
-            // Turn by degrees
-            new TurnDegreesBetter(-133, 200),
-
-            // Stop the intake
-            new InstantCommand(Robot.ballIntake::IntakeStop, Robot.ballIntake),
+            // Drive to pickup the second ball
+            new DriveDistance(26,250),
 
             /////////////////////////////////////////////////////////////////////////
-            // Throw the second ball
+            // Pickup the Third Ball
             /////////////////////////////////////////////////////////////////////////
 
-            // Drive forward to the target
-            new DriveDistance(18, 130),
+            // backup after picking up the second ball
+            new DriveDistance(-14,200),
+
+            // Turn to pickup the Third ball
+            new TurnDegreesBetter(56, 200),
+
+            // Drive to pickup the thrid ball 
+            new DriveDistance(84, 200),
+
+            /////////////////////////////////////////////////////////////////////////
+            // Throw the second and third balls
+            /////////////////////////////////////////////////////////////////////////
+
+            // Turn to aim
+            new TurnDegreesBetter(120, 100),
+
+            new ParallelCommandGroup(
+
+                //Stop the ball intake
+                new InstantCommand(Robot.ballIntake::IntakeStop, Robot.ballIntake),
+
+                // Drive to throw spot for the 2 balls 
+                new DriveDistance(15, 150),
+
+                // Throw the ball
+                new ThrowerWork(RobotMap.tarmacThrow, 0, true, false)
+            ),
+
+            // Stop the trower Intake
+            new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),           
 
             // Throw the ball
-            new ThrowerWork(RobotMap.tarmacThrow, 0, true, false),
+            new ThrowerWork(RobotMap.idleThrow, 0, true, false)
 
-            // Idle the thrower
-            new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
-            new ThrowerWork(RobotMap.idleThrow, 0, false, false)
         );
     }       
 

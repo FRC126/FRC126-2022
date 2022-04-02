@@ -36,26 +36,29 @@ public class AutoTwoBallRightNew extends SequentialCommandGroup {
             // Pickup the second ball
             /////////////////////////////////////////////////////////////////////////
 
+            // Drive to the Ball
+            new DriveDistance(8,150),
+
             // Turn by degrees
-            new TurnDegreesBetter(-150, 150),
+            new TurnDegreesBetter(-145, 150),
 
             // Start Running the Intake
             new InstantCommand(Robot.ballIntake::IntakeRun, Robot.ballIntake),
 
             // Drive to the Ball
-            new DriveDistance(36,150),
+            new DriveDistance(28,150),
 
             /////////////////////////////////////////////////////////////////////////
             // Throw the Second Ball
             /////////////////////////////////////////////////////////////////////////
 
             // Turn by degrees
-            new TurnDegreesBetter(90, 150),
+            new TurnDegreesBetter(150, 200),
 
             new InstantCommand(Robot.ballIntake::IntakeStop, Robot.ballIntake),
 
             // Drive forward to the target
-            new DriveDistance(24, 100),
+            new DriveDistance(16, 100),
 
             // Throw the ball
             new ThrowerWork(RobotMap.tarmacThrow, 0, true, false),
