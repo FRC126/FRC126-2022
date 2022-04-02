@@ -63,8 +63,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
         double currentDistance = Robot.driveBase.getDistanceInches();
         double diff =  Math.abs(distance) - currentDistance;
         double tmp = Math.abs(diff) / 20;
-        if ( tmp > .6) { tmp=.6; }
-        if ( tmp < .10) { tmp=.10; }
+        if ( tmp > .95) { tmp=.95; }
+        if ( tmp < .15) { tmp=.15; }
 
         if (distance < 0) {
             distanceInversion=-1;
@@ -86,12 +86,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
         // Try to keep the robot straight using the gyro
         if (driveFb != 0) {       
-            if(Robot.internalData.getGyroAngle() - targetAngle > 1.5) {
+            if(Robot.internalData.getGyroAngle() - targetAngle > 0.5) {
                 // We are drifiting to the left, correct
-                Robot.driveBase.Drive(driveFb, -0.05);
-            } else if (Robot.internalData.getGyroAngle() - targetAngle < -1.5) {
-                // We are drifiting to the right, correct
                 Robot.driveBase.Drive(driveFb, 0.05);
+            } else if (Robot.internalData.getGyroAngle() - targetAngle < -0.5) {
+                // We are drifiting to the right, correct
+                Robot.driveBase.Drive(driveFb, -0.05);
             } else {
                 // Drive straight
                 Robot.driveBase.Drive(driveFb, 0);

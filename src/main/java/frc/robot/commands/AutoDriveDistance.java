@@ -29,17 +29,17 @@ public class AutoDriveDistance extends SequentialCommandGroup {
 
      addCommands(
 
-            new DriveDistance(24,250),
-            new WaitCommand(1), // do nothing for 1 second
-            new TurnDegreesBetter(180,900),
-            new WaitCommand(1), // do nothing for 1 second
-            new DriveDistance(24,250),
-            new WaitCommand(1), // do nothing for 1 second
-            new TurnDegreesBetter(180,900),
-            new WaitCommand(1), // do nothing for 1 second
-            new DriveDistance(24,250),
-            new WaitCommand(1), // do nothing for 1 second
-            new DriveDistance(-24,250)
+            new DriveDistance(90,250),
+            new WaitCommand(3), // do nothing for 1 second
+            // new TurnDegreesBetter(180,900),
+            //new WaitCommand(1), // do nothing for 1 second
+            new DriveDistance(-90,250),
+            new WaitCommand(3) // do nothing for 1 second
+            //new TurnDegreesBetter(180,900),
+            //new WaitCommand(1), // do nothing for 1 second
+            //new DriveDistance(24,250),
+            //new WaitCommand(1), // do nothing for 1 second
+            //new DriveDistance(-24,250)
         );           
     }       
 

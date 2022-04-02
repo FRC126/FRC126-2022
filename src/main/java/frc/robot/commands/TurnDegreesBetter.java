@@ -25,7 +25,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
     double startAngle;
     double targetDegrees;
     int iters;
-    static private double driftAllowance=2;
+    static private double driftAllowance=3;
     int targetReached=0;
 
 	/**********************************************************************************
@@ -63,8 +63,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
         double diff = Math.abs(target) - Math.abs(currentDegrees);
 
         double tmp = diff / 100;
-        if ( tmp > .50) { tmp=.50; }
-        if ( tmp < .10) { tmp=.10; }
+        if ( tmp > .8) { tmp=.8; }
+        if ( tmp < .20) { tmp=.20; }
 
         if (Math.abs(diff) < driftAllowance) {
             // We are at the right angle
@@ -97,7 +97,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
     public boolean isFinished() {
         iters--;
 
-        if (targetReached > 5 || iters <= 0) {
+        if (targetReached > 2 || iters <= 0) {
             // We have reached our target angle or run out of time to do so.
             Robot.driveBase.driveCoastMode();
             Robot.driveBase.Drive(0, 0);

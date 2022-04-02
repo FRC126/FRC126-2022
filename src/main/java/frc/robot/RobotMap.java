@@ -75,7 +75,7 @@ public class RobotMap {
 
 	// Auto Settings
 	public static int FirstBallBackup=-30;
-	public static int FirstBallTurn=10;
+	public static int FirstBallTurn=6;
 
 	//Position Calibrations
 	public static void setRobot(double robotID){

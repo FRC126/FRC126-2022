@@ -30,7 +30,7 @@ public class AutoTwoBallRightNew extends SequentialCommandGroup {
             // Throw the first ball
             /////////////////////////////////////////////////////////////////////////
 
-            new AutoOneBallThrow(),
+            new AutoOneBallThrow(-1),
 
             /////////////////////////////////////////////////////////////////////////
             // Pickup the second ball

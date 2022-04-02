@@ -24,28 +24,28 @@ import frc.robot.RobotMap;
  **********************************************************************************/
 
 public class AutoOneBallThrow extends SequentialCommandGroup {
-    public AutoOneBallThrow() {
+    public AutoOneBallThrow(int direction) {
 
         /**********************************************************************************
          **********************************************************************************/
 
         addCommands(
-            // Shift the Transmission to Low
-            new InstantCommand(Robot.driveBase::shiftDown, Robot.driveBase),
+                new ParallelCommandGroup(
+                // Shift the Transmission to Low
+                new InstantCommand(Robot.driveBase::shiftDown, Robot.driveBase),
 
-            // Extend the Intake
-            new InstantCommand(Robot.ballIntake::ExtendIntake, Robot.ballIntake),
+                // Extend the Intake
+                new InstantCommand(Robot.ballIntake::ExtendIntake, Robot.ballIntake),
 
-            new ParallelCommandGroup(
                 // Spin up the thrower
                 new ThrowerWork(RobotMap.tarmacThrow, 0, false, false),
 
                 new SequentialCommandGroup(
                     //Backup to throw the ball
-                    new DriveDistance(RobotMap.FirstBallBackup,100),
+                    new DriveDistance(RobotMap.FirstBallBackup,250),
 
                     // Turn towards the target
-                    new TurnDegreesBetter(RobotMap.FirstBallTurn, 50)
+                    new TurnDegreesBetter(RobotMap.FirstBallTurn * direction, 250)
                 )    
             ),
 

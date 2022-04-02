@@ -105,7 +105,7 @@ public class VerticalClimber extends SubsystemBase {
   	/************************************************************************
      ************************************************************************/
 
-     public void RaiseClimber() {
+     public double RaiseClimber() {
         //  Raise Climber
         limitCountLeft--;
         limitCountRight--;
@@ -145,6 +145,8 @@ public class VerticalClimber extends SubsystemBase {
 
         // Check the current draw after we move the motors
         checkCurrent();
+
+        return(getRightPos());
     }   
 
   	/************************************************************************

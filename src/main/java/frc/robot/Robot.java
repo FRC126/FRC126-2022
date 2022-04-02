@@ -297,10 +297,12 @@ public class Robot extends TimedRobot {
                 switch (selectedAutoFunction) {
                     case AutoThreeBall:
                         autonomous = new AutoThreeBall();    
-                        SmartDashboard.putString("AutoCommand","Three Ball");                  
+                        SmartDashboard.putString("AutoCommand","Three Ball");    
+                        break;              
                     case AutoFiveBall:
                         autonomous = new AutoFiveBall();    
-                        SmartDashboard.putString("AutoCommand","Five Ball");                  
+                        SmartDashboard.putString("AutoCommand","Five Ball");
+                        break;                  
                     default:
                         autonomous = new AutoOneBall();    
                         SmartDashboard.putString("AutoCommand","One Ball");

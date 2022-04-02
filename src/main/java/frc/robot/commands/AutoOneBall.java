@@ -30,7 +30,7 @@ public class AutoOneBall extends SequentialCommandGroup {
             // Throw the first Ball
             /////////////////////////////////////////////////////////////////////////
 
-            new AutoOneBallThrow(),
+            new AutoOneBallThrow(0),
 
             // Idle the thrower
             new ThrowerWork(RobotMap.idleThrow, 0, false, false),
