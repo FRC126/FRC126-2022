@@ -46,7 +46,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
     public void initialize() {
         // Save the starting angle for the turn
         Robot.internalData.resetGyro();
-        startAngle = Robot.internalData.getGyroAngle();
+        startAngle = 0;
+        //startAngle=Robot.internalData.getGyroAngle();
         Robot.driveBase.driveCoastMode();
     }
 
@@ -63,7 +64,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
         double diff = Math.abs(target) - Math.abs(currentDegrees);
 
         double tmp = diff / 100;
-        if ( tmp > .8) { tmp=.8; }
+        if ( tmp > .65) { tmp=.65; }
         if ( tmp < .20) { tmp=.20; }
 
         if (Math.abs(diff) < driftAllowance) {
@@ -97,7 +98,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
     public boolean isFinished() {
         iters--;
 
-        if (targetReached > 2 || iters <= 0) {
+        if (targetReached > 10 || iters <= 0) {
             // We have reached our target angle or run out of time to do so.
             Robot.driveBase.driveCoastMode();
             Robot.driveBase.Drive(0, 0);

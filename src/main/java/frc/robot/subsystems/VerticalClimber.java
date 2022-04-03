@@ -33,6 +33,7 @@ public class VerticalClimber extends SubsystemBase {
     int limitCountLeft=0;
     int limitCountRight=0;
 	private DoubleSolenoid climberSolenoid;
+    public boolean armsExtended=false;
 
 	/************************************************************************
 	 ************************************************************************/
@@ -113,7 +114,11 @@ public class VerticalClimber extends SubsystemBase {
         // TODO, need to know what the height limit is on the arm encoders.
         // TODO have position for first bar and second bar
         //double heightLimit = 800000;
-        double heightLimit = 550000;
+
+        double heightLimit = 525000;
+        if (!armsExtended) {
+            heightLimit=420000;
+        }
 
         // Check the current draw before we move the motors
         checkCurrent();   
@@ -249,6 +254,7 @@ public class VerticalClimber extends SubsystemBase {
 
     public void ExtendArms() {
 		climberSolenoid.set(DoubleSolenoid.Value.kForward);
+        armsExtended=true;
 	}
 
     /************************************************************************
@@ -256,6 +262,7 @@ public class VerticalClimber extends SubsystemBase {
 
 	public void RetractArms() {
 		climberSolenoid.set(DoubleSolenoid.Value.kReverse);
+        armsExtended=false;
 	}
 
 }

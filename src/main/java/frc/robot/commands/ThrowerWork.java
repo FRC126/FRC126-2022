@@ -76,6 +76,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
         if (targetReachedCount>5 && autoThrow) {
             Robot.ballThrower.ThrowerIntakeRun();
+            Robot.ballIntake.IntakeRun();
             throwCount++;
         }
 
@@ -86,10 +87,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 	 **********************************************************************************/
 	
     public boolean isFinished() {
-        if (reachedRPM && targetReachedCount > 10 && (!autoThrow || throwCount > 40) && iters <= 0) {
+        if (reachedRPM && targetReachedCount > 10 && (!autoThrow || throwCount > 60) && iters <= 0) {
             // If we reached the target RPM and the number of iterations has expired
             // Finish this command.
             Robot.ballThrower.ThrowerIntakeStop();
+            Robot.ballIntake.IntakeStop();
             return true;
         }
         return false;

@@ -68,7 +68,7 @@ public class RobotMap {
 
 	// Throwing Settings
 	public static int shortThrow=7500;
-	public static int tarmacThrow=14500;
+	public static int tarmacThrow=14000;
 	public static int longThrow=17500;
 	public static int safteyThrow=20750;
 	public static int idleThrow=7500;

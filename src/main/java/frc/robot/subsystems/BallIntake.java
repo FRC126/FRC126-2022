@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 
 public class BallIntake extends SubsystemBase {
 	private DoubleSolenoid intakeSolenoid;
-    double pickupSpeed=1.0;
+    double pickupSpeed=.8;
 	
 	/************************************************************************
 	 ************************************************************************/
@@ -58,6 +58,14 @@ public class BallIntake extends SubsystemBase {
 
   	/************************************************************************
 	 ************************************************************************/
+
+    public void IntakeRunOne() {
+        Robot.intakeMotor1.set(.35 * -1);
+        if (!Robot.throwerRunning) {
+            Robot.intakeMotor2.set(.4);
+        }    
+    }
+
 
      public void IntakeRun() {
         IntakeSpeed(pickupSpeed * -1);

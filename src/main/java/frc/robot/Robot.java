@@ -129,7 +129,8 @@ public class Robot extends TimedRobot {
     public final int AutoTwvoBallPosition=1;
     public final int AutoTwoBallStriaght=2;
     public final int AutoThreeBall=3;
-    public final int AutoTwoBallNew=4;
+    public final int AutoTwoBallNewLeft=4;
+    public final int AutoTwoBallNewRight=9;
     public final int AutoBetterTurn=5;
     public final int AutoDriveDistance=6;
     public final int AutoFiveBall=7;
@@ -185,14 +186,15 @@ public class Robot extends TimedRobot {
 
         // Dashboard Cooser for the Autonomous mode move
         autoFunction.setDefaultOption("One_Ball (default)",AutoOneBall);
-        autoFunction.addOption("Two Ball Position",AutoTwvoBallPosition);
-        autoFunction.addOption("Two Ball Stragiht",AutoTwoBallStriaght);
-        autoFunction.addOption("Three Ball Auto",AutoThreeBall);
-        autoFunction.addOption("Three Ball Auto New",AutoThreeBallNew);
-        autoFunction.addOption("Five Ball Auto",AutoFiveBall);
-        autoFunction.addOption("Two Ball Position New",AutoTwoBallNew);
-        autoFunction.addOption("Auto Better Turn",AutoBetterTurn);
-        autoFunction.addOption("Auto Drive Distance",AutoDriveDistance);
+        //autoFunction.addOption("Two Ball Position",AutoTwvoBallPosition);
+        //autoFunction.addOption("Two Ball Stragiht",AutoTwoBallStriaght);
+        //autoFunction.addOption("Three Ball Auto",AutoThreeBall);
+        autoFunction.addOption("Three Ball Auto Far Right",AutoThreeBallNew);
+        //autoFunction.addOption("Five Ball Auto",AutoFiveBall);
+        autoFunction.addOption("Two Ball Position Far Left",AutoTwoBallNewLeft);
+        autoFunction.addOption("Two Ball Position Middle Right",AutoTwoBallNewRight);
+        //autoFunction.addOption("Auto Better Turn",AutoBetterTurn);
+        //autoFunction.addOption("Auto Drive Distance",AutoDriveDistance);
         SmartDashboard.putData("Auto Choices",autoFunction);
 
         // Dashboard Cooser for the Autonomous mode position
@@ -258,7 +260,7 @@ public class Robot extends TimedRobot {
                         autonomous = new AutoDriveDistance();
                         SmartDashboard.putString("AutoCommand","Drive Distance");
                         break;
-                    case AutoTwoBallNew: 
+                    case AutoTwoBallNewLeft: 
                         autonomous = new AutoTwoBallLeftNew();
                         SmartDashboard.putString("AutoCommand","Two Ball Left New");
                         break;
@@ -284,7 +286,7 @@ public class Robot extends TimedRobot {
                         autonomous = new AutoTwoBallStraight();
                         SmartDashboard.putString("AutoCommand","Two Ball Straigt");
                         break;
-                    case AutoTwoBallNew: 
+                    case AutoTwoBallNewRight: 
                         autonomous = new AutoTwoBallRightNew();
                         SmartDashboard.putString("AutoCommand","Two Ball Right New");
                         break;
