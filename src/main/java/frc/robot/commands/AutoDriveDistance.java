@@ -15,29 +15,32 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
  
 /**********************************************************************************
  **********************************************************************************/
 
-public class AutoOneBall extends SequentialCommandGroup {
-    public AutoOneBall() {
+public class AutoDriveDistance extends SequentialCommandGroup {
+    public AutoDriveDistance() {
 
-        addCommands(
+    /**********************************************************************************
+     **********************************************************************************/
 
-            /////////////////////////////////////////////////////////////////////////
-            // Throw the first Ball
-            /////////////////////////////////////////////////////////////////////////
+     addCommands(
 
-            new AutoOneBallThrow(0),
-
-            // Idle the thrower
-            new ThrowerWork(RobotMap.idleThrow, 0, false, false),
-
-            // Backup past the line
-            new DriveDistance(-24,100)
-        );
+            new DriveDistance(90,250),
+            new WaitCommand(3), // do nothing for 1 second
+            // new TurnDegreesBetter(180,900),
+            //new WaitCommand(1), // do nothing for 1 second
+            new DriveDistance(-90,250),
+            new WaitCommand(3) // do nothing for 1 second
+            //new TurnDegreesBetter(180,900),
+            //new WaitCommand(1), // do nothing for 1 second
+            //new DriveDistance(24,250),
+            //new WaitCommand(1), // do nothing for 1 second
+            //new DriveDistance(-24,250)
+        );           
     }       
 
     /******************************************************************************************
@@ -47,8 +50,11 @@ public class AutoOneBall extends SequentialCommandGroup {
      @Override
     public void end(boolean isInterrupted) {
         Robot.ballIntake.IntakeStop();
+        Robot.ballIntake.RetractIntake();
         Robot.driveBase.Drive(0,0);
         Robot.ballThrower.ThrowerIntakeStop();
-    }     
+        Robot.ballThrower.throwerRPM(0);
+    }  
+    
 }
 

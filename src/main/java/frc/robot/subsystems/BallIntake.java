@@ -25,8 +25,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
  **********************************************************************************/
 
 public class BallIntake extends SubsystemBase {
-    int delay=0;
 	private DoubleSolenoid intakeSolenoid;
+    double pickupSpeed=.8;
 	
 	/************************************************************************
 	 ************************************************************************/
@@ -37,7 +37,7 @@ public class BallIntake extends SubsystemBase {
         setDefaultCommand(new IntakeControl(this));
 
         // Map the intake solenoid, Rev Robotics PCM on CANID 2
-        intakeSolenoid = new DoubleSolenoid(2,PneumaticsModuleType.REVPH,11,12);
+        intakeSolenoid = new DoubleSolenoid(2,PneumaticsModuleType.REVPH,12,11);
     }
 
 	/************************************************************************
@@ -59,15 +59,23 @@ public class BallIntake extends SubsystemBase {
   	/************************************************************************
 	 ************************************************************************/
 
+    public void IntakeRunOne() {
+        Robot.intakeMotor1.set(.35 * -1);
+        if (!Robot.throwerRunning) {
+            Robot.intakeMotor2.set(.4);
+        }    
+    }
+
+
      public void IntakeRun() {
-        IntakeSpeed(-0.7);
+        IntakeSpeed(pickupSpeed * -1);
     }
 
   	/************************************************************************
 	 ************************************************************************/
 
-     public void IntakeReverse() {
-        IntakeSpeed(0.7);
+    public void IntakeReverse() {
+        IntakeSpeed(pickupSpeed);
     }
 
   	/************************************************************************
@@ -80,7 +88,7 @@ public class BallIntake extends SubsystemBase {
   	/************************************************************************
 	 ************************************************************************/
 
-    public void neutralIntake() {
+    public void IdleIntake() {
         intakeSolenoid.set(DoubleSolenoid.Value.kOff);
     }
 

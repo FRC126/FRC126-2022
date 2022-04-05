@@ -22,6 +22,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 /**********************************************************************************
  **********************************************************************************/
@@ -30,6 +32,8 @@ public class VerticalClimber extends SubsystemBase {
 
     int limitCountLeft=0;
     int limitCountRight=0;
+	private DoubleSolenoid climberSolenoid;
+    public boolean armsExtended=false;
 
 	/************************************************************************
 	 ************************************************************************/
@@ -40,6 +44,8 @@ public class VerticalClimber extends SubsystemBase {
         setDefaultCommand(new ClimberControl(this));
         Robot.climberMotorLeft.setNeutralMode(NeutralMode.Brake);
         Robot.climberMotorRight.setNeutralMode(NeutralMode.Brake);
+
+        climberSolenoid = new DoubleSolenoid(2,PneumaticsModuleType.REVPH,0,1);
     }
 
 	/************************************************************************
@@ -107,7 +113,12 @@ public class VerticalClimber extends SubsystemBase {
 
         // TODO, need to know what the height limit is on the arm encoders.
         // TODO have position for first bar and second bar
-        double heightLimit = 800000;
+        //double heightLimit = 800000;
+
+        double heightLimit = 525000;
+        if (!armsExtended) {
+            heightLimit=420000;
+        }
 
         // Check the current draw before we move the motors
         checkCurrent();   
@@ -151,16 +162,26 @@ public class VerticalClimber extends SubsystemBase {
   	/************************************************************************
      ************************************************************************/
 
-    public void LowerClimber() {
+    public boolean LowerClimber() {
 
         checkCurrent();
 
-        LowerLeftClimber(true);
-        LowerRightClimber(true);
+        boolean ret1, ret2;
+        ret1=LowerLeftClimber(true);
+        ret2=LowerRightClimber(true);
         
         checkCurrent();
+
+        return(ret1 && ret2);
     }
 
+   	/************************************************************************
+     ************************************************************************/
+
+    public void LowerClimberNoLimit() {
+        LowerLeftClimber(false);
+        LowerRightClimber(false);
+    }
   	/************************************************************************
      ************************************************************************/
 
@@ -171,7 +192,7 @@ public class VerticalClimber extends SubsystemBase {
 
         // Need to use encoder to track retraction.
         double posLeft = getLeftPos();
-       if (Robot.leftClimbLimit.get() == true && useLimitSwitch) {
+        if (Robot.leftClimbLimit.get() == true && useLimitSwitch) {
             // Stop lowering left arm
             // zero encoder
             Robot.climberMotorLeft.set(ControlMode.PercentOutput,0);
@@ -179,7 +200,7 @@ public class VerticalClimber extends SubsystemBase {
             return(true);
         } else {
             if ( limitCountLeft <= 0 && ( !stopAtZero || posLeft > 0)) {
-                if (posLeft<10000) {
+                if (posLeft<10000 && stopAtZero) {
                     // Slow down as we get close to the bottom
                     Robot.climberMotorLeft.set(ControlMode.PercentOutput, -0.5 * RobotMap.climberMotorLInversion);
                 } else {    
@@ -217,7 +238,7 @@ public class VerticalClimber extends SubsystemBase {
             return(true);
         } else {
             if ( limitCountRight <= 0 && ( !stopAtZero || posRight > 0)) {
-                if (posRight<10000) {
+                if (posRight<10000 && stopAtZero) {
                     // Slow down as we get close to the bottom
                     Robot.climberMotorRight.set(ControlMode.PercentOutput, -0.5 * RobotMap.climberMotorRInversion);
                 } else {    
@@ -232,12 +253,7 @@ public class VerticalClimber extends SubsystemBase {
                 return(true);
             }
         }
-
-        // Check the current draw after we move the motors
-        checkCurrent();
     }
-
-
 
   	/************************************************************************
      ************************************************************************/
@@ -246,4 +262,21 @@ public class VerticalClimber extends SubsystemBase {
         Robot.climberMotorLeft.setSelectedSensorPosition(0);
         Robot.climberMotorRight.setSelectedSensorPosition(0); 
      }
+
+  	/************************************************************************
+     ************************************************************************/
+
+    public void ExtendArms() {
+		climberSolenoid.set(DoubleSolenoid.Value.kForward);
+        armsExtended=true;
+	}
+
+    /************************************************************************
+	 ************************************************************************/
+
+	public void RetractArms() {
+		climberSolenoid.set(DoubleSolenoid.Value.kReverse);
+        armsExtended=false;
+	}
+
 }

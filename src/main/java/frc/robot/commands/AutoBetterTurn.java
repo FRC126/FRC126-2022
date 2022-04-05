@@ -15,36 +15,38 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Robot;
-import frc.robot.RobotMap;
  
 /**********************************************************************************
  **********************************************************************************/
 
-public class AutoThrow extends SequentialCommandGroup {
-    
-    public AutoThrow(int throwRPM) {
-        addCommands(
-            // Stop Running the Intake
-            new InstantCommand(Robot.ballIntake::IntakeStop,Robot.ballIntake),
+public class AutoBetterTurn extends SequentialCommandGroup {
+    public AutoBetterTurn() {
 
-            // Spin up the thrower
-            new ThrowerWork(throwRPM,0,true,false),
+    /**********************************************************************************
+     **********************************************************************************/
 
-            new InstantCommand(Robot.ballThrower::ThrowerIntakeStop,Robot.ballThrower),
-            
-            new ThrowerWork(RobotMap.idleThrow,0,false,false)
-        );
+     addCommands(
+            new TurnDegreesBetter(90,900),
+            new WaitCommand(3),  // Just do nothing for 3 seconds
+            //new TurnDegreesBetter(90,150),
+            //new WaitCommand(3),  // Just do nothing for 3 seconds
+            new TurnDegreesBetter(-90,150)
+        );           
     }       
 
     /******************************************************************************************
      * Called once after isFinished returns true
      ******************************************************************************************/
-    
+
      @Override
-	public void end(boolean isInterrupted) {
+    public void end(boolean isInterrupted) {
+        Robot.ballIntake.IntakeStop();
+        Robot.ballIntake.RetractIntake();
+        Robot.driveBase.Drive(0,0);
         Robot.ballThrower.ThrowerIntakeStop();
-        Robot.ballThrower.throwerRPM(RobotMap.idleThrow);
+        Robot.ballThrower.throwerRPM(0);
     }  
+    
 }

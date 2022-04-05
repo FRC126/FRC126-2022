@@ -15,6 +15,7 @@
 package frc.robot.commands;
 
 import frc.robot.Robot;
+import frc.robot.RobotMap;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**********************************************************************************
@@ -73,8 +74,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
             targetReachedCount++;
         }
 
-        if (targetReachedCount>10 && autoThrow) {
+        if (targetReachedCount>5 && autoThrow) {
             Robot.ballThrower.ThrowerIntakeRun();
+            Robot.ballIntake.IntakeRun();
             throwCount++;
         }
 
@@ -85,9 +87,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 	 **********************************************************************************/
 	
     public boolean isFinished() {
-        if (reachedRPM && targetReachedCount > 10 && (!autoThrow || throwCount > 100) && iters <= 0) {
+        if (reachedRPM && targetReachedCount > 10 && (!autoThrow || throwCount > 60) && iters <= 0) {
             // If we reached the target RPM and the number of iterations has expired
             // Finish this command.
+            Robot.ballThrower.ThrowerIntakeStop();
+            Robot.ballIntake.IntakeStop();
             return true;
         }
         return false;
@@ -99,7 +103,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 	
     public void end(boolean isInteruppted) {
         if (stopSpinning == true) {
-            Robot.ballThrower.throwerRPM(0);
+            Robot.ballThrower.throwerRPM(RobotMap.idleThrow);
         }    
         Robot.ballThrower.ThrowerIntakeStop();
     }

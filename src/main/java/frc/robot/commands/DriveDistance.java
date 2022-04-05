@@ -16,6 +16,7 @@ package frc.robot.commands;
 
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**********************************************************************************
  **********************************************************************************/
@@ -26,17 +27,19 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
     double targetAngle;
     double distance;
     int iters;
+    int reachedCount=0;
 
 	/**********************************************************************************
 	 **********************************************************************************/
 	
-    public DriveDistance(double fb, double lr, double distance_in, int iters_in ) {
+    public DriveDistance(double distance_in, int iters_in ) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-        driveFb = fb;
-        driveLr = lr;
+        driveFb = 0;
+        driveLr = 0;
         distance = distance_in;
         iters = iters_in;
+        reachedCount=0;
     }
 
 	/**********************************************************************************
@@ -44,8 +47,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 	 **********************************************************************************/
 	
     public void initialize() {
+        Robot.internalData.resetGyro();
         targetAngle = Robot.internalData.getGyroAngle();
         Robot.driveBase.resetEncoders();
+        Robot.driveBase.driveCoastMode();
     }
 
 	/**********************************************************************************
@@ -53,25 +58,47 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 	 **********************************************************************************/
 	
     public void execute() {
-        boolean useGyro=true;
+        double distanceInversion=1;
 
-        if(driveLr == 0 && useGyro == true) {
-            if(Robot.internalData.getGyroAngle() - targetAngle > 1) {
+        double currentDistance = Robot.driveBase.getDistanceInches();
+        double diff =  Math.abs(distance) - currentDistance;
+        double tmp = Math.abs(diff) / 20;
+        if ( tmp > .95) { tmp=.95; }
+        if ( tmp < .15) { tmp=.15; }
+
+        if (distance < 0) {
+            distanceInversion=-1;
+        }    
+
+        if ( diff > 1 ) {
+            driveFb = tmp * distanceInversion;
+            reachedCount=0;
+            Robot.driveBase.driveCoastMode();
+        } else {
+            driveFb=0;
+            reachedCount++;
+            Robot.driveBase.driveBrakeMode();
+        }
+
+        Robot.driveBase.Drive(driveFb, 0);
+
+        SmartDashboard.putNumber("Drv Dist Spd",driveFb);
+
+        // Try to keep the robot straight using the gyro
+        if (driveFb != 0) {       
+            if(Robot.internalData.getGyroAngle() - targetAngle > 0.5) {
                 // We are drifiting to the left, correct
-                Robot.driveBase.Drive(driveFb, -0.1);
-            }
-            else if(Robot.internalData.getGyroAngle() - targetAngle < -1) {
+                Robot.driveBase.Drive(driveFb, 0.05);
+            } else if (Robot.internalData.getGyroAngle() - targetAngle < -0.5) {
                 // We are drifiting to the right, correct
-                Robot.driveBase.Drive(driveFb, 0.1);
+                Robot.driveBase.Drive(driveFb, -0.05);
             } else {
                 // Drive straight
                 Robot.driveBase.Drive(driveFb, 0);
             }
         } else {
-            // ignore the gyro
-            Robot.driveBase.Drive(driveFb, driveLr);
-            
-        }
+            Robot.driveBase.Drive(driveFb, 0);
+        }    
      }
 
 	/**********************************************************************************
@@ -80,11 +107,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 	
     public boolean isFinished() {
         iters--;
-        double currentDistance = Robot.driveBase.getDistanceInches();
-        if (currentDistance >= distance || iters <= 0) {
-            // if we have reached the target distance, or run out of time to do so, 
-            // stop driving and end the command.
+
+        if (reachedCount > 5 || iters <= 0) {
             Robot.driveBase.Drive(0, 0);
+            Robot.driveBase.driveCoastMode();
             return true;
         }
         return false;
@@ -96,7 +122,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 	
     public void end(boolean isInteruppted) {
         Robot.driveBase.Drive(0, 0);
+        Robot.driveBase.driveCoastMode();
     }
-
 }
 
