@@ -25,9 +25,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriverControl extends CommandBase {
 	static int delay=0;
-	static boolean turnAround=false;
-	static double startAngle;
-	static double shiftDuration = 0;
+	static boolean brakeMode=false;
 	JoystickWrapper driveJoystick;
 	
 	/**********************************************************************************
@@ -61,17 +59,33 @@ public class DriverControl extends CommandBase {
         double FB = driveJoystick.getLeftStickY();
         double LR = driveJoystick.getRightStickX() * -1 ;
 
-		if (driveJoystick.getLeftTrigger() > .1) {
+	    // Left trigger enables slow mode
+		if (driveJoystick.getLeftTrigger() > .25) {
 			LR=LR*.7;
 			FB=FB*.3;
+		}
+		
+
+		// Right trigger enable brake mode.
+		if (driveJoystick.getRightTrigger() > .25) {
+			LR=0;
+			FB=0;
+			if ( !brakeMode ) {
+			    Robot.driveBase.driveBrakeMode();
+				brakeMode=true;
+			}	
+		} else {
+			if (brakeMode) {
+				Robot.driveBase.driveCoastMode();
+				brakeMode=false;
+			}		
 		}
 
 		if (driveJoystick.isLShoulderButton()) {
 			// Shift Down Drive Train
 		    if (delay <= 0 ) {
 				Robot.driveBase.shiftDown();
-				delay=0;
-				shiftDuration = 10;
+				delay=1;
 			}
 			SmartDashboard.putBoolean("Shift Down",true);
 		} else {
@@ -82,49 +96,11 @@ public class DriverControl extends CommandBase {
 			// Shift Up Drive Train
 		    if (delay <= 0 ) {
 				Robot.driveBase.shiftUp();
-				delay=0;
-				shiftDuration = 10;
+				delay=1;
 			}	
 			SmartDashboard.putBoolean("Shift Up",true);
 		} else {
 			SmartDashboard.putBoolean("Shift Up",false);
-		}
-
-		//Disable power drop during shifting for now
-		//if(shiftDuration > 0) {
-		//	Robot.driveBase.limitSpeedForShift();
-		//	shiftDuration--;
-		//} else {
-		//	Robot.driveBase.delimitSpeed();
-		//	shiftDuration = 0;
-		//}
-
-		if (driveJoystick.isXButton()) {
-			// Turn 180 degrees after X Button is pressed
-			if (turnAround == false) {
-				startAngle = Robot.internalData.getGyroAngle();
-			    turnAround=true;
-			}
-		}
-
-		if (turnAround == true) {
-			// If we are supposed to turn around, check the current gyro
-			// angle and see if we have reached our desired position,
-			// if not, keep turning
-			double currAngle = Robot.internalData.getGyroAngle();
-			if(currAngle < startAngle + 155) {
-				LR=-0.3;
-			} else {
-				LR=0;
-				turnAround=false;
-			}
-		}
-
-		if (driveJoystick.isRStickPressButton()) {
-			LR = LR *.5;
-		}
-		if (driveJoystick.isLStickPressButton()) {
-			FB = FB *.5;
 		}
 
 		delay--;

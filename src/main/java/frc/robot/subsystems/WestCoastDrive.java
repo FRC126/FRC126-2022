@@ -176,10 +176,10 @@ public class WestCoastDrive extends SubsystemBase {
 		//SmartDashboard.putNumber("Left Speed", leftSpeed);
         //SmartDashboard.putNumber("Right Speed", rightSpeed);
 
-		Robot.leftDriveMotor1.set(ControlMode.PercentOutput, leftSpeed * RobotMap.left1Inversion);
+		//Robot.leftDriveMotor1.set(ControlMode.PercentOutput, leftSpeed * RobotMap.left1Inversion);
 		Robot.leftDriveMotor2.set(ControlMode.PercentOutput, leftSpeed * RobotMap.left2Inversion);
 
-        Robot.rightDriveMotor1.set(ControlMode.PercentOutput, rightSpeed * RobotMap.right1Inversion);
+        //Robot.rightDriveMotor1.set(ControlMode.PercentOutput, rightSpeed * RobotMap.right1Inversion);
 		Robot.rightDriveMotor2.set(ControlMode.PercentOutput, rightSpeed * RobotMap.right2Inversion);
 	}
 
@@ -200,7 +200,7 @@ public class WestCoastDrive extends SubsystemBase {
 	public double getDistanceInches() {
 		double ticksPerRotation=2048;
 		double wheelDiameter = 6.45; // 6.4 inches, 20.25" diameter
-		double gearRatio = 3.41;
+		double gearRatio = 4;
 		
 		double left1 = Math.abs(Robot.leftDriveMotor1.getSelectedSensorPosition() * RobotMap.left1Inversion);
 		double left2 = Math.abs(Robot.leftDriveMotor2.getSelectedSensorPosition() * RobotMap.left2Inversion);
@@ -211,10 +211,32 @@ public class WestCoastDrive extends SubsystemBase {
 		// Get the absolute value of the average of all the encoders.
 		double avg = (left1 + left2 + right1+ right2) / 4;
 
-		double distance = ((avg / ticksPerRotation) / gearRatio) * (wheelDiameter *3.1459);
+		double distance = ((avg / ticksPerRotation) / 6.1 / gearRatio) * (wheelDiameter * 3.1459);
 
 		SmartDashboard.putNumber("Drive Distance",distance);
+		SmartDashboard.putNumber("Drive Encoder",avg);
 
 		return(distance);
 	}
+
+    /************************************************************************
+	 ************************************************************************/
+
+	public void driveBrakeMode() {
+		Robot.leftDriveMotor1.setNeutralMode(NeutralMode.Brake);
+		Robot.leftDriveMotor2.setNeutralMode(NeutralMode.Brake);
+		Robot.rightDriveMotor1.setNeutralMode(NeutralMode.Brake);
+		Robot.rightDriveMotor2.setNeutralMode(NeutralMode.Brake);
+	}
+
+    /************************************************************************
+	 ************************************************************************/
+
+	public void driveCoastMode() {
+		Robot.leftDriveMotor1.setNeutralMode(NeutralMode.Coast);
+		Robot.leftDriveMotor2.setNeutralMode(NeutralMode.Coast);
+		Robot.rightDriveMotor1.setNeutralMode(NeutralMode.Coast);
+		Robot.rightDriveMotor2.setNeutralMode(NeutralMode.Coast);
+	}
+
 }
