@@ -16,27 +16,27 @@ package frc.robot.commands;
 
 import frc.robot.Robot;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**********************************************************************************
  **********************************************************************************/
 
- public class TurnDegrees extends CommandBase {
-    double driveFb;
-    double driveLr;
+ public class TurnDegreesBetter extends CommandBase {
     double startAngle;
-    double degrees;
+    double targetDegrees;
     int iters;
+    static private double driftAllowance=3;
+    int targetReached=0;
 
 	/**********************************************************************************
 	 **********************************************************************************/
 	
-    public TurnDegrees(double lr, double degrees_in, int iters_in ) {
+    public TurnDegreesBetter(double degrees_in, int iters_in ) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
-        driveFb = 0;
-        driveLr = lr;
-        degrees = degrees_in;
+        targetDegrees = degrees_in;
         iters = iters_in;
+        targetReached=0;
     }
 
 	/**********************************************************************************
@@ -45,8 +45,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 	
     public void initialize() {
         // Save the starting angle for the turn
-        startAngle = Robot.internalData.getGyroAngle();
-        Robot.driveBase.resetEncoders();
+        Robot.internalData.resetGyro();
+        startAngle = 0;
+        //startAngle=Robot.internalData.getGyroAngle();
+        Robot.driveBase.driveCoastMode();
     }
 
 	/**********************************************************************************
@@ -54,19 +56,40 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 	 **********************************************************************************/
 	
     public void execute() {
+        double driveLr=0;
+
         // get the current angle from the gyro
-        double currentDegrees = Robot.internalData.getGyroAngle();
+        double currentDegrees = Robot.internalData.getGyroAngle();        
+        double target = startAngle + targetDegrees;
+        double diff = Math.abs(target) - Math.abs(currentDegrees);
 
-        
+        double tmp = diff / 100;
+        if ( tmp > .65) { tmp=.65; }
+        if ( tmp < .20) { tmp=.20; }
 
-        if (currentDegrees <= startAngle + degrees - 5) {
-            // We still need to turn more to reach our target angle
-            Robot.driveBase.Drive(driveFb, driveLr);
+        if (Math.abs(diff) < driftAllowance) {
+            // We are at the right angle
+            targetReached++;
+            driveLr=0;
+            Robot.driveBase.driveBrakeMode();
+        } else if (currentDegrees < target) {
+            driveLr=tmp * -1;
+            targetReached=0;
+            Robot.driveBase.driveCoastMode();
         } else {
-            // Stop turing
-            Robot.driveBase.Drive(0, 0);
+            driveLr=tmp;
+            targetReached=0;
+            Robot.driveBase.driveCoastMode();
         }
-     }
+
+        SmartDashboard.putNumber("Current Degrees",currentDegrees);
+        SmartDashboard.putNumber("Target Degrees",target);
+        SmartDashboard.putNumber("Turn diff",diff);
+        SmartDashboard.putNumber("DriveLR",driveLr);
+        SmartDashboard.putNumber("TargetReached",targetReached);
+
+        Robot.driveBase.Drive(0, driveLr);
+    }
 
 	/**********************************************************************************
      * Make this return true when this Command no longer needs to run execute()
@@ -74,13 +97,14 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 	
     public boolean isFinished() {
         iters--;
-        double currentDegrees = Robot.internalData.getGyroAngle();
 
-        if (currentDegrees >= startAngle + degrees -5 || iters <= 0) {
+        if (targetReached > 10 || iters <= 0) {
             // We have reached our target angle or run out of time to do so.
+            Robot.driveBase.driveCoastMode();
             Robot.driveBase.Drive(0, 0);
             return true;
         }
+
         return false;
     }
 
@@ -89,7 +113,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 	 **********************************************************************************/
 	
     public void end(boolean isInteruppted) {
+        Robot.driveBase.driveCoastMode();
         Robot.driveBase.Drive(0, 0);
     }
 }
-

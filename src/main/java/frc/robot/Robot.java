@@ -112,9 +112,29 @@ public class Robot extends TimedRobot {
 
     int selectedAutoPosition;
 	int selectedAutoFunction;
+    boolean idleThrower=true;
 	
     private final SendableChooser<Integer> autoFunction = new SendableChooser<>();
     private final SendableChooser<Integer> autoPosition = new SendableChooser<>();
+    private final SendableChooser<Integer> idleChooser = new SendableChooser<>();
+
+    // Auto Positions
+    public final int FarLeft=0;
+    public final int MiddleLeft=1;
+    public final int MiddleRight=2;
+    public final int FarRight=3;
+
+    // Auto Choices
+    public final int AutoOneBall=0;
+    public final int AutoTwvoBallPosition=1;
+    public final int AutoTwoBallStriaght=2;
+    public final int AutoThreeBall=3;
+    public final int AutoTwoBallNewLeft=4;
+    public final int AutoTwoBallNewRight=9;
+    public final int AutoBetterTurn=5;
+    public final int AutoDriveDistance=6;
+    public final int AutoFiveBall=7;
+    public final int AutoThreeBallNew=8;
 
  	  /************************************************************************
      * This function is run when the robot is first started up and should be used for any
@@ -165,17 +185,27 @@ public class Robot extends TimedRobot {
 		server.setSource(driveCam);
 
         // Dashboard Cooser for the Autonomous mode move
-        autoFunction.setDefaultOption("One_Ball (default)",0);
-        autoFunction.addOption("Two Ball Position",1);
-        autoFunction.addOption("Two Ball Stragiht",2);
+        autoFunction.setDefaultOption("One_Ball (default)",AutoOneBall);
+        //autoFunction.addOption("Two Ball Position",AutoTwvoBallPosition);
+        //autoFunction.addOption("Two Ball Stragiht",AutoTwoBallStriaght);
+        //autoFunction.addOption("Three Ball Auto",AutoThreeBall);
+        autoFunction.addOption("Three Ball Auto Far Right",AutoThreeBallNew);
+        //autoFunction.addOption("Five Ball Auto",AutoFiveBall);
+        autoFunction.addOption("Two Ball Position Far Left",AutoTwoBallNewLeft);
+        autoFunction.addOption("Two Ball Position Middle Right",AutoTwoBallNewRight);
+        //autoFunction.addOption("Auto Better Turn",AutoBetterTurn);
+        //autoFunction.addOption("Auto Drive Distance",AutoDriveDistance);
         SmartDashboard.putData("Auto Choices",autoFunction);
 
         // Dashboard Cooser for the Autonomous mode position
-        autoPosition.setDefaultOption("Far Left (default)",0);
-        autoPosition.addOption("Middle Left",1);
-        autoPosition.addOption("Middle Right",2);
-        autoPosition.addOption("Far Right",3);
+        autoPosition.setDefaultOption("Far Left (default)",FarLeft);
+        autoPosition.addOption("Middle Left",MiddleLeft);
+        autoPosition.addOption("Middle Right",MiddleRight);
+        autoPosition.addOption("Far Right",FarRight);
         SmartDashboard.putData("Auto Position",autoPosition);
+
+        idleChooser.setDefaultOption("Idle Thrower (default)",1);
+        idleChooser.addOption("No Idle",0);
 
         Log.print(0, "Robot", "Robot Init Complete");
     }
@@ -186,66 +216,109 @@ public class Robot extends TimedRobot {
     @Override
     public void autonomousInit() {
         Log.print(0, "Robot", "Robot Autonomous Init");
-        boolean newAutos=true;
+
+        Robot.driveBase.driveCoastMode();
 
         try {
 			selectedAutoPosition = (int) autoPosition.getSelected();
 		} catch(NullPointerException e) {
-			selectedAutoPosition = 0;
+			selectedAutoPosition = FarLeft;
 		}
 		try {
 			selectedAutoFunction = (int)autoFunction.getSelected();
 		} catch(NullPointerException e) {
-			selectedAutoFunction = 0;
+			selectedAutoFunction = AutoOneBall;
 		}
 
-        if (newAutos) {
-            switch (selectedAutoPosition) {
-                case 0:
-                    if (selectedAutoFunction == 0) {
-                        autonomous = new AutoOneBall();
-                        SmartDashboard.putString("AutoCommand","One Ball");
-                    } else if (selectedAutoFunction == 1) {
-                        autonomous = new AutoTwoBallLeft();
-                        SmartDashboard.putString("AutoCommand","Two Ball");
-                    } else if (selectedAutoFunction == 2) {
-                        autonomous = new AutoTwoBallStraight();
-                        SmartDashboard.putString("AutoCommand","Two Ball");
-                    }
-                break;
-                case 1:
-                    // Far Left Position, always do one ball Auto
-                    autonomous = new AutoOneBall();    
-                    SmartDashboard.putString("AutoCommand","One Ball");
-                break;
-                case 2:
-                    if (selectedAutoFunction == 0) {
-                        autonomous = new AutoOneBall();
-                        SmartDashboard.putString("AutoCommand","One Ball");
-                    } else if (selectedAutoFunction == 1) {
-                        autonomous = new AutoTwoBallRight();
-                        SmartDashboard.putString("AutoCommand","Two Ball");
-                    } else if (selectedAutoFunction == 2) {
-                        autonomous = new AutoTwoBallStraight();
-                        SmartDashboard.putString("AutoCommand","Two Ball");
-                    }
-                    break;
-                case 3:
-                    // Far Right Position, always do one ball Auto
-                    autonomous = new AutoOneBall();    
-                    break;
+        try {
+			if (idleChooser.getSelected() == 1) {
+                idleThrower=true;
+            } else {
+                idleThrower=false;
+            };
+		} catch(NullPointerException e) {
+            idleThrower=true;
+		}
 
-            }
-        } else {
-            // Position doesn't matter right now.
-            if (selectedAutoFunction == 0) {
-                autonomous = new AutoOneBall();
+        switch (selectedAutoPosition) {
+            case FarLeft:
+                // Far Left Position
+                switch (selectedAutoFunction) {
+                    case AutoTwvoBallPosition: 
+                        autonomous = new AutoTwoBallLeft();
+                        SmartDashboard.putString("AutoCommand","Two Ball Left");
+                        break;
+                    case AutoTwoBallStriaght:
+                        autonomous = new AutoTwoBallStraight();
+                        SmartDashboard.putString("AutoCommand","Two Ball Straight");
+                        break;
+                    case AutoBetterTurn:
+                        autonomous = new AutoBetterTurn();
+                        SmartDashboard.putString("AutoCommand","Better Turn");
+                        break;
+                    case AutoDriveDistance:
+                        autonomous = new AutoDriveDistance();
+                        SmartDashboard.putString("AutoCommand","Drive Distance");
+                        break;
+                    case AutoTwoBallNewLeft: 
+                        autonomous = new AutoTwoBallLeftNew();
+                        SmartDashboard.putString("AutoCommand","Two Ball Left New");
+                        break;
+                    default:
+                        autonomous = new AutoOneBall();
+                        SmartDashboard.putString("AutoCommand","One Ball");
+                        break;
+                }
+                break;
+            case MiddleLeft:
+                // Middle  Left Position, always do one ball Auto
+                autonomous = new AutoOneBall();    
                 SmartDashboard.putString("AutoCommand","One Ball");
-            } else if (selectedAutoFunction == 1) {
-                autonomous = new AutoTwoBallStraight();
-                SmartDashboard.putString("AutoCommand","One Ball+");
-            }
-        }    
+                break;
+            case MiddleRight:
+                // Middle Right
+                switch (selectedAutoFunction) {
+                    case AutoTwvoBallPosition: 
+                        autonomous = new AutoTwoBallRight();
+                        SmartDashboard.putString("AutoCommand","Two Ball Right");
+                        break;
+                    case AutoTwoBallStriaght:
+                        autonomous = new AutoTwoBallStraight();
+                        SmartDashboard.putString("AutoCommand","Two Ball Straigt");
+                        break;
+                    case AutoTwoBallNewRight: 
+                        autonomous = new AutoTwoBallRightNew();
+                        SmartDashboard.putString("AutoCommand","Two Ball Right New");
+                        break;
+                    default:
+                        autonomous = new AutoOneBall();
+                        SmartDashboard.putString("AutoCommand","One Ball");
+                        break;
+                }        
+                break;
+            case FarRight:
+                // Far Right Position
+                switch (selectedAutoFunction) {
+                    case AutoThreeBall:
+                        autonomous = new AutoThreeBall();    
+                        SmartDashboard.putString("AutoCommand","Three Ball");    
+                        break;              
+                    case AutoThreeBallNew:
+                        autonomous = new AutoThreeBallNew();    
+                        SmartDashboard.putString("AutoCommand","Three Ball");    
+                        break;              
+                    case AutoFiveBall:
+                        autonomous = new AutoFiveBall();    
+                        SmartDashboard.putString("AutoCommand","Five Ball");
+                        break;                  
+                    default:
+                        autonomous = new AutoOneBall();    
+                        SmartDashboard.putString("AutoCommand","One Ball");
+                        break;
+                }        
+                break;
+
+        }
 
         autonomous.schedule();
     }
@@ -269,6 +342,18 @@ public class Robot extends TimedRobot {
             // Cancel the auto command if it was created
 	          autonomous.cancel();
         }
+
+        Robot.driveBase.driveCoastMode();
+
+        try {
+			if (idleChooser.getSelected() == 1) {
+                idleThrower=true;
+            } else {
+                idleThrower=false;
+            };
+		} catch(NullPointerException e) {
+            idleThrower=true;
+		}
     }
 
  	  /************************************************************************

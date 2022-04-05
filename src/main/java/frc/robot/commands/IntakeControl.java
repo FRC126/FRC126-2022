@@ -55,67 +55,64 @@ public class IntakeControl extends CommandBase {
 			return;
 		}
 
-		delay--;
-
 		//////////////////////////////////////////////////////////////
 		// Intake Controls
 
-		// Extend the intake if the operator joystick left shoulder button is pressed
 		if(operatorJoystick.isLShoulderButton()) {
-			if (delay <= 0) {
-                // Extend Ball Intake
-                Robot.ballIntake.ExtendIntake();
-                intakeExtended=true;
-            }    
-        }    
+			// Extend the intake if the operator joystick left shoulder button is pressed
+			Robot.ballIntake.ExtendIntake();
+			intakeExtended=true;
+        } else {
+			// Retract the intake if the operator joystick right shoulder button is pressed
+			if (operatorJoystick.isRShoulderButton()) {
+				if (delay <= 0) {
+					Robot.ballIntake.RetractIntake();
+					intakeExtended=false;
+				}    
+			} else if (intakeExtended == true) {
+				// Remove Pressure once the release the button, so the intkae will move more freely.
+				Robot.ballIntake.IdleIntake();
+			}
+		}
 
-		// Retract the intake if the operator joystick right shoulder button is pressed
-		if (operatorJoystick.isRShoulderButton()) {
-            if (delay <= 0) {
-                Robot.ballIntake.RetractIntake();
-                intakeExtended=false;
-            }    
-        }
-        
+
+		if(operatorJoystick.getLeftTrigger() > 0.1) {
+			Robot.intakeRunning=true;
+			Robot.ballIntake.IntakeRun();
+		} else if (operatorJoystick.getRightTrigger() > 0.1) {
+			Robot.intakeRunning=true;
+			Robot.ballIntake.IntakeReverse();
+		} else {
+			Robot.intakeRunning=false;
+			Robot.ballIntake.IntakeStop();
+		}
+
 		// If the operator left trigger is pressed and held, the intake will extend
 		// and run, when the X button is releasead the intake will stop and retract. 
-		if(operatorJoystick.getLeftTrigger() > 0.1) {
-			if (!autoIntakeExtend) {
-                //Robot.ballIntake.ExtendIntake();
-				autoIntakeExtend = true;
-			} else {
-				Robot.intakeRunning=true;
-				Robot.ballIntake.IntakeRun();
-     		}
-		} else if (operatorJoystick.getRightTrigger() > 0.1) {
-			if (!autoIntakeExtend) {
-                //Robot.ballIntake.ExtendIntake();
-				autoIntakeExtend = true;
-			} else {
-				Robot.intakeRunning=true;
-				Robot.ballIntake.IntakeReverse();
-     		}
-		} else {
-			if (autoIntakeExtend) {
-				Robot.intakeRunning=false;
-				Robot.ballIntake.IntakeStop();
-                //Robot.ballIntake.RetractIntake();
-			}
-
-			// Read the operator right joystick and use the Y axis to run the intake 
-			// Forwards or backwards.
-			double foo = operatorJoystick.getRightStickY();
-			if (foo > .2) {
-				Robot.intakeRunning=true;
-				Robot.ballIntake.IntakeRun();
-			} else if ( foo < -.2) {
-				Robot.intakeRunning=true;
-				Robot.ballIntake.IntakeReverse();
-			} else {
-				Robot.intakeRunning=false;
-				Robot.ballIntake.IntakeStop();
-			}
-		}	 	
+		// if(operatorJoystick.getLeftTrigger() > 0.1) {
+		// 	if (!autoIntakeExtend) {
+        //         Robot.ballIntake.ExtendIntake();
+		// 		autoIntakeExtend = true;
+		// 	} else {
+		// 		Robot.intakeRunning=true;
+		// 		Robot.ballIntake.IntakeRun();
+     	// 	}
+		// } else if (operatorJoystick.getRightTrigger() > 0.1) {
+		// 	if (!autoIntakeExtend) {
+        //         Robot.ballIntake.ExtendIntake();
+		// 		autoIntakeExtend = true;
+		// 	} else {
+		// 		Robot.intakeRunning=true;
+		// 		Robot.ballIntake.IntakeReverse();
+     	// 	}
+		// } else {
+		// 	if (autoIntakeExtend) {
+		// 		Robot.intakeRunning=false;
+		// 		Robot.ballIntake.IntakeStop();
+        //         Robot.ballIntake.RetractIntake();
+		// 		autoIntakeExtend=false;
+		// 	}
+		// }	 	
 	}
 
 	/**********************************************************************************
@@ -127,11 +124,4 @@ public class IntakeControl extends CommandBase {
 		return false;
 	}
 
-	/**********************************************************************************
-	 * Called once after isFinished returns true
-	 **********************************************************************************/
-	
-    @Override
-	public void end(boolean isInterrupted) {
-	}  
-}
+}	
