@@ -94,6 +94,7 @@ public class Robot extends TimedRobot {
     public static SequentialCommandGroup autonomous;
     public static boolean intakeRunning=false;
     public static boolean throwerRunning=false;
+    public static boolean autoClimbRunning=false;
 
     // Global Robot Variables
     public int RobotID = 0;

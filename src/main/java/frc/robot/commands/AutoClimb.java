@@ -16,6 +16,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
 
@@ -28,43 +29,28 @@ public class AutoClimb extends SequentialCommandGroup {
         addCommands(
 
             /////////////////////////////////////////////////////////////////////////
-            // Throw the first ball
             /////////////////////////////////////////////////////////////////////////
 
-            new AutoOneBallThrow(1),
+            new InstantCommand(Robot.verticalClimber::RetractArms, Robot.verticalClimber),
 
-            /////////////////////////////////////////////////////////////////////////
-            // Pickup the Second Ball
-            /////////////////////////////////////////////////////////////////////////
+            new RaiseClimberArms(250),
+
+            // Drive to the bar
+            new DriveDistance(10, 150),
             
-            // Start the ball intake
-            new InstantCommand(Robot.ballIntake::IntakeRun, Robot.ballIntake),
-                
-            // Turn by degrees
-            new TurnDegreesBetter(115, 200),
+            new LowerClimberArms(250),
+            
+            new WaitCommand(1), // do nothing for 1 second
 
-            // Drive to the Ball
-            new DriveDistance(24, 150),
+            new RaiseClimberArms(40),
 
-            // Turn by degrees
-            new TurnDegreesBetter(-133, 200),
+            new InstantCommand(Robot.verticalClimber::ExtendArms, Robot.verticalClimber),
 
-            // Stop the intake
-            new InstantCommand(Robot.ballIntake::IntakeStop, Robot.ballIntake),
+            new RaiseClimberArms(250),
 
-            /////////////////////////////////////////////////////////////////////////
-            // Throw the second ball
-            /////////////////////////////////////////////////////////////////////////
+            new InstantCommand(Robot.verticalClimber::RetractArms, Robot.verticalClimber),
 
-            // Drive forward to the target
-            new DriveDistance(18, 130),
-
-            // Throw the ball
-            new ThrowerWork(RobotMap.tarmacThrow, 0, true, false),
-
-            // Idle the thrower
-            new InstantCommand(Robot.ballThrower::ThrowerIntakeStop, Robot.ballThrower),
-            new ThrowerWork(RobotMap.idleThrow, 0, false, false)
+            new LowerClimberArms(250)
         );
     }       
 
@@ -74,10 +60,8 @@ public class AutoClimb extends SequentialCommandGroup {
 
      @Override
     public void end(boolean isInterrupted) {
-        Robot.ballIntake.IntakeStop();
-        Robot.driveBase.Drive(0,0);
-        Robot.ballThrower.ThrowerIntakeStop();
-        Robot.ballThrower.throwerRPM(RobotMap.idleThrow);
+        Robot.autoClimbRunning=false;
+        Robot.verticalClimber.StopClimber();
     }  
     
 }
