@@ -200,7 +200,7 @@ public class VerticalClimber extends SubsystemBase {
             return(true);
         } else {
             if ( limitCountLeft <= 0 && ( !stopAtZero || posLeft > 0)) {
-                if (posLeft<10000 && stopAtZero) {
+                if (posLeft<15000 && stopAtZero) {
                     // Slow down as we get close to the bottom
                     Robot.climberMotorLeft.set(ControlMode.PercentOutput, -0.5 * RobotMap.climberMotorLInversion);
                 } else {    
@@ -238,7 +238,7 @@ public class VerticalClimber extends SubsystemBase {
             return(true);
         } else {
             if ( limitCountRight <= 0 && ( !stopAtZero || posRight > 0)) {
-                if (posRight<10000 && stopAtZero) {
+                if (posRight<15000 && stopAtZero) {
                     // Slow down as we get close to the bottom
                     Robot.climberMotorRight.set(ControlMode.PercentOutput, -0.5 * RobotMap.climberMotorRInversion);
                 } else {    
