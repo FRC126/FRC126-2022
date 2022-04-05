@@ -189,6 +189,11 @@ public class VerticalClimber extends SubsystemBase {
         limitCountLeft--;
         // We don't have the limit switch right now.
         boolean useLimitSwitch=false;
+        double bottomLimit=0;
+       
+        if (Robot.autoClimbRunning) {
+            bottomLimit=-100000;
+        }
 
         // Need to use encoder to track retraction.
         double posLeft = getLeftPos();
@@ -199,7 +204,7 @@ public class VerticalClimber extends SubsystemBase {
             Robot.climberMotorLeft.setSelectedSensorPosition(0);
             return(true);
         } else {
-            if ( limitCountLeft <= 0 && ( !stopAtZero || posLeft > 0)) {
+            if ( limitCountLeft <= 0 && ( !stopAtZero || posLeft > bottomLimit)) {
                 if (posLeft<15000 && stopAtZero) {
                     // Slow down as we get close to the bottom
                     Robot.climberMotorLeft.set(ControlMode.PercentOutput, -0.5 * RobotMap.climberMotorLInversion);
@@ -224,7 +229,11 @@ public class VerticalClimber extends SubsystemBase {
         limitCountRight--;
         // We don't have the limit switch right now.
         boolean useLimitSwitch=false;
-
+        double bottomLimit=0;
+       
+        if (Robot.autoClimbRunning) {
+            bottomLimit=-100000;
+        }
         // Check the current draw before we move the motors
         checkCurrent();
 
@@ -237,7 +246,7 @@ public class VerticalClimber extends SubsystemBase {
             Robot.climberMotorRight.setSelectedSensorPosition(0);
             return(true);
         } else {
-            if ( limitCountRight <= 0 && ( !stopAtZero || posRight > 0)) {
+            if ( limitCountRight <= 0 && ( !stopAtZero || posRight > bottomLimit)) {
                 if (posRight<15000 && stopAtZero) {
                     // Slow down as we get close to the bottom
                     Robot.climberMotorRight.set(ControlMode.PercentOutput, -0.5 * RobotMap.climberMotorRInversion);

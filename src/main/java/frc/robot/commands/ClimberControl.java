@@ -90,12 +90,12 @@ public class ClimberControl extends CommandBase {
 		    Robot.verticalClimber.StopClimber();
 		}
 
-		if(driveJoystick.isBackButton() && !Robot.autoClimbRunning) {
+		//if(driveJoystick.isBackButton() && !Robot.autoClimbRunning) {
 
-			autoClimb = new AutoClimb();
-			autoClimb.schedule();
-            Robot.autoClimbRunning=true;
-		}
+		// 	autoClimb = new AutoClimb();
+		// 	autoClimb.schedule();
+        //     Robot.autoClimbRunning=true;
+		// }
 
 		if(driveJoystick.isStartButton()) {
 			// Reset the climber encoders

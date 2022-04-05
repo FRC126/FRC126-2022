@@ -35,13 +35,15 @@ public class AutoClimb extends SequentialCommandGroup {
             new RaiseClimberArms(250),
 
             // Drive to the bar
-            new DriveDistance(8, 150),
+            new DriveDistance(16, 250),
             
             new LowerClimberArms(250),
             
-            new WaitCommand(.5),
+            //new WaitCommand(.2),
 
-            new RaiseClimberArms(40),
+            new RaiseClimberArms(50),
+
+            new WaitCommand(.5),
 
             new InstantCommand(Robot.verticalClimber::ExtendArms, Robot.verticalClimber),
 
