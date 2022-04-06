@@ -41,13 +41,13 @@ public class AutoTwoBallLeftNew extends SequentialCommandGroup {
             new InstantCommand(Robot.ballIntake::IntakeRun, Robot.ballIntake),
                 
             // Turn by degrees
-            new TurnDegreesBetter(115, 200),
+            new TurnDegreesBetter(121, 200),
 
             // Drive to the Ball
             new DriveDistance(24, 150),
 
             // Turn by degrees
-            new TurnDegreesBetter(-133, 200),
+            new TurnDegreesBetter(-135, 200),
 
             // Stop the intake
             new InstantCommand(Robot.ballIntake::IntakeStop, Robot.ballIntake),
