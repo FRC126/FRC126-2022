@@ -106,7 +106,7 @@ public class VerticalClimber extends SubsystemBase {
   	/************************************************************************
      ************************************************************************/
 
-     public double RaiseClimber() {
+     public boolean RaiseClimber() {
         //  Raise Climber
         limitCountLeft--;
         limitCountRight--;
@@ -123,6 +123,8 @@ public class VerticalClimber extends SubsystemBase {
         // Check the current draw before we move the motors
         checkCurrent();   
 
+        boolean ret=false;
+
         // Need to use encoder to track max extension
         double posLeft = getLeftPos();
         if (posLeft < heightLimit && limitCountLeft <= 0 ) {
@@ -132,8 +134,10 @@ public class VerticalClimber extends SubsystemBase {
             } else {
                 Robot.climberMotorLeft.set(ControlMode.PercentOutput, 1 * RobotMap.climberMotorLInversion);
             }    
+            ret=false;
         } else {
             Robot.climberMotorLeft.set(ControlMode.PercentOutput,-0);
+            ret=true;
         }
 
         double posRight = getRightPos();
@@ -144,6 +148,7 @@ public class VerticalClimber extends SubsystemBase {
             } else {
                 Robot.climberMotorRight.set(ControlMode.PercentOutput,1 * RobotMap.climberMotorRInversion);
             }    
+            ret=false;
         } else {
             Robot.climberMotorRight.set(ControlMode.PercentOutput,-0);
         }
@@ -151,21 +156,27 @@ public class VerticalClimber extends SubsystemBase {
         // Check the current draw after we move the motors
         checkCurrent();
 
-        return(getRightPos());
+        return(ret);
     }   
 
   	/************************************************************************
      ************************************************************************/
 
-    public void LowerClimber() {
+    public boolean LowerClimber() {
 
         checkCurrent();
 
-        LowerLeftClimber(true);
-        LowerRightClimber(true);
+        boolean ret1, ret2;
+        ret1=LowerLeftClimber(true);
+        ret2=LowerRightClimber(true);
         
         checkCurrent();
+
+        return(ret1 && ret2);
     }
+
+   	/************************************************************************
+     ************************************************************************/
 
     public void LowerClimberNoLimit() {
         LowerLeftClimber(false);
@@ -174,10 +185,15 @@ public class VerticalClimber extends SubsystemBase {
   	/************************************************************************
      ************************************************************************/
 
-    public void LowerLeftClimber(boolean stopAtZero) {
+    public boolean LowerLeftClimber(boolean stopAtZero) {
         limitCountLeft--;
         // We don't have the limit switch right now.
         boolean useLimitSwitch=false;
+        double bottomLimit=0;
+       
+        if (Robot.autoClimbRunning) {
+            bottomLimit=-100000;
+        }
 
         // Need to use encoder to track retraction.
         double posLeft = getLeftPos();
@@ -186,19 +202,22 @@ public class VerticalClimber extends SubsystemBase {
             // zero encoder
             Robot.climberMotorLeft.set(ControlMode.PercentOutput,0);
             Robot.climberMotorLeft.setSelectedSensorPosition(0);
+            return(true);
         } else {
-            if ( limitCountLeft <= 0 && ( !stopAtZero || posLeft > 0)) {
-                if (posLeft<10000 && stopAtZero) {
+            if ( limitCountLeft <= 0 && ( !stopAtZero || posLeft > bottomLimit)) {
+                if (posLeft<15000 && stopAtZero) {
                     // Slow down as we get close to the bottom
                     Robot.climberMotorLeft.set(ControlMode.PercentOutput, -0.5 * RobotMap.climberMotorLInversion);
                 } else {    
                     Robot.climberMotorLeft.set(ControlMode.PercentOutput, -1 * RobotMap.climberMotorLInversion);
                 }    
                 if (posLeft < 0) {
-                    Robot.climberMotorLeft.setSelectedSensorPosition(0);
+                    //Robot.climberMotorLeft.setSelectedSensorPosition(0);
                 }
+                return(false);
             } else {
                 Robot.climberMotorLeft.set(ControlMode.PercentOutput,-0);
+                return(true);
             }
         }
     }
@@ -206,11 +225,15 @@ public class VerticalClimber extends SubsystemBase {
    	/************************************************************************
      ************************************************************************/
 
-    public void LowerRightClimber(boolean stopAtZero) {
+    public boolean LowerRightClimber(boolean stopAtZero) {
         limitCountRight--;
         // We don't have the limit switch right now.
         boolean useLimitSwitch=false;
-
+        double bottomLimit=0;
+       
+        if (Robot.autoClimbRunning) {
+            bottomLimit=-100000;
+        }
         // Check the current draw before we move the motors
         checkCurrent();
 
@@ -221,24 +244,24 @@ public class VerticalClimber extends SubsystemBase {
             // zero encoder
             Robot.climberMotorRight.set(ControlMode.PercentOutput,0);
             Robot.climberMotorRight.setSelectedSensorPosition(0);
+            return(true);
         } else {
-            if ( limitCountRight <= 0 && ( !stopAtZero || posRight > 0)) {
-                if (posRight<10000 && stopAtZero) {
+            if ( limitCountRight <= 0 && ( !stopAtZero || posRight > bottomLimit)) {
+                if (posRight<15000 && stopAtZero) {
                     // Slow down as we get close to the bottom
                     Robot.climberMotorRight.set(ControlMode.PercentOutput, -0.5 * RobotMap.climberMotorRInversion);
                 } else {    
                     Robot.climberMotorRight.set(ControlMode.PercentOutput, -1 * RobotMap.climberMotorRInversion);
                 }    
                 if (posRight < 0) {
-                    Robot.climberMotorRight.setSelectedSensorPosition(0);
+                    //Robot.climberMotorRight.setSelectedSensorPosition(0);
                 }
+                return(false);
             } else {
                 Robot.climberMotorRight.set(ControlMode.PercentOutput,0);
+                return(true);
             }
         }
-
-        // Check the current draw after we move the motors
-        checkCurrent();
     }
 
   	/************************************************************************

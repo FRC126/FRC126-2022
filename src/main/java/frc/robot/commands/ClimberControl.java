@@ -18,14 +18,15 @@ import frc.robot.JoystickWrapper;
 import frc.robot.Robot;
 import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 /**********************************************************************************
  **********************************************************************************/
 
 public class ClimberControl extends CommandBase {
     static boolean intakeExtended=false;
-	static int intakeRPM=0;
 	JoystickWrapper driveJoystick;
+	SequentialCommandGroup autoClimb;
 
 	/**********************************************************************************
 	 **********************************************************************************/
@@ -50,6 +51,10 @@ public class ClimberControl extends CommandBase {
 	public void execute() {
 		if (Robot.internalData.isAuto()) {
 			// Ignore user controls during Autonomous
+			return;
+		}
+
+		if (Robot.autoClimbRunning) {
 			return;
 		}
 
@@ -84,6 +89,13 @@ public class ClimberControl extends CommandBase {
 			// If none of the climber buttons are pressed, stop moving the climber
 		    Robot.verticalClimber.StopClimber();
 		}
+
+		//if(driveJoystick.isBackButton() && !Robot.autoClimbRunning) {
+
+		// 	autoClimb = new AutoClimb();
+		// 	autoClimb.schedule();
+        //     Robot.autoClimbRunning=true;
+		// }
 
 		if(driveJoystick.isStartButton()) {
 			// Reset the climber encoders

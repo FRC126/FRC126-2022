@@ -94,6 +94,7 @@ public class Robot extends TimedRobot {
     public static SequentialCommandGroup autonomous;
     public static boolean intakeRunning=false;
     public static boolean throwerRunning=false;
+    public static boolean autoClimbRunning=false;
 
     // Global Robot Variables
     public int RobotID = 0;
@@ -218,6 +219,7 @@ public class Robot extends TimedRobot {
         Log.print(0, "Robot", "Robot Autonomous Init");
 
         Robot.driveBase.driveCoastMode();
+        Robot.verticalClimber.StopClimber();
 
         try {
 			selectedAutoPosition = (int) autoPosition.getSelected();
@@ -337,7 +339,10 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopInit() { 
         Log.print(0, "Robot", "Robot Teleop Init");
-  
+
+        Robot.driveBase.driveCoastMode();
+        Robot.verticalClimber.StopClimber();
+
         if(autonomous != null){
             // Cancel the auto command if it was created
 	          autonomous.cancel();
