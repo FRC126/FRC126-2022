@@ -28,6 +28,8 @@ public class AutoThreeBall extends SequentialCommandGroup {
 
         addCommands(
            
+            new InstantCommand(Robot.ballIntake::ExtendIntake, Robot.ballIntake),
+
             /////////////////////////////////////////////////////////////////////////
             // Throw the first Ball
             /////////////////////////////////////////////////////////////////////////

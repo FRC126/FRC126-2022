@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.Robot;
 import frc.robot.RobotMap;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 /**********************************************************************************
  **********************************************************************************/
@@ -29,11 +30,13 @@ public class AutoThreeBallNew extends SequentialCommandGroup {
         addCommands(          
             new InstantCommand(Robot.ballIntake::ExtendIntake, Robot.ballIntake),
 
+            new WaitCommand(.25),
+
             new InstantCommand(Robot.ballIntake::IntakeRunOne, Robot.ballIntake),
 
             new ParallelCommandGroup(
                 new ThrowerWork(RobotMap.tarmacThrow, 0, false, false),
-                new DriveDistance(42,250)
+                new DriveDistance(41,250)
             ),
 
             //new InstantCommand(Robot.ballIntake::IntakeStop, Robot.ballIntake),
@@ -41,7 +44,7 @@ public class AutoThreeBallNew extends SequentialCommandGroup {
             // Start the ball intake
             new ParallelCommandGroup(
                 new ThrowerWork(RobotMap.tarmacThrow, 0, false, false),
-                new DriveDistance(-16,250)
+                new DriveDistance(-15,250)
             ),
 
             new ParallelCommandGroup(
@@ -66,7 +69,8 @@ public class AutoThreeBallNew extends SequentialCommandGroup {
                 //Stop the ball intake
                 new InstantCommand(Robot.ballIntake::IntakeStop, Robot.ballIntake),
 
-                new DriveDistance(10, 150),
+                new DriveDistance(14
+                , 150),
 
                 new ThrowerWork(RobotMap.tarmacThrow, 0, false, false)
             ),
