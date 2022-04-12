@@ -147,7 +147,7 @@ public class WestCoastDrive extends SubsystemBase {
 		double rot = rot_in;
 		if (Robot.internalData.isTeleop()) {
     		// Slow down the turning
-		    rot = rot_in *.6;
+		    rot = rot_in *.7;
 		}
 
 		leftMultiplier = fb + (rot);

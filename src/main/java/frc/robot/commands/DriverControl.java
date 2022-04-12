@@ -60,26 +60,26 @@ public class DriverControl extends CommandBase {
         double LR = driveJoystick.getRightStickX() * -1 ;
 
 	    // Left trigger enables slow mode
-		if (driveJoystick.getLeftTrigger() > .25) {
-			LR=LR*.7;
-			FB=FB*.3;
-		}
+		//if (driveJoystick.getLeftTrigger() > .25) {
+		//	LR=LR*.7;
+		//	FB=FB*.3;
+		//}
 		
 
 		// Right trigger enable brake mode.
-		if (driveJoystick.getRightTrigger() > .25) {
-			LR=0;
-			FB=0;
-			if ( !brakeMode ) {
-			    Robot.driveBase.driveBrakeMode();
-				brakeMode=true;
-			}	
-		} else {
-			if (brakeMode) {
-				Robot.driveBase.driveCoastMode();
-				brakeMode=false;
-			}		
-		}
+		//if (driveJoystick.getRightTrigger() > .25) {
+		//	LR=0;
+		//	FB=0;
+		//	if ( !brakeMode ) {
+		//	    Robot.driveBase.driveBrakeMode();
+		//		brakeMode=true;
+		//	}	
+		//} else {
+		//	if (brakeMode) {
+		//		Robot.driveBase.driveCoastMode();
+		//		brakeMode=false;
+		//	}		
+		//}
 
 		if (driveJoystick.isLShoulderButton()) {
 			// Shift Down Drive Train
